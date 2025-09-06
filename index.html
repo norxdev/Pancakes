@@ -4,139 +4,162 @@
     <title>OSRS Flipping Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-color: #121212;
-            color: #e0e0e0;
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #ffffff;
-        }
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #ffffff;
+        font-size: 2rem;
+    }
 
+    .container {
+        max-width: 900px;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .cards {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        background: #1e1e1e;
+        padding: 20px 15px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+        font-size: 1.1rem;
+    }
+
+    .card.total {
+        font-weight: bold;
+        font-size: 1.3rem;
+    }
+
+    .profit-box {
+        background: #1e1e1e;
+        border-radius: 10px;
+        padding: 25px 15px;
+        text-align: center;
+        font-size: 1.2rem;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    .profit-box span {
+        display: block;
+        font-size: 1.6rem;
+        font-weight: bold;
+    }
+
+    .profit-positive span {
+        color: #00e676;
+    }
+
+    .profit-negative span {
+        color: #ff3d00;
+    }
+
+    input[type="number"] {
+        width: 70px;
+        padding: 8px;
+        border-radius: 5px;
+        border: none;
+        margin-left: 10px;
+        text-align: center;
+        font-size: 1.1rem;
+    }
+
+    label {
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+
+    button {
+        padding: 8px 12px;
+        margin-left: 10px;
+        border-radius: 5px;
+        border: none;
+        background-color: #00e676;
+        color: #000;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: background-color 0.2s;
+    }
+
+    button:hover {
+        background-color: #00c853;
+    }
+
+    .item-icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 12px;
+        image-rendering: pixelated;
+        transition: transform 0.2s, filter 0.2s;
+    }
+
+    .item-label {
+        display: flex;
+        align-items: center;
+        font-size: 1.1rem;
+    }
+
+    footer {
+        text-align: center;
+        margin-top: 20px;
+        color: #888;
+        font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
         .container {
-            max-width: 900px;
-            width: 90%;
-            margin: 0 auto;
+            width: 95%;
         }
-
-        .cards {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
         .card {
-            background: #1e1e1e;
-            padding: 15px 20px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+            font-size: 1.2rem;
         }
-
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.6);
-        }
-
-        .total {
-            font-weight: bold;
-            font-size: 18px;
-            text-align: right;
-            margin-top: 5px;
-        }
-
-        .profit-box {
-            background: #1e1e1e;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            font-size: 18px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
-
-        .profit-box span {
-            display: block;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .profit-positive span {
-            color: #00e676;
-        }
-
-        .profit-negative span {
-            color: #ff3d00;
-        }
-
-        input[type="number"] {
-            width: 60px;
-            padding: 5px;
-            border-radius: 5px;
-            border: none;
-            margin-left: 10px;
-            text-align: center;
-        }
-
-        label {
-            font-weight: bold;
-        }
-
-        button {
-            padding: 5px 10px;
-            margin-left: 10px;
-            border-radius: 5px;
-            border: none;
-            background-color: #00e676;
-            color: #000;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        button:hover {
-            background-color: #00c853;
-        }
-
-        #setPrice {
-            font-weight: bold;
-        }
-
-        .item-icon {
-            width: 32px;
-            height: 32px;
-            margin-right: 10px;
-            vertical-align: middle;
-            image-rendering: pixelated;
-            transition: transform 0.2s, filter 0.2s;
-        }
-
         .item-label {
-            display: flex;
-            align-items: center;
+            font-size: 1.2rem;
         }
+        .item-icon {
+            width: 48px;
+            height: 48px;
+        }
+        .profit-box {
+            font-size: 1.3rem;
+            padding: 20px;
+        }
+        .profit-box span {
+            font-size: 1.8rem;
+        }
+        input[type="number"] {
+            width: 80px;
+            padding: 10px;
+            font-size: 1.2rem;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 1.2rem;
+        }
+    }
+</style>
 
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #888;
-            font-size: 14px;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                width: 95%;
-            }
-        }
-    </style>
 </head>
 <body>
     <h1>OSRS Flipping Dashboard</h1>
