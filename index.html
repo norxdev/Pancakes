@@ -19,9 +19,8 @@
         }
 
         .container {
+            max-width: 900px;
             width: 90%;
-            max-width: 900px; /* Max width for large screens */
-            min-width: 320px; /* Minimum width for mobile */
             margin: 0 auto;
         }
 
@@ -91,6 +90,22 @@
             font-weight: bold;
         }
 
+        button {
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #00e676;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #00c853;
+        }
+
         #setPrice {
             font-weight: bold;
         }
@@ -109,23 +124,16 @@
             align-items: center;
         }
 
-        .powered-by {
+        footer {
             text-align: center;
             margin-top: 20px;
+            color: #888;
             font-size: 14px;
-            color: #888888;
-            font-style: italic;
         }
 
-        /* Responsive tweaks for smaller screens */
-        @media (max-width: 500px) {
-            .card {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            input[type="number"] {
-                margin-left: 0;
-                margin-top: 10px;
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
             }
         }
     </style>
@@ -169,13 +177,14 @@
 
         <div>
             <label>Number of Sets: </label>
-            <input type="number" id="numSets" value="1">
+            <input type="number" id="numSets" value="1" min="1">
+            <button id="refreshBtn">Refresh</button>
         </div>
 
         <div id="result" class="profit-box">Refreshing prices...</div>
     </div>
 
-    <div class="powered-by">Powered by Norxonics</div>
+    <footer>Powered by Norxonics</footer>
 
     <script>
         let latestData = {};
@@ -253,18 +262,8 @@
                 document.getElementById("piecesTotal").innerText = formatNum(piecesTotal);
                 document.getElementById("setPrice").innerText = formatNum(setSellAfterTax);
 
-                // Calculate profit
-                const numSets = parseInt(document.getElementById("numSets").value);
-                const profitPerSet = setSellAfterTax - piecesTotal;
-                const totalProfit = profitPerSet * numSets;
-                const roiPercent = ((profitPerSet / piecesTotal) * 100).toFixed(2);
-
-                resultEl.innerHTML =
-                    `Profit per set: <span>${formatNum(profitPerSet)} gp</span><br>` +
-                    `Total profit for ${numSets} set(s): <span>${formatNum(totalProfit)} gp</span><br>` +
-                    `ROI per set: <span>${roiPercent}%</span>`;
-
-                resultEl.className = profitPerSet >= 0 ? "profit-box profit-positive" : "profit-box profit-negative";
+                // Calculate profit for default or current number of sets
+                calculateProfit();
 
             } catch (error) {
                 resultEl.innerText = "Error fetching data: " + error;
@@ -272,6 +271,31 @@
             }
         }
 
+        function calculateProfit() {
+            const numSets = parseInt(document.getElementById("numSets").value);
+            const helmBuy = latestData.data[helmID].low;
+            const cuirassBuy = latestData.data[cuirassID].low;
+            const chaussesBuy = latestData.data[chaussesID].low;
+            const piecesTotal = helmBuy + cuirassBuy + chaussesBuy;
+
+            const setSell = latestData.data[setID].high;
+            const setSellAfterTax = setSell * 0.98;
+
+            const profitPerSet = setSellAfterTax - piecesTotal;
+            const totalProfit = profitPerSet * numSets;
+            const roiPercent = ((profitPerSet / piecesTotal) * 100).toFixed(2);
+
+            const resultEl = document.getElementById("result");
+            resultEl.innerHTML =
+                `Profit per set: <span>${formatNum(profitPerSet)} gp</span><br>` +
+                `Total profit for ${numSets} set(s): <span>${formatNum(totalProfit)} gp</span><br>` +
+                `ROI per set: <span>${roiPercent}%</span>`;
+            resultEl.className = profitPerSet >= 0 ? "profit-box profit-positive" : "profit-box profit-negative";
+        }
+
+        document.getElementById("refreshBtn").addEventListener("click", calculateProfit);
+
+        // Initial fetch and auto-refresh every 60 seconds
         fetchPrices();
         setInterval(fetchPrices, 60000);
     </script>
