@@ -162,7 +162,7 @@
 
 </head>
 <body>
-    <h1>OSRS Flipping Dashboard</h1>
+    <h1>Flip Dashboard</h1>
     <div class="container">
         <div class="cards">
             <div class="card">
@@ -237,84 +237,85 @@
             }
         }
 
-        async function fetchPrices() {
-            document.getElementById("helmPrice").innerText = "Loading...";
-            document.getElementById("cuirassPrice").innerText = "Loading...";
-            document.getElementById("chaussesPrice").innerText = "Loading...";
-            document.getElementById("piecesTotal").innerText = "Loading...";
-            document.getElementById("setPrice").innerText = "Loading...";
-            const resultEl = document.getElementById("result");
-            resultEl.innerText = "Refreshing prices...";
-            resultEl.className = "profit-box";
+async function fetchPrices() {
+    document.getElementById("helmPrice").innerText = "Loading...";
+    document.getElementById("cuirassPrice").innerText = "Loading...";
+    document.getElementById("chaussesPrice").innerText = "Loading...";
+    document.getElementById("piecesTotal").innerText = "Loading...";
+    document.getElementById("setPrice").innerText = "Loading...";
+    const resultEl = document.getElementById("result");
+    resultEl.innerText = "Refreshing prices...";
+    resultEl.className = "profit-box";
 
-            try {
-                const response = await fetch("https://corsproxy.io/?https://prices.runescape.wiki/api/v1/osrs/latest");
-                if (!response.ok) {
-                    resultEl.innerText = "Error fetching data: " + response.status;
-                    resultEl.className = "profit-box profit-negative";
-                    return;
-                }
-
-                latestData = await response.json();
-
-                const helmBuy = latestData.data[helmID].low;
-                const cuirassBuy = latestData.data[cuirassID].low;
-                const chaussesBuy = latestData.data[chaussesID].low;
-                const piecesTotal = helmBuy + cuirassBuy + chaussesBuy;
-
-                const setSell = latestData.data[setID].high;
-                const setSellAfterTax = setSell * 0.98;
-
-                // Set icons with flashing
-                setIconWithFlash("helmIcon", "Sunfire fanatic helm", prevPrices.helm, helmBuy);
-                prevPrices.helm = helmBuy;
-
-                setIconWithFlash("cuirassIcon", "Sunfire fanatic cuirass", prevPrices.cuirass, cuirassBuy);
-                prevPrices.cuirass = cuirassBuy;
-
-                setIconWithFlash("chaussesIcon", "Sunfire fanatic chausses", prevPrices.chausses, chaussesBuy);
-                prevPrices.chausses = chaussesBuy;
-
-                setIconWithFlash("setIcon", "Sunfire_fanatic_armour_set", prevPrices.set, setSellAfterTax);
-                prevPrices.set = setSellAfterTax;
-
-                // Display prices
-                document.getElementById("helmPrice").innerText = formatNum(helmBuy);
-                document.getElementById("cuirassPrice").innerText = formatNum(cuirassBuy);
-                document.getElementById("chaussesPrice").innerText = formatNum(chaussesBuy);
-                document.getElementById("piecesTotal").innerText = formatNum(piecesTotal);
-                document.getElementById("setPrice").innerText = formatNum(setSellAfterTax);
-
-                // Calculate profit for default or current number of sets
-                calculateProfit();
-
-            } catch (error) {
-                resultEl.innerText = "Error fetching data: " + error;
-                resultEl.className = "profit-box profit-negative";
-            }
+    try {
+        const response = await fetch("https://corsproxy.io/?https://prices.runescape.wiki/api/v1/osrs/latest");
+        if (!response.ok) {
+            resultEl.innerText = "Error fetching data: " + response.status;
+            resultEl.className = "profit-box profit-negative";
+            return;
         }
 
-        function calculateProfit() {
-            const numSets = parseInt(document.getElementById("numSets").value);
-            const helmBuy = latestData.data[helmID].low;
-            const cuirassBuy = latestData.data[cuirassID].low;
-            const chaussesBuy = latestData.data[chaussesID].low;
-            const piecesTotal = helmBuy + cuirassBuy + chaussesBuy;
+        latestData = await response.json();
 
-            const setSell = latestData.data[setID].high;
-            const setSellAfterTax = setSell * 0.98;
+        const helmBuy = latestData.data[helmID].low;
+        const cuirassBuy = latestData.data[cuirassID].low;
+        const chaussesBuy = latestData.data[chaussesID].low;
+        const piecesTotal = helmBuy + cuirassBuy + chaussesBuy;
 
-            const profitPerSet = setSellAfterTax - piecesTotal;
-            const totalProfit = profitPerSet * numSets;
-            const roiPercent = ((profitPerSet / piecesTotal) * 100).toFixed(2);
+        const setSell = latestData.data[setID].high;
+        const setSellAfterTax = setSell * 0.98;
 
-            const resultEl = document.getElementById("result");
-            resultEl.innerHTML =
-                `Profit per set: <span>${formatNum(profitPerSet)} gp</span><br>` +
-                `Total profit for ${numSets} set(s): <span>${formatNum(totalProfit)} gp</span><br>` +
-                `ROI per set: <span>${roiPercent}%</span>`;
-            resultEl.className = profitPerSet >= 0 ? "profit-box profit-positive" : "profit-box profit-negative";
-        }
+        // Set icons with flashing
+        setIconWithFlash("helmIcon", "Sunfire fanatic helm", prevPrices.helm, helmBuy);
+        prevPrices.helm = helmBuy;
+
+        setIconWithFlash("cuirassIcon", "Sunfire fanatic cuirass", prevPrices.cuirass, cuirassBuy);
+        prevPrices.cuirass = cuirassBuy;
+
+        setIconWithFlash("chaussesIcon", "Sunfire fanatic chausses", prevPrices.chausses, chaussesBuy);
+        prevPrices.chausses = chaussesBuy;
+
+        setIconWithFlash("setIcon", "Sunfire fanatic armour set", prevPrices.set, setSell);
+        prevPrices.set = setSell;
+
+        // Display prices (set is BEFORE tax)
+        document.getElementById("helmPrice").innerText = formatNum(helmBuy);
+        document.getElementById("cuirassPrice").innerText = formatNum(cuirassBuy);
+        document.getElementById("chaussesPrice").innerText = formatNum(chaussesBuy);
+        document.getElementById("piecesTotal").innerText = formatNum(piecesTotal);
+        document.getElementById("setPrice").innerText = formatNum(setSell);
+
+        // Calculate profit
+        calculateProfit();
+
+    } catch (error) {
+        resultEl.innerText = "Error fetching data: " + error;
+        resultEl.className = "profit-box profit-negative";
+    }
+}
+
+function calculateProfit() {
+    const numSets = parseInt(document.getElementById("numSets").value);
+    const helmBuy = latestData.data[helmID].low;
+    const cuirassBuy = latestData.data[cuirassID].low;
+    const chaussesBuy = latestData.data[chaussesID].low;
+    const piecesTotal = helmBuy + cuirassBuy + chaussesBuy;
+
+    const setSell = latestData.data[setID].high;
+    const setSellAfterTax = setSell * 0.98;
+
+    const profitPerSet = setSellAfterTax - piecesTotal;
+    const totalProfit = profitPerSet * numSets;
+    const roiPercent = ((profitPerSet / piecesTotal) * 100).toFixed(2);
+
+    const resultEl = document.getElementById("result");
+    resultEl.innerHTML =
+        `Profit per set (after 2% tax): <span>${formatNum(profitPerSet)} gp</span><br>` +
+        `Total profit for ${numSets} set(s): <span>${formatNum(totalProfit)} gp</span><br>` +
+        `ROI per set: <span>${roiPercent}%</span>`;
+    resultEl.className = profitPerSet >= 0 ? "profit-box profit-positive" : "profit-box profit-negative";
+}
+
 
         document.getElementById("refreshBtn").addEventListener("click", calculateProfit);
 
