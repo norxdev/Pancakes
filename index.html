@@ -14,49 +14,107 @@
 
         h1 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             font-size: 2.5rem;
         }
 
-        .overview {
+        .dashboard {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
             justify-content: center;
         }
 
-        .overview-item {
+        .set-card {
             background: #1e1e1e;
             border-radius: 10px;
             padding: 20px;
-            cursor: pointer;
+            width: 220px;
             text-align: center;
-            min-width: 180px;
-            transition: background 0.3s;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
         }
 
-        .overview-item:hover {
+        .set-card:hover {
             background: #333;
+            transform: scale(1.03);
         }
 
-        .overview-item span {
+        .set-card img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+            image-rendering: pixelated;
+        }
+
+        .set-card span {
             display: block;
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-top: 10px;
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 800px) {
+            .set-card {
+                width: 45%;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .set-card {
+                width: 90%;
+            }
         }
     </style>
 </head>
 <body>
     <h1>OSRS Flipping Dashboard</h1>
-    <div class="overview" id="overview"></div>
+    <div class="dashboard" id="dashboard"></div>
 
     <script>
         const setsData = [
-            { name: "Sunfire Fanatic", page: "sunfire.html", setId: "29424" },
-            { name: "Blood Moon", page: "bloodmoon.html", setId: "31136" },
-            { name: "Blue Moon", page: "bluemoon.html", setId: "31139" },
-            { name: "Eclipse Moon", page: "eclipse.html", setId: "31142" }
+            {
+                name: "Sunfire Fanatic",
+                items: [
+                    {name: "Helm", id: "28933"},
+                    {name: "Cuirass", id: "28936"},
+                    {name: "Chausses", id: "28939"}
+                ],
+                setId: "29424",
+                setImgName: "Sunfire_fanatic_armour_set"
+            },
+            {
+                name: "Blood Moon",
+                items: [
+                    {name: "Chestplate", id: "29022"},
+                    {name: "Helm", id: "29028"},
+                    {name: "Tassets", id: "29025"},
+                    {name: "Dual Macuahuitl", id: "28997"}
+                ],
+                setId: "31136",
+                setImgName: "Blood_moon_armour_set_detail"
+            },
+            {
+                name: "Blue Moon",
+                items: [
+                    {name: "Chestplate", id: "29013"},
+                    {name: "Helm", id: "29019"},
+                    {name: "Spear", id: "28988"},
+                    {name: "Tassets", id: "29016"}
+                ],
+                setId: "31139",
+                setImgName: "Blue_moon_armour_set_detail"
+            },
+            {
+                name: "Eclipse Moon",
+                items: [
+                    {name: "Chestplate", id: "29004"},
+                    {name: "Helm", id: "29010"},
+                    {name: "Tassets", id: "29007"},
+                    {name: "Atlatl", id: "29000"}
+                ],
+                setId: "31142",
+                setImgName: "Eclipse_moon_armour_set_detail"
+            }
         ];
 
         let latestData = {};
@@ -69,28 +127,48 @@
             try {
                 const response = await fetch("https://corsproxy.io/?https://prices.runescape.wiki/api/v1/osrs/latest");
                 latestData = await response.json();
-
-                const overviewEl = document.getElementById("overview");
-                overviewEl.innerHTML = "";
-
-                setsData.forEach(set => {
-                    const profit = latestData.data[set.setId].high * 0.98 - set.itemsCost || 0; // approximate
-                    const div = document.createElement("div");
-                    div.className = "overview-item";
-                    div.innerHTML = `<strong>${set.name}</strong><span>${formatNum(profit)} gp</span>`;
-                    div.onclick = () => { window.location.href = set.page; };
-                    overviewEl.appendChild(div);
-                });
+                createDashboard();
             } catch (err) {
                 console.error(err);
             }
+        }
+
+        function calculateProfit(set) {
+            let piecesTotal = set.items.reduce((sum, item) => {
+                const price = latestData.data[item.id]?.low || 0;
+                return sum + price;
+            }, 0);
+            const setSell = latestData.data[set.setId]?.high || 0;
+            const setSellAfterTax = setSell * 0.98;
+            const profit = setSellAfterTax - piecesTotal;
+            return {piecesTotal, profit};
+        }
+
+        function createDashboard() {
+            const dashboard = document.getElementById("dashboard");
+            dashboard.innerHTML = "";
+            setsData.forEach(set => {
+                const {piecesTotal, profit} = calculateProfit(set);
+                const card = document.createElement("div");
+                card.className = "set-card";
+                card.onclick = () => {
+                    window.location.href = `${set.name.replace(/\s+/g,'')}.html`; // go to detail page
+                };
+                card.innerHTML = `
+                    <img src="https://oldschool.runescape.wiki/images/${set.setImgName}.png" alt="${set.name}">
+                    <strong>${set.name}</strong>
+                    <span>Total Pieces Cost: ${formatNum(piecesTotal)} gp</span>
+                    <span>Profit if Sold: ${formatNum(profit)} gp</span>
+                `;
+                dashboard.appendChild(card);
+            });
         }
 
         fetchPrices();
         setInterval(fetchPrices, 60000);
     </script>
 
-    <!-- Google Analytics -->
+    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-MZKESVVFTT"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
