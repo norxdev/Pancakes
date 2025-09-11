@@ -4,209 +4,36 @@
     <title>OSRS Flipping Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-color: #121212;
-            color: #e0e0e0;
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 2.5rem;
-        }
-
-        .toggle-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .sort-select {
-            padding: 8px 12px;
-            border-radius: 5px;
-            border: none;
-            font-size: 1.1rem;
-        }
-
-        .container {
-            max-width: 1000px;
-            width: 95%;
-            margin: 0 auto;
-        }
-
-        .overview {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .overview-item {
-            background: #1e1e1e;
-            border-radius: 10px;
-            padding: 15px 20px;
-            cursor: pointer;
-            text-align: center;
-            min-width: 180px;
-            transition: background 0.3s;
-        }
-
-        .overview-item:hover {
-            background: #333;
-        }
-
-        .overview-item span {
-            display: block;
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-top: 5px;
-        }
-
-        .set-wrapper {
-            background: #1e1e1e;
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-        }
-
-        .set-title {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .cards {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .card {
-            background: #2a2a2a;
-            padding: 15px 10px;
-            border-radius: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.3rem;
-            cursor: pointer;
-        }
-
-        .card.total {
-            font-weight: bold;
-            font-size: 1.3rem;
-        }
-
-        .profit-box {
-            background: #2a2a2a;
-            border-radius: 10px;
-            padding: 20px 15px;
-            text-align: center;
-            font-size: 1.4rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            margin-top: 10px;
-        }
-
-        .profit-box span {
-            display: block;
-            font-size: 1.8rem;
-            font-weight: bold;
-        }
-
-        .profit-positive span {
-            color: #00e676;
-        }
-
-        .profit-negative span {
-            color: #ff3d00;
-        }
-
-        input[type="number"] {
-            width: 70px;
-            padding: 8px;
-            border-radius: 5px;
-            border: none;
-            margin-left: 10px;
-            text-align: center;
-            font-size: 1.2rem;
-        }
-
-        label {
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        button {
-            padding: 8px 12px;
-            margin-left: 10px;
-            border-radius: 5px;
-            border: none;
-            background-color: #00e676;
-            color: #000;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
-
-        button:hover {
-            background-color: #00c853;
-        }
-
-        .item-icon {
-            width: 50px;
-            height: 50px;
-            margin-right: 12px;
-            image-rendering: pixelated;
-        }
-
-        .item-label {
-            display: flex;
-            align-items: center;
-            font-size: 1.3rem;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #888;
-            font-size: 14px;
-        }
-
-        .last-trade {
-            font-size: 0.9rem;
-            color: #aaa;
-            text-align: right;
-        }
-
-        @media (max-width: 800px) {
-            .card {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 5px;
-            }
-
-            .overview-item {
-                min-width: 140px;
-            }
-
-            input[type="number"] {
-                width: 60px;
-            }
-        }
+        body { background-color: #121212; color: #e0e0e0; font-family: 'Roboto', sans-serif; margin: 0; padding: 20px; }
+        h1 { text-align: center; margin-bottom: 20px; font-size: 2.5rem; }
+        .toggle-container { display: flex; justify-content: center; margin-bottom: 20px; gap: 20px; flex-wrap: wrap; }
+        .sort-select { padding: 8px 12px; border-radius: 5px; border: none; font-size: 1.1rem; }
+        .container { max-width: 1000px; width: 95%; margin: 0 auto; }
+        .overview { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 20px; }
+        .overview-item { background: #1e1e1e; border-radius: 10px; padding: 15px 20px; cursor: pointer; text-align: center; min-width: 180px; transition: background 0.3s; }
+        .overview-item:hover { background: #333; }
+        .overview-item span { display: block; font-weight: bold; font-size: 1.2rem; margin-top: 5px; }
+        .set-wrapper { background: #1e1e1e; border: 1px solid #333; border-radius: 10px; padding: 20px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.6); }
+        .set-title { font-size: 1.8rem; margin-bottom: 15px; text-align: center; }
+        .cards { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .card { background: #2a2a2a; padding: 15px 10px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 1.3rem; }
+        .card.total { font-weight: bold; font-size: 1.3rem; flex-direction: row; justify-content: space-between; }
+        .profit-box { background: #2a2a2a; border-radius: 10px; padding: 20px 15px; text-align: center; font-size: 1.4rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5); margin-top: 10px; }
+        .profit-box span { display: block; font-size: 1.8rem; font-weight: bold; }
+        .profit-positive span { color: #00e676; }
+        .profit-negative span { color: #ff3d00; }
+        input[type="number"] { width: 70px; padding: 8px; border-radius: 5px; border: none; margin-left: 10px; text-align: center; font-size: 1.2rem; }
+        label { font-weight: bold; font-size: 1.2rem; }
+        button { padding: 8px 12px; margin-left: 10px; border-radius: 5px; border: none; background-color: #00e676; color: #000; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
+        button:hover { background-color: #00c853; }
+        .item-icon { width: 50px; height: 50px; margin-right: 12px; image-rendering: pixelated; }
+        .item-label { display: flex; align-items: center; font-size: 1.3rem; }
+        footer { text-align: center; margin-top: 20px; color: #888; font-size: 14px; }
+        @media (max-width: 800px) { .card { flex-direction: column; align-items: flex-start; gap: 5px; } .overview-item { min-width: 140px; } input[type="number"] { width: 60px; } }
     </style>
 </head>
 <body>
 <h1>OSRS Flipping Dashboard</h1>
-
 <div class="toggle-container">
     <div>
         <label>Sort by: </label>
@@ -217,7 +44,6 @@
         </select>
     </div>
 </div>
-
 <div class="container">
     <div id="overview" class="overview"></div>
     <div id="setsContainer"></div>
@@ -225,107 +51,74 @@
 
 <script>
 const setsData = [
-    {
-        name: "Sunfire Fanatic",
-        items: [
-            {name: "Helm", id: "28933", imgName: "Sunfire_fanatic_helm"},
-            {name: "Cuirass", id: "28936", imgName: "Sunfire_fanatic_cuirass"},
-            {name: "Chausses", id: "28939", imgName: "Sunfire_fanatic_chausses"}
-        ],
-        setId: "29424",
-        setImgName: "Sunfire_fanatic_armour_set"
-    },
-    {
-        name: "Blood Moon",
-        items: [
-            {name: "Chestplate", id: "29022", imgName: "Blood_moon_chestplate_detail"},
-            {name: "Helm", id: "29028", imgName: "Blood_moon_helm_detail"},
-            {name: "Tassets", id: "29025", imgName: "Blood_moon_tassets_detail"},
-            {name: "Dual Macuahuitl", id: "28997", imgName: "Dual_macuahuitl_detail"}
-        ],
-        setId: "31136",
-        setImgName: "Blood_moon_armour_set_detail"
-    },
-    {
-        name: "Blue Moon",
-        items: [
-            {name: "Chestplate", id: "29013", imgName: "Blue_moon_chestplate_detail"},
-            {name: "Helm", id: "29019", imgName: "Blue_moon_helm_detail"},
-            {name: "Spear", id: "28988", imgName: "Blue_moon_spear_detail"},
-            {name: "Tassets", id: "29016", imgName: "Blue_moon_tassets_detail"}
-        ],
-        setId: "31139",
-        setImgName: "Blue_moon_armour_set_detail"
-    },
-    {
-        name: "Eclipse Moon",
-        items: [
-            {name: "Chestplate", id: "29004", imgName: "Eclipse_moon_chestplate_detail"},
-            {name: "Helm", id: "29010", imgName: "Eclipse_moon_helm_detail"},
-            {name: "Tassets", id: "29007", imgName: "Eclipse_moon_tassets_detail"},
-            {name: "Atlatl", id: "29000", imgName: "Eclipse_atlatl_detail"}
-        ],
-        setId: "31142",
-        setImgName: "Eclipse_moon_armour_set_detail"
-    }
+    { name: "Sunfire Fanatic", items: [
+        {name: "Helm", id: "28933", imgName: "Sunfire_fanatic_helm"},
+        {name: "Cuirass", id: "28936", imgName: "Sunfire_fanatic_cuirass"},
+        {name: "Chausses", id: "28939", imgName: "Sunfire_fanatic_chausses"}
+    ], setId: "29424", setImgName: "Sunfire_fanatic_armour_set" },
+    { name: "Blood Moon", items: [
+        {name: "Chestplate", id: "29022", imgName: "Blood_moon_chestplate_detail"},
+        {name: "Helm", id: "29028", imgName: "Blood_moon_helm_detail"},
+        {name: "Tassets", id: "29025", imgName: "Blood_moon_tassets_detail"},
+        {name: "Dual Macuahuitl", id: "28997", imgName: "Dual_macuahuitl_detail"}
+    ], setId: "31136", setImgName: "Blood_moon_armour_set_detail" },
+    { name: "Blue Moon", items: [
+        {name: "Chestplate", id: "29013", imgName: "Blue_moon_chestplate_detail"},
+        {name: "Helm", id: "29019", imgName: "Blue_moon_helm_detail"},
+        {name: "Spear", id: "28988", imgName: "Blue_moon_spear_detail"},
+        {name: "Tassets", id: "29016", imgName: "Blue_moon_tassets_detail"}
+    ], setId: "31139", setImgName: "Blue_moon_armour_set_detail" },
+    { name: "Eclipse Moon", items: [
+        {name: "Chestplate", id: "29004", imgName: "Eclipse_moon_chestplate_detail"},
+        {name: "Helm", id: "29010", imgName: "Eclipse_moon_helm_detail"},
+        {name: "Tassets", id: "29007", imgName: "Eclipse_moon_tassets_detail"},
+        {name: "Atlatl", id: "29000", imgName: "Eclipse_atlatl_detail"}
+    ], setId: "31142", setImgName: "Eclipse_moon_armour_set_detail" }
 ];
 
 let latestData = {};
 
-function formatNum(num) {
-    return num.toLocaleString();
-}
+function formatNum(num){return num.toLocaleString();}
 
-function createOverview() {
+function createOverview(){
     const overviewEl = document.getElementById("overview");
     overviewEl.innerHTML = "";
-    setsData.forEach((set, index) => {
+    setsData.forEach((set,index)=>{
         const profitPerSet = calculateProfit(set).profit;
         const div = document.createElement("div");
         div.className = "overview-item";
         div.innerHTML = `<strong>${set.name}</strong><span>${formatNum(profitPerSet)} gp</span>`;
-        div.onclick = () => {
-            document.getElementById(`set-${index}`).scrollIntoView({behavior: "smooth"});
-        };
+        div.onclick = ()=>{document.getElementById(`set-${index}`).scrollIntoView({behavior:"smooth"});};
         overviewEl.appendChild(div);
     });
 }
 
-function createSetSections() {
+function createSetSections(){
     const container = document.getElementById("setsContainer");
     container.innerHTML = "";
-    setsData.forEach((set, index) => {
+    setsData.forEach((set,index)=>{
         const setWrapper = document.createElement("div");
         setWrapper.className = "set-wrapper";
         setWrapper.id = `set-${index}`;
         setWrapper.innerHTML = `
             <div class="set-title">${set.name} Set</div>
             <div class="cards">
-                ${set.items.map(item => `
-                    <div class="card" id="card-${item.id}">
+                ${set.items.map(item=>`
+                    <div class="card" onclick="window.open('https://prices.runescape.wiki/osrs/item/${item.id}','_blank')">
                         <div class="item-label">
-                            <img class="item-icon" src="https://oldschool.runescape.wiki/images/${item.imgName}.png" alt="${item.name}">
-                            ${item.name}
+                            <img class="item-icon" src="https://oldschool.runescape.wiki/images/${item.imgName}.png" alt="${item.name}"> ${item.name}
                         </div>
-                        <div>
-                            <div id="${item.id}">Loading...</div>
-                            <div id="${item.id}-lastTrade" class="last-trade">Loading...</div>
-                        </div>
+                        <div id="${item.id}">Loading...</div>
                     </div>`).join("")}
-                <div class="card total" id="total-${index}">
-                    <div class="item-label">
-                        Total Pieces Cost:
-                    </div>
-                    <span id="totalPrice-${index}">Loading...</span>
-                    <div id="totalPrice-${index}-lastTrade" class="last-trade">Loading...</div>
+                <div class="card total">
+                    <div>Total Pieces Cost:</div>
+                    <div id="total-${index}" style="text-align:right;">Loading...</div>
                 </div>
-                <div class="card total" id="setCard-${index}">
+                <div class="card total" onclick="window.open('https://prices.runescape.wiki/osrs/item/${set.setId}','_blank')">
                     <div class="item-label">
-                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${set.setImgName}.png" alt="${set.name}">
-                        Set Price:
+                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${set.setImgName}.png" alt="${set.name}"> Set Price:
                     </div>
-                    <span id="setPrice-${index}">Loading...</span>
-                    <div id="setPrice-${index}-lastTrade" class="last-trade">Loading...</div>
+                    <div style="text-align:right;"><span id="setPrice-${index}">Loading...</span></div>
                 </div>
             </div>
             <div class="profit-box" id="profit-${index}">Loading...</div>
@@ -339,116 +132,69 @@ function createSetSections() {
     });
 }
 
-async function fetchPrices() {
-    try {
+async function fetchPrices(){
+    try{
         const response = await fetch("https://corsproxy.io/?https://prices.runescape.wiki/api/v1/osrs/latest");
         latestData = await response.json();
 
-        setsData.forEach((set, index) => {
-            // Item prices
+        setsData.forEach((set,index)=>{
             let piecesTotal = 0;
-            set.items.forEach(item => {
+
+            set.items.forEach(item=>{
                 const priceData = latestData.data[item.id];
-                const price = priceData?.low || 0;
-                document.getElementById(item.id).innerText = formatNum(price);
+                const price = priceData.low;
+                document.getElementById(item.id).innerHTML = `${formatNum(price)} gp`;
                 piecesTotal += price;
-
-                // Last trade
-                let lastTradeStr = "Last Trade: N/A";
-                if(priceData?.last) {
-                    const diffMinutes = Math.floor((Date.now() - priceData.last * 1000) / 60000);
-                    if(diffMinutes < 1) lastTradeStr = "Last Trade: just now";
-                    else if(diffMinutes === 1) lastTradeStr = "Last Trade: 1 minute ago";
-                    else lastTradeStr = `Last Trade: ${diffMinutes} minutes ago`;
-                }
-                document.getElementById(`${item.id}-lastTrade`).innerText = lastTradeStr;
-
-                // Make clickable
-                const cardEl = document.getElementById(`card-${item.id}`);
-                cardEl.onclick = () => window.open(`https://prices.runescape.wiki/osrs/item/${item.id}`, "_blank");
             });
 
-            document.getElementById(`totalPrice-${index}`).innerText = formatNum(piecesTotal);
+            document.getElementById(`total-${index}`).innerText = formatNum(piecesTotal);
 
-            // Total pieces last trade - take max last trade from items
-            let lastTradeMax = 0;
-            set.items.forEach(item => {
-                const itemLast = latestData.data[item.id]?.last || 0;
-                if(itemLast > lastTradeMax) lastTradeMax = itemLast;
-            });
-            let totalLastTradeStr = "Last Trade: N/A";
-            if(lastTradeMax) {
-                const diffMinutes = Math.floor((Date.now() - lastTradeMax * 1000) / 60000);
-                if(diffMinutes < 1) totalLastTradeStr = "Last Trade: just now";
-                else if(diffMinutes === 1) totalLastTradeStr = "Last Trade: 1 minute ago";
-                else totalLastTradeStr = `Last Trade: ${diffMinutes} minutes ago`;
-            }
-            document.getElementById(`totalPrice-${index}-lastTrade`).innerText = totalLastTradeStr;
-
-            // Set price
-            const setPriceData = latestData.data[set.setId];
-            const setPrice = setPriceData?.high || 0;
+            const setPrice = latestData.data[set.setId].high;
             document.getElementById(`setPrice-${index}`).innerText = formatNum(setPrice);
-
-            let setLastTradeStr = "Last Trade: N/A";
-            if(setPriceData?.last) {
-                const diffMinutes = Math.floor((Date.now() - setPriceData.last * 1000) / 60000);
-                if(diffMinutes < 1) setLastTradeStr = "Last Trade: just now";
-                else if(diffMinutes === 1) setLastTradeStr = "Last Trade: 1 minute ago";
-                else setLastTradeStr = `Last Trade: ${diffMinutes} minutes ago`;
-            }
-            document.getElementById(`setPrice-${index}-lastTrade`).innerText = setLastTradeStr;
-
-            // Make set price clickable
-            document.getElementById(`setCard-${index}`).onclick = () => window.open(`https://prices.runescape.wiki/osrs/item/${set.setId}`, "_blank");
 
             updateProfit(index);
         });
 
         createOverview();
-    } catch(err) {
-        console.error(err);
-    }
+    }catch(err){console.error(err);}
 }
 
-function calculateProfit(set) {
-    let piecesTotal = set.items.reduce((sum, item) => sum + (latestData.data[item.id]?.low || 0), 0);
-    const setSell = latestData.data[set.setId]?.high || 0;
-    const setSellAfterTax = setSell * 0.98;
+function calculateProfit(set){
+    let piecesTotal = set.items.reduce((sum,item)=>sum+latestData.data[item.id].low,0);
+    const setSell = latestData.data[set.setId].high;
+    const setSellAfterTax = setSell*0.98;
     const profit = setSellAfterTax - piecesTotal;
-    const roi = piecesTotal ? ((profit / piecesTotal) * 100).toFixed(2) : 0;
-    return {profit, roi, cost: piecesTotal};
+    const roi = (profit/piecesTotal*100).toFixed(2);
+    return {profit,roi,cost:piecesTotal};
 }
 
-function updateProfit(index) {
-    const set = setsData[index];
+function updateProfit(index){
+    const set=setsData[index];
     const numSets = parseInt(document.getElementById(`numSets-${index}`).value);
-    const {profit, roi} = calculateProfit(set);
+    const {profit,roi}=calculateProfit(set);
     document.getElementById(`profit-${index}`).innerHTML =
-        `Profit per set (after 2% tax): <span>${formatNum(profit)} gp</span><br>` +
-        `Total profit for ${numSets} set(s): <span>${formatNum(profit*numSets)} gp</span><br>` +
+        `Profit per set (after 2% tax): <span>${formatNum(profit)} gp</span><br>`+
+        `Total profit for ${numSets} set(s): <span>${formatNum(profit*numSets)} gp</span><br>`+
         `ROI per set: <span>${roi}%</span>`;
 }
 
-function sortSets(criteria) {
-    setsData.sort((a,b) => {
-        const valA = calculateProfit(a)[criteria === 'profit' ? 'profit' : criteria === 'roi' ? 'roi' : 'cost'];
-        const valB = calculateProfit(b)[criteria === 'profit' ? 'profit' : criteria === 'roi' ? 'roi' : 'cost'];
-        return valB - valA;
+function sortSets(criteria){
+    setsData.sort((a,b)=>{
+        const valA = calculateProfit(a)[criteria==='profit'?'profit':criteria==='roi'?'roi':'cost'];
+        const valB = calculateProfit(b)[criteria==='profit'?'profit':criteria==='roi'?'roi':'cost'];
+        return valB-valA;
     });
     createSetSections();
     fetchPrices();
 }
 
-document.getElementById("sortSelect").addEventListener("change", (e) => {
-    sortSets(e.target.value);
-});
+document.getElementById("sortSelect").addEventListener("change",(e)=>{sortSets(e.target.value);});
 
-// Initialize
 createSetSections();
 fetchPrices();
-setInterval(fetchPrices, 60000);
+setInterval(fetchPrices,60000);
 </script>
 
+<footer>OSRS Flipping Dashboard</footer>
 </body>
 </html>
