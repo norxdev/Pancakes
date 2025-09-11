@@ -6,8 +6,9 @@
     <style>
         body { background-color: #121212; color: #e0e0e0; font-family: 'Roboto', sans-serif; margin: 0; padding: 20px; }
         h1 { text-align: center; margin-bottom: 20px; font-size: 2.5rem; }
-        .toggle-container { display: flex; justify-content: center; margin-bottom: 20px; gap: 20px; flex-wrap: wrap; }
+        .toggle-container { display: flex; justify-content: center; margin-bottom: 5px; gap: 20px; flex-wrap: wrap; }
         .sort-select { padding: 8px 12px; border-radius: 5px; border: none; font-size: 1.1rem; }
+        #lastRefreshed { text-align:center; margin-bottom:15px; color:#aaa; font-size: 0.9rem; }
         .container { max-width: 1000px; width: 95%; margin: 0 auto; }
         .overview { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 20px; }
         .overview-item { background: #1e1e1e; border-radius: 10px; padding: 15px 20px; cursor: pointer; text-align: center; min-width: 180px; transition: background 0.3s; }
@@ -16,7 +17,7 @@
         .set-wrapper { background: #1e1e1e; border: 1px solid #333; border-radius: 10px; padding: 20px; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.6); }
         .set-title { font-size: 1.8rem; margin-bottom: 15px; text-align: center; }
         .cards { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-        .card { background: #2a2a2a; padding: 15px 10px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 1.3rem; }
+        .card { background: #2a2a2a; padding: 15px 10px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 1.3rem; cursor:pointer; }
         .card.total { font-weight: bold; font-size: 1.3rem; flex-direction: row; justify-content: space-between; }
         .profit-box { background: #2a2a2a; border-radius: 10px; padding: 20px 15px; text-align: center; font-size: 1.4rem; box-shadow: 0 4px 10px rgba(0,0,0,0.5); margin-top: 10px; }
         .profit-box span { display: block; font-size: 1.8rem; font-weight: bold; }
@@ -44,6 +45,7 @@
         </select>
     </div>
 </div>
+<div id="lastRefreshed">Last Refreshed: --</div>
 <div class="container">
     <div id="overview" class="overview"></div>
     <div id="setsContainer"></div>
@@ -156,6 +158,11 @@ async function fetchPrices(){
         });
 
         createOverview();
+
+        // Update last refreshed time
+        const now = new Date();
+        document.getElementById("lastRefreshed").innerText = `Last Refreshed: ${now.toLocaleTimeString()}`;
+
     }catch(err){console.error(err);}
 }
 
