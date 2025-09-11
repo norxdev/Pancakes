@@ -1,51 +1,72 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Blue Moon Set Details</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      background: #121212;
-      color: #e0e0e0;
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .set-wrapper {
-      background: #181818;
-      border: 1px solid #333;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 40px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-    }
-    .back-button {
-      display: inline-block;
-      margin-bottom: 20px;
-      padding: 10px 15px;
-      background: #333;
-      color: #fff;
-      border-radius: 5px;
-      text-decoration: none;
-    }
-    .back-button:hover {
-      background: #555;
-    }
-  </style>
+    <title>Blood Moon Set</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { background:#121212; color:#e0e0e0; font-family:'Roboto',sans-serif; margin:0; padding:20px; }
+        h1 { text-align:center; margin-bottom:20px; font-size:2.5rem; }
+        .set-wrapper { background:#1e1e1e; border-radius:10px; padding:20px; max-width:600px; margin:0 auto; box-shadow:0 4px 12px rgba(0,0,0,0.6);}
+        .card { display:flex; justify-content:space-between; padding:10px 15px; margin-bottom:10px; background:#2a2a2a; border-radius:10px; font-size:1.2rem; }
+        .item-label { display:flex; align-items:center; }
+        .item-icon { width:50px; height:50px; margin-right:10px; image-rendering: pixelated; }
+        .profit-box { background:#2a2a2a; padding:15px; border-radius:10px; text-align:center; font-size:1.3rem; box-shadow:0 4px 10px rgba(0,0,0,0.5); margin-top:15px; }
+        button { padding:8px 12px; border-radius:5px; border:none; background:#00e676; color:#000; font-weight:bold; cursor:pointer; font-size:1.2rem; margin-top:10px; }
+        button:hover { background:#00c853; }
+    </style>
 </head>
 <body>
-  <a href="index.html" class="back-button">← Back to Dashboard</a>
+<h1>Blood Moon Set</h1>
+<div class="set-wrapper" id="setContainer"></div>
+<button onclick="window.location.href='index.html'">Back to Dashboard</button>
 
-  <h1>Blue Moon Set</h1>
+<script>
+name:"Blue Moon",
+items:[
+    {name:"Chestplate",id:"29013"},
+    {name:"Helm",id:"29019"},
+    {name:"Spear",id:"28988"},
+    {name:"Tassets",id:"29016"}
+],
+setId:"31139",
+setImgName:"Blue_moon_armour_set_detail"
 
-  <div class="set-wrapper">
-    <p>Total Pieces Cost: <span id="bluemoon-total"></span></p>
-    <p>Set Price: <span id="bluemoon-set-price"></span></p>
-    <p>Profit per Set (after tax): <span id="bluemoon-profit"></span></p>
-  </div>
+};
+
+let latestData = {};
+
+function formatNum(num){return num.toLocaleString();}
+
+async function fetchPrices(){
+    try{
+        const response = await fetch("https://corsproxy.io/?https://prices.runescape.wiki/api/v1/osrs/latest");
+        latestData = await response.json();
+        displaySet();
+    } catch(err){console.error(err);}
+}
+
+function displaySet(){
+    const container = document.getElementById("setContainer");
+    let piecesTotal = 0;
+    const cardsHTML = setData.items.map(item=>{
+        const price = latestData.data[item.id]?.low || 0;
+        piecesTotal += price;
+        return `<div class="card"><div class="item-label"><img class="item-icon" src="https://oldschool.runescape.wiki/images/${item.name.replace(/\s+/g,'_')}.png" alt="${item.name}">${item.name}</div><div>${formatNum(price)} gp</div></div>`;
+    }).join("");
+
+    const setSell = latestData.data[setData.setId]?.high || 0;
+    const setSellAfterTax = setSell * 0.98;
+    const profit = setSellAfterTax - piecesTotal;
+
+    container.innerHTML = `
+        ${cardsHTML}
+        <div class="card"><strong>Total Pieces Cost:</strong><span>${formatNum(piecesTotal)} gp</span></div>
+        <div class="card"><strong>Set Price:</strong><span>${formatNum(setSell)} gp</span></div>
+        <div class="profit-box"><strong>Profit if Sold:</strong> ${formatNum(profit)} gp</div>
+    `;
+}
+
+fetchPrices();
+</script>
 </body>
 </html>
