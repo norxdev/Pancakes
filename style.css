@@ -1,0 +1,119 @@
+/* General page styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #f1f1f1;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header / Donate button area */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1e1e1e;
+    padding: 12px 20px;
+    border-bottom: 2px solid #333;
+}
+
+header h1 {
+    font-size: 24px;
+    margin: 0;
+    color: #f1f1f1;
+}
+
+header .donate-btn {
+    background: #0070ba;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+header .donate-btn:hover {
+    background: #005fa3;
+}
+
+/* Cards for each set */
+.set-card {
+    background: #1e1e1e;
+    border-radius: 10px;
+    padding: 16px;
+    margin: 20px auto;
+    max-width: 700px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.set-card h2 {
+    font-size: 20px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 6px;
+}
+
+/* Item row layout */
+.item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.item-row:last-child {
+    border-bottom: none;
+}
+
+.item-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Images */
+.item-info img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+/* Price and Last Trade */
+.item-price {
+    text-align: right;
+}
+
+.item-price .coins {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.item-price .last-trade {
+    display: block;
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 2px;
+}
+
+/* Total pieces & set cost */
+.total-section {
+    text-align: right;
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    border-top: 1px solid #333;
+    padding-top: 8px;
+}
+
+/* Last refreshed footer */
+#last-refreshed {
+    text-align: center;
+    font-size: 13px;
+    margin: 25px 0;
+    color: #bbb;
+}
