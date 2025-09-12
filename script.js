@@ -1,154 +1,147 @@
-// ------------------------------
-// OSRS Flipping Dashboard Script
-// ------------------------------
-
-// Define the item sets
 const setsData = [
-    {
-        name: "Sunfire Fanatic",
-        items: [
-            { name: "Helm", id: "28933" },
-            { name: "Cuirass", id: "28936" },
-            { name: "Chausses", id: "28939" }
-        ],
-        setId: "29424",
-        setImgName: "Sunfire_fanatic_armour_set"
-    },
-    {
-        name: "Blood Moon",
-        items: [
-            { name: "Chestplate", id: "29022" },
-            { name: "Helm", id: "29028" },
-            { name: "Tassets", id: "29025" },
-            { name: "Dual Macuahuitl", id: "28997" }
-        ],
-        setId: "31136",
-        setImgName: "Blood_moon_armour_set_detail"
-    },
-    {
-        name: "Blue Moon",
-        items: [
-            { name: "Chestplate", id: "29013" },
-            { name: "Helm", id: "29019" },
-            { name: "Spear", id: "28988" },
-            { name: "Tassets", id: "29016" }
-        ],
-        setId: "31139",
-        setImgName: "Blue_moon_armour_set_detail"
-    },
-    {
-        name: "Eclipse Moon",
-        items: [
-            { name: "Chestplate", id: "29004" },
-            { name: "Helm", id: "29010" },
-            { name: "Tassets", id: "29007" },
-            { name: "Atlatl", id: "29000" }
-        ],
-        setId: "31142",
-        setImgName: "Eclipse_moon_armour_set_detail"
-    }
+    { name: "Sunfire Fanatic", items: [
+        {name: "Helm", id: "28933", imgName: "Sunfire_fanatic_helm"},
+        {name: "Cuirass", id: "28936", imgName: "Sunfire_fanatic_cuirass"},
+        {name: "Chausses", id: "28939", imgName: "Sunfire_fanatic_chausses"}
+    ], setId: "29424", setImgName: "Sunfire_fanatic_armour_set" },
+    { name: "Blood Moon", items: [
+        {name: "Chestplate", id: "29022", imgName: "Blood_moon_chestplate_detail"},
+        {name: "Helm", id: "29028", imgName: "Blood_moon_helm_detail"},
+        {name: "Tassets", id: "29025", imgName: "Blood_moon_tassets_detail"},
+        {name: "Dual Macuahuitl", id: "28997", imgName: "Dual_macuahuitl_detail"}
+    ], setId: "31136", setImgName: "Blood_moon_armour_set_detail" },
+    { name: "Blue Moon", items: [
+        {name: "Chestplate", id: "29013", imgName: "Blue_moon_chestplate_detail"},
+        {name: "Helm", id: "29019", imgName: "Blue_moon_helm_detail"},
+        {name: "Spear", id: "28988", imgName: "Blue_moon_spear_detail"},
+        {name: "Tassets", id: "29016", imgName: "Blue_moon_tassets_detail"}
+    ], setId: "31139", setImgName: "Blue_moon_armour_set_detail" },
+    { name: "Eclipse Moon", items: [
+        {name: "Chestplate", id: "29004", imgName: "Eclipse_moon_chestplate_detail"},
+        {name: "Helm", id: "29010", imgName: "Eclipse_moon_helm_detail"},
+        {name: "Tassets", id: "29007", imgName: "Eclipse_moon_tassets_detail"},
+        {name: "Atlatl", id: "29000", imgName: "Eclipse_atlatl_detail"}
+    ], setId: "31142", setImgName: "Eclipse_moon_armour_set_detail" }
 ];
 
 let latestData = {};
-let latestTimes = {};
-const dashboard = document.getElementById("dashboard");
-const refreshEl = document.getElementById("lastRefreshed");
 
-// Helper: format numbers with commas
-function formatNum(num) {
-    return num.toLocaleString();
+function formatNum(num){ return num.toLocaleString(); }
+
+function createOverview(){
+    const overviewEl = document.getElementById("overview");
+    overviewEl.innerHTML = "";
+    setsData.forEach((set,index)=>{
+        const profitPerSet = calculateProfit(set).profit;
+        const div = document.createElement("div");
+        div.className = "overview-item";
+        div.innerHTML = `<strong>${set.name}</strong><span>${formatNum(profitPerSet)} gp</span>`;
+        div.onclick = ()=>{ document.getElementById(`set-${index}`).scrollIntoView({behavior:"smooth"}); };
+        overviewEl.appendChild(div);
+    });
 }
 
-// Helper: convert epoch ms → “x minutes ago”
-function timeAgo(ms) {
-    if (!ms) return "N/A";
-    const diff = Date.now() - ms;
-    const mins = Math.floor(diff / 60000);
-    if (mins < 1) return "Just now";
-    if (mins === 1) return "1 minute ago";
-    return `${mins} minutes ago`;
-}
+function createSetSections(){
+    const container = document.getElementById("setsContainer");
+    container.innerHTML = "";
+    setsData.forEach((set,index)=>{
+        const setWrapper = document.createElement("div");
+        setWrapper.className = "set-wrapper";
+        setWrapper.id = `set-${index}`;
 
-// Fetch both prices + last trade timestamps
-async function fetchPrices() {
-    try {
-        const [latestRes, timeRes] = await Promise.all([
-            fetch("https://corsproxy.io/?https://prices.runescape.wiki/api/v1/osrs/latest"),
-            fetch("https://corsproxy.io/?https://prices.runescape.wiki/api/v1/osrs/last-traded")
-        ]);
-
-        const latestJson = await latestRes.json();
-        const timeJson = await timeRes.json();
-
-        latestData = latestJson.data;
-        latestTimes = timeJson.data;
-
-        createDashboard();
-
-        // Update last refreshed timestamp
-        if (refreshEl) {
-            const now = new Date();
-            refreshEl.textContent = `Last refreshed: ${now.toLocaleTimeString()}`;
-        }
-
-    } catch (err) {
-        console.error("Error fetching prices:", err);
-    }
-}
-
-// Calculate total cost + profit for a set
-function calculateProfit(set) {
-    let piecesTotal = set.items.reduce((sum, item) => {
-        const price = latestData[item.id]?.low || 0;
-        return sum + price;
-    }, 0);
-
-    const setSell = latestData[set.setId]?.high || 0;
-    const setSellAfterTax = setSell * 0.98;
-    const profit = setSellAfterTax - piecesTotal;
-
-    return { piecesTotal, profit };
-}
-
-// Create dashboard cards
-function createDashboard() {
-    dashboard.innerHTML = "";
-    setsData.forEach(set => {
-        const { piecesTotal, profit } = calculateProfit(set);
-
-        const card = document.createElement("div");
-        card.className = "set-card";
-
-        // Clicking goes to RS wiki set page
-        card.onclick = () => {
-            window.open(`https://prices.runescape.wiki/osrs/item/${set.setId}`, "_blank");
-        };
-
-        const setTime = latestTimes[set.setId] ? timeAgo(latestTimes[set.setId]) : "N/A";
-
-        card.innerHTML = `
-            <img src="https://oldschool.runescape.wiki/images/${set.setImgName}.png" alt="${set.name}">
-            <strong>${set.name}</strong>
-            <span>Total Pieces Cost: ${formatNum(piecesTotal)} gp</span>
-            <small>Last trade: ${timeAgo(getLatestItemTime(set.items))}</small>
-            <span>Profit if Sold: ${formatNum(profit)} gp</span>
-            <small>Set last trade: ${setTime}</small>
+        setWrapper.innerHTML = `
+            <div class="set-title">${set.name} Set</div>
+            <div class="cards">
+                ${set.items.map(item=>`
+                    <div class="card" onclick="window.open('https://prices.runescape.wiki/osrs/item/${item.id}','_blank')">
+                        <div class="item-label">
+                            <img class="item-icon" src="https://oldschool.runescape.wiki/images/${item.imgName}.png" alt="${item.name}"> ${item.name}
+                        </div>
+                        <div id="${item.id}">Loading...</div>
+                    </div>`).join("")}
+                <div class="card total">
+                    <div>Total Pieces Cost:</div>
+                    <div id="total-${index}" style="text-align:right;">Loading...</div>
+                </div>
+                <div class="card total" onclick="window.open('https://prices.runescape.wiki/osrs/item/${set.setId}','_blank')">
+                    <div class="item-label">
+                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${set.setImgName}.png" alt="${set.name}"> Set Price:
+                    </div>
+                    <div style="text-align:right;"><span id="setPrice-${index}">Loading...</span></div>
+                </div>
+            </div>
+            <div class="profit-box" id="profit-${index}">Loading...</div>
+            <div>
+                <label>Number of Sets: </label>
+                <input type="number" id="numSets-${index}" value="1" min="1">
+                <button onclick="updateProfit(${index})">Refresh</button>
+            </div>
         `;
-
-        dashboard.appendChild(card);
+        container.appendChild(setWrapper);
     });
 }
 
-// Find the latest trade among all items in a set
-function getLatestItemTime(items) {
-    let latest = 0;
-    items.forEach(item => {
-        const t = latestTimes[item.id];
-        if (t && t > latest) latest = t;
-    });
-    return latest || null;
+async function fetchPrices(){
+    try{
+        const response = await fetch("https://corsproxy.io/?https://prices.runescape.wiki/api/v1/osrs/latest");
+        latestData = await response.json();
+
+        setsData.forEach((set,index)=>{
+            let piecesTotal = 0;
+            set.items.forEach(item=>{
+                const priceData = latestData.data[item.id];
+                const price = priceData.low;
+                document.getElementById(item.id).innerHTML = `${formatNum(price)} gp`;
+                piecesTotal += price;
+            });
+
+            document.getElementById(`total-${index}`).innerText = formatNum(piecesTotal);
+
+            const setPrice = latestData.data[set.setId].high;
+            document.getElementById(`setPrice-${index}`).innerText = formatNum(setPrice);
+
+            updateProfit(index);
+        });
+
+        createOverview();
+
+        const now = new Date();
+        document.getElementById("lastRefreshed").innerText = `Last Refreshed: ${now.toLocaleTimeString()}`;
+
+    }catch(err){ console.error(err); }
 }
 
-// Initial fetch + auto-refresh
+function calculateProfit(set){
+    let piecesTotal = set.items.reduce((sum,item)=>sum+latestData.data[item.id].low,0);
+    const setSell = latestData.data[set.setId].high;
+    const setSellAfterTax = setSell*0.98;
+    const profit = setSellAfterTax - piecesTotal;
+    const roi = (profit/piecesTotal*100).toFixed(2);
+    return {profit,roi,cost:piecesTotal};
+}
+
+function updateProfit(index){
+    const set=setsData[index];
+    const numSets = parseInt(document.getElementById(`numSets-${index}`).value);
+    const {profit,roi}=calculateProfit(set);
+    document.getElementById(`profit-${index}`).innerHTML =
+        `Profit per set (after 2% tax): <span>${formatNum(profit)} gp</span><br>`+
+        `Total profit for ${numSets} set(s): <span>${formatNum(profit*numSets)} gp</span><br>`+
+        `ROI per set: <span>${roi}%</span>`;
+}
+
+document.getElementById("sortSelect").addEventListener("change",(e)=>{sortSets(e.target.value);});
+
+function sortSets(criteria){
+    setsData.sort((a,b)=>{
+        const valA = calculateProfit(a)[criteria==='profit'?'profit':criteria==='roi'?'roi':'cost'];
+        const valB = calculateProfit(b)[criteria==='profit'?'profit':criteria==='roi'?'roi':'cost'];
+        return valB-valA;
+    });
+    createSetSections();
+    fetchPrices();
+}
+
+createSetSections();
 fetchPrices();
-setInterval(fetchPrices, 60000);
+setInterval(fetchPrices,60000);
