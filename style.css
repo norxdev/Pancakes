@@ -1,119 +1,181 @@
-/* General page styles */
+/* General Page Styles */
 body {
-    font-family: Arial, sans-serif;
     background-color: #121212;
-    color: #f1f1f1;
+    color: #e0e0e0;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 20px;
 }
 
-/* Header / Donate button area */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #1e1e1e;
-    padding: 12px 20px;
-    border-bottom: 2px solid #333;
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
 }
 
-header h1 {
-    font-size: 24px;
-    margin: 0;
-    color: #f1f1f1;
+/* Donate button */
+.donate-header {
+    text-align: center;
+    margin-bottom: 20px;
 }
-
-header .donate-btn {
-    background: #0070ba;
-    color: #fff;
-    border: none;
-    padding: 10px 18px;
-    font-size: 14px;
+.donate-btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #00e676;
+    color: #000;
     font-weight: bold;
-    border-radius: 6px;
-    cursor: pointer;
+    font-size: 1.3rem;
+    border-radius: 8px;
     text-decoration: none;
-    transition: background 0.3s ease;
+    transition: background 0.3s, transform 0.2s;
+}
+.donate-btn:hover {
+    background-color: #00c853;
+    transform: scale(1.05);
 }
 
-header .donate-btn:hover {
-    background: #005fa3;
+/* Last refreshed */
+#lastRefreshed {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #aaa;
+    font-size: 0.9rem;
 }
 
-/* Cards for each set */
-.set-card {
+/* Overview cards */
+.overview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.overview-item {
     background: #1e1e1e;
     border-radius: 10px;
-    padding: 16px;
-    margin: 20px auto;
-    max-width: 700px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    padding: 15px 20px;
+    cursor: pointer;
+    text-align: center;
+    min-width: 180px;
+    transition: background 0.3s;
+}
+.overview-item:hover {
+    background: #333;
+}
+.overview-item span {
+    display: block;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-top: 5px;
 }
 
-.set-card h2 {
-    font-size: 20px;
-    margin-bottom: 12px;
-    border-bottom: 1px solid #333;
-    padding-bottom: 6px;
+/* Set wrapper */
+.set-wrapper {
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+}
+.set-title {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    text-align: center;
 }
 
-/* Item row layout */
-.item-row {
+/* Cards inside set */
+.cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.card {
+    background: #2a2a2a;
+    padding: 15px 10px;
+    border-radius: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6px 0;
-    border-bottom: 1px solid #2a2a2a;
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+.card.total {
+    font-weight: bold;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-.item-row:last-child {
-    border-bottom: none;
+/* Profit box */
+.profit-box {
+    background: #2a2a2a;
+    border-radius: 10px;
+    padding: 20px 15px;
+    text-align: center;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    margin-top: 10px;
 }
+.profit-box span {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+.profit-positive span { color: #00e676; }
+.profit-negative span { color: #ff3d00; }
 
-.item-info {
+/* Input & Button */
+input[type="number"] {
+    width: 70px;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    margin-left: 10px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+label {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+button {
+    padding: 8px 12px;
+    margin-left: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #00e676;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+button:hover { background-color: #00c853; }
+
+/* Item icons */
+.item-icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 12px;
+    image-rendering: pixelated;
+}
+.item-label {
     display: flex;
     align-items: center;
-    gap: 8px;
+    font-size: 1.3rem;
 }
 
-/* Images */
-.item-info img {
-    width: 28px;
-    height: 28px;
-    object-fit: contain;
-}
-
-/* Price and Last Trade */
-.item-price {
-    text-align: right;
-}
-
-.item-price .coins {
-    font-weight: bold;
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #888;
     font-size: 14px;
 }
 
-.item-price .last-trade {
-    display: block;
-    font-size: 12px;
-    color: #aaa;
-    margin-top: 2px;
-}
-
-/* Total pieces & set cost */
-.total-section {
-    text-align: right;
-    margin-top: 10px;
-    font-size: 15px;
-    font-weight: bold;
-    border-top: 1px solid #333;
-    padding-top: 8px;
-}
-
-/* Last refreshed footer */
-#last-refreshed {
-    text-align: center;
-    font-size: 13px;
-    margin: 25px 0;
-    color: #bbb;
+/* Responsive */
+@media (max-width: 800px) {
+    .card { flex-direction: column; align-items: flex-start; gap: 5px; }
+    .overview-item { min-width: 140px; }
+    input[type="number"] { width: 60px; }
 }
