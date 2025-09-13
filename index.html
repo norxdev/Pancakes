@@ -17,26 +17,41 @@
 
 <h1>FlipMaster OSRS</h1>
 
-<div class="toggle-container" style="display:none;">
-    <div>
-        <label>Sort by: </label>
-        <select id="sortSelect" class="sort-select">
-            <option value="profit">Profit per set</option>
-            <option value="roi">ROI per set</option>
-            <option value="cost">Total cost</option>
-        </select>
-    </div>
+<div class="toggle-buttons">
+    <button id="armorBtn" class="active">Armor Flips</button>
+    <button id="potionBtn">Potion Flips</button>
 </div>
 
 <div id="lastRefreshed">Last Refreshed: --</div>
 
 <div class="container">
-    <div id="overview" class="overview"></div>
-    <div id="setsContainer"></div>
+    <!-- Armor and Potion Sections -->
+    <div id="armorSection" data-mode="armor"></div>
+    <div id="potionSection" data-mode="potion" style="display:none;"></div>
 </div>
 
 <footer>OSRS Flipping Dashboard &copy; 2025 — Powered by Norxonics</footer>
 
+<!-- JS Files -->
+<script src="potion.js"></script>
 <script src="script.js"></script>
+<script>
+    // Mode Switching Logic for Showing Sections
+    document.getElementById("armorBtn").addEventListener("click", () => {
+        document.getElementById("armorBtn").classList.add("active");
+        document.getElementById("potionBtn").classList.remove("active");
+        document.getElementById("armorSection").style.display = "block";
+        document.getElementById("potionSection").style.display = "none";
+        showArmorFlips();
+    });
+
+    document.getElementById("potionBtn").addEventListener("click", () => {
+        document.getElementById("potionBtn").classList.add("active");
+        document.getElementById("armorBtn").classList.remove("active");
+        document.getElementById("armorSection").style.display = "none";
+        document.getElementById("potionSection").style.display = "block";
+        showPotionFlips();
+    });
+</script>
 </body>
 </html>
