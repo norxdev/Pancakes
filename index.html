@@ -1,42 +1,92 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FlipMaster OSRS</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="OSRS Flipping Dashboard - Track profitable armor set flipping opportunities">
+    <meta name="keywords" content="OSRS, Old School RuneScape, flipping, trading, profit, armor sets">
+    <title>FlipMaster OSRS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Donation Header -->
+    <header class="donate-header">
+        <a href="https://www.paypal.com/donate/?hosted_button_id=YVZNTWZP8JUCC" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="donate-btn"
+           aria-label="Donate via PayPal to support FlipMaster OSRS">
+            💰 Donate via PayPal
+        </a>
+    </header>
 
-<div class="donate-header">
-    <a href="https://www.paypal.com/donate/?hosted_button_id=YVZNTWZP8JUCC" target="_blank" class="donate-btn">
-        Donate via PayPal
-    </a>
-</div>
-
-<h1>FlipMaster OSRS</h1>
-
-<div class="toggle-container" style="display:none;">
-    <div>
-        <label>Sort by: </label>
-        <select id="sortSelect" class="sort-select">
-            <option value="profit">Profit per set</option>
-            <option value="roi">ROI per set</option>
-            <option value="cost">Total cost</option>
-        </select>
-    </div>
-</div>
-
-<div id="lastRefreshed">Last Refreshed: --</div>
-
+```
+<!-- Main Container -->
 <div class="container">
-    <div id="overview" class="overview"></div>
-    <div id="setsContainer"></div>
+    <!-- Main Title -->
+    <header class="main-header">
+        <h1 class="main-title">FlipMaster OSRS</h1>
+        <p class="subtitle">Your ultimate OSRS armor set flipping companion</p>
+    </header>
+
+    <!-- Controls Section -->
+    <section class="controls-section" aria-label="Dashboard controls">
+        <div class="control-group">
+            <label for="sortSelect" class="control-label">Sort by:</label>
+            <select id="sortSelect" class="sort-select" aria-label="Sort sets by criteria">
+                <option value="profit">Profit per set</option>
+                <option value="roi">ROI per set</option>
+                <option value="cost">Total cost</option>
+            </select>
+        </div>
+        
+        <button id="refreshBtn" class="refresh-btn" aria-label="Refresh all prices">
+            <span class="refresh-icon" aria-hidden="true">🔄</span>
+            <span class="btn-text">Refresh Prices</span>
+        </button>
+        
+        <div class="status-info">
+            <span id="lastRefreshed" class="refresh-time">Last Refreshed: --</span>
+        </div>
+    </section>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="loading-overlay" style="display: none;" aria-hidden="true">
+        <div class="loading-content">
+            <div class="spinner" aria-hidden="true"></div>
+            <p>Loading price data...</p>
+        </div>
+    </div>
+
+    <!-- Error Messages Container -->
+    <div id="errorContainer" class="error-container" role="alert" aria-live="polite"></div>
+
+    <!-- Overview Section -->
+    <section class="overview-section" aria-label="Quick overview of all sets">
+        <h2 class="section-title visually-hidden">Set Overview</h2>
+        <div id="overview" class="overview-grid"></div>
+    </section>
+
+    <!-- Sets Container -->
+    <main class="sets-section" role="main" aria-label="Detailed set information">
+        <h2 class="section-title visually-hidden">Armor Sets Details</h2>
+        <div id="setsContainer" class="sets-container"></div>
+    </main>
 </div>
 
-<footer>OSRS Flipping Dashboard &copy; 2025 — Powered by Norxonics</footer>
+<!-- Footer -->
+<footer class="footer" role="contentinfo">
+    <div class="footer-content">
+        <p>OSRS Flipping Dashboard &copy; 2025 — Powered by Norxonics</p>
+        <p class="disclaimer">Prices are updated from the OSRS Wiki API. Always verify current market prices.</p>
+    </div>
+</footer>
 
+<!-- Scripts -->
 <script src="script.js"></script>
+```
+
 </body>
 </html>
