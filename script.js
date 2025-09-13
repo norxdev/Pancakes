@@ -1,4 +1,8 @@
-const setsData = [
+// --- Global Data ---
+let latestData = {};
+
+// --- Armor Sets ---
+const armorSets = [
     { name: "Sunfire Fanatic", items: [
         {name: "Helm", id: "28933", imgName: "Sunfire_fanatic_helm"},
         {name: "Cuirass", id: "28936", imgName: "Sunfire_fanatic_cuirass"},
@@ -24,124 +28,189 @@ const setsData = [
     ], setId: "31142", setImgName: "Eclipse_moon_armour_set_detail" }
 ];
 
-let latestData = {};
-
+// --- Utility ---
 function formatNum(num){ return num.toLocaleString(); }
 
-function createOverview(){
-    const overviewEl = document.getElementById("overview");
-    overviewEl.innerHTML = "";
-    setsData.forEach((set,index)=>{
-        const profitPerSet = calculateProfit(set).profit;
-        const div = document.createElement("div");
-        div.className = "overview-item";
-        div.innerHTML = `<strong>${set.name}</strong><span>${formatNum(profitPerSet)} gp</span>`;
-        div.onclick = ()=>{ document.getElementById(`set-${index}`).scrollIntoView({behavior:"smooth"}); };
-        overviewEl.appendChild(div);
-    });
+// --- Armor Flip Functions ---
+function calculateArmorProfit(set){
+    let piecesTotal = set.items.reduce((sum,item)=>sum+(latestData.data[item.id]?.low || 0),0);
+    const setSell = latestData.data[set.setId]?.high || 0;
+    const setSellAfterTax = setSell * 0.98;
+    const profit = setSellAfterTax - piecesTotal;
+    const roi = piecesTotal ? ((profit/piecesTotal)*100).toFixed(2) : 0;
+    return {profit, roi, cost: piecesTotal};
 }
 
-function createSetSections(){
-    const container = document.getElementById("setsContainer");
+function createArmorSections(){
+    const container = document.getElementById("armorSection");
     container.innerHTML = "";
-    setsData.forEach((set,index)=>{
-        const setWrapper = document.createElement("div");
-        setWrapper.className = "set-wrapper";
-        setWrapper.id = `set-${index}`;
+    armorSets.forEach((set,index)=>{
+        const div = document.createElement("div");
+        div.className = "set-wrapper";
+        div.id = `armor-set-${index}`;
 
-        setWrapper.innerHTML = `
+        div.innerHTML = `
             <div class="set-title">${set.name} Set</div>
             <div class="cards">
                 ${set.items.map(item=>`
-                    <div class="card" onclick="window.open('https://prices.runescape.wiki/osrs/item/${item.id}','_blank')">
+                    <div class="card">
                         <div class="item-label">
                             <img class="item-icon" src="https://oldschool.runescape.wiki/images/${item.imgName}.png" alt="${item.name}"> ${item.name}
                         </div>
-                        <div id="${item.id}">Loading...</div>
+                        <div id="armor-${item.id}">Loading...</div>
                     </div>`).join("")}
                 <div class="card total">
                     <div>Total Pieces Cost:</div>
-                    <div id="total-${index}" style="text-align:right;">Loading...</div>
+                    <div id="armor-total-${index}">Loading...</div>
                 </div>
                 <div class="card total" onclick="window.open('https://prices.runescape.wiki/osrs/item/${set.setId}','_blank')">
                     <div class="item-label">
                         <img class="item-icon" src="https://oldschool.runescape.wiki/images/${set.setImgName}.png" alt="${set.name}"> Set Price:
                     </div>
-                    <div style="text-align:right;"><span id="setPrice-${index}">Loading...</span></div>
+                    <div id="armor-setPrice-${index}">Loading...</div>
                 </div>
             </div>
-            <div class="profit-box" id="profit-${index}">Loading...</div>
+            <div class="profit-box" id="armor-profit-${index}">Loading...</div>
             <div>
                 <label>Number of Sets: </label>
-                <input type="number" id="numSets-${index}" value="1" min="1">
-                <button onclick="updateProfit(${index})">Refresh</button>
+                <input type="number" id="armor-numSets-${index}" value="1" min="1">
+                <button onclick="updateArmorProfit(${index})">Refresh</button>
             </div>
         `;
-        container.appendChild(setWrapper);
+        container.appendChild(div);
     });
 }
 
-async function fetchPrices(){
-    try{
-        const response = await fetch("https://corsproxy.io/?https://prices.runescape.wiki/api/v1/osrs/latest");
-        latestData = await response.json();
-
-        setsData.forEach((set,index)=>{
-            let piecesTotal = 0;
-            set.items.forEach(item=>{
-                const priceData = latestData.data[item.id];
-                const price = priceData.low;
-                document.getElementById(item.id).innerHTML = `${formatNum(price)} gp`;
-                piecesTotal += price;
-            });
-
-            document.getElementById(`total-${index}`).innerText = formatNum(piecesTotal);
-
-            const setPrice = latestData.data[set.setId].high;
-            document.getElementById(`setPrice-${index}`).innerText = formatNum(setPrice);
-
-            updateProfit(index);
-        });
-
-        createOverview();
-
-        const now = new Date();
-        document.getElementById("lastRefreshed").innerText = `Last Refreshed: ${now.toLocaleTimeString()}`;
-
-    }catch(err){ console.error(err); }
-}
-
-function calculateProfit(set){
-    let piecesTotal = set.items.reduce((sum,item)=>sum+latestData.data[item.id].low,0);
-    const setSell = latestData.data[set.setId].high;
-    const setSellAfterTax = setSell*0.98;
-    const profit = setSellAfterTax - piecesTotal;
-    const roi = (profit/piecesTotal*100).toFixed(2);
-    return {profit,roi,cost:piecesTotal};
-}
-
-function updateProfit(index){
-    const set=setsData[index];
-    const numSets = parseInt(document.getElementById(`numSets-${index}`).value);
-    const {profit,roi}=calculateProfit(set);
-    document.getElementById(`profit-${index}`).innerHTML =
+function updateArmorProfit(index){
+    const set = armorSets[index];
+    const numSets = parseInt(document.getElementById(`armor-numSets-${index}`).value);
+    const {profit, roi} = calculateArmorProfit(set);
+    document.getElementById(`armor-profit-${index}`).innerHTML =
         `Profit per set (after 2% tax): <span>${formatNum(profit)} gp</span><br>`+
         `Total profit for ${numSets} set(s): <span>${formatNum(profit*numSets)} gp</span><br>`+
         `ROI per set: <span>${roi}%</span>`;
 }
 
-document.getElementById("sortSelect").addEventListener("change",(e)=>{sortSets(e.target.value);});
+// --- Potion Flip Functions ---
+function calculatePotionProfit(potion){
+    const buyData = latestData.data[potion.id3]; // 3-dose
+    const sellData = latestData.data[potion.id4]; // 4-dose
+    if(!buyData || !sellData) return {profit:0, roi:0, buy:0, sell:0};
 
-function sortSets(criteria){
-    setsData.sort((a,b)=>{
-        const valA = calculateProfit(a)[criteria==='profit'?'profit':criteria==='roi'?'roi':'cost'];
-        const valB = calculateProfit(b)[criteria==='profit'?'profit':criteria==='roi'?'roi':'cost'];
-        return valB-valA;
+    const totalBuy = buyData.low * 4;                 // cost for 4 3-dose
+    const totalSell = sellData.high * 3 * 0.98;       // revenue from 3 4-dose with 2% tax
+    const totalProfit = totalSell - totalBuy;
+    const profitPerDose = totalProfit / 3;            // divide by 3 sold 4-dose potions
+    const roi = totalBuy ? ((totalProfit / totalBuy) * 100).toFixed(2) : 0;
+
+    return {profit: profitPerDose, roi, buy: buyData.low, sell: sellData.high};
+}
+
+function createPotionSections(){
+    const container = document.getElementById("potionSection");
+    container.innerHTML = "";
+    potionData.forEach((potion,index)=>{
+        const div = document.createElement("div");
+        div.className = "set-wrapper";
+        div.id = `potion-${index}`;
+        div.innerHTML = `
+            <div class="set-title">${potion.name}</div>
+            <div class="cards">
+                <div class="card">
+                    <div class="item-label">
+                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${potion.imgName}(3)_detail.png" alt="${potion.name}"> Buy 3 Dose
+                    </div>
+                    <div id="p3-${potion.id3}">Loading...</div>
+                </div>
+                <div class="card">
+                    <div class="item-label">
+                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${potion.imgName}(4)_detail.png" alt="${potion.name}"> Sell 4 Dose
+                    </div>
+                    <div id="p4-${potion.id4}">Loading...</div>
+                </div>
+            </div>
+            <div class="profit-box" id="potion-profit-${index}">Loading...</div>
+        `;
+        container.appendChild(div);
     });
-    createSetSections();
+}
+
+function updatePotionPrices(){
+    potionData.forEach((potion,index)=>{
+        const {profit, roi, buy, sell} = calculatePotionProfit(potion);
+
+        const p3 = document.getElementById(`p3-${potion.id3}`);
+        const p4 = document.getElementById(`p4-${potion.id4}`);
+        const profitBox = document.getElementById(`potion-profit-${index}`);
+
+        if(p3) p3.innerText = buy ? formatNum(buy)+' gp' : 'Loading...';
+        if(p4) p4.innerText = sell ? formatNum(sell)+' gp' : 'Loading...';
+        if(profitBox) profitBox.innerHTML =
+            `Profit per single dose (after tax): <span>${formatNum(profit)} gp</span><br>`+
+            `ROI: <span>${roi}%</span>`;
+    });
+}
+
+// --- Fetch Prices ---
+async function fetchPrices(){
+    try{
+        const res = await fetch("https://corsproxy.io/?https://prices.runescape.wiki/api/v1/osrs/latest");
+        latestData = await res.json();
+
+        // Update Armor
+        if(document.getElementById("armorSection").style.display !== "none"){
+            armorSets.forEach((set,index)=>{
+                let piecesTotal = 0;
+                set.items.forEach(item=>{
+                    const price = latestData.data[item.id]?.low || 0;
+                    document.getElementById(`armor-${item.id}`).innerText = formatNum(price)+' gp';
+                    piecesTotal += price;
+                });
+                document.getElementById(`armor-total-${index}`).innerText = formatNum(piecesTotal);
+                const setPrice = latestData.data[set.setId]?.high || 0;
+                document.getElementById(`armor-setPrice-${index}`).innerText = formatNum(setPrice);
+                updateArmorProfit(index);
+            });
+        }
+
+        // Update Potions
+        if(document.getElementById("potionSection").style.display !== "none"){
+            updatePotionPrices();
+        }
+
+        const now = new Date();
+        document.getElementById("lastRefreshed").innerText = `Last Refreshed: ${now.toLocaleTimeString()}`;
+    } catch(err){ console.error(err); }
+}
+
+// --- Mode Switching ---
+function showArmorFlips(){
+    document.getElementById("armorSection").style.display = "block";
+    document.getElementById("potionSection").style.display = "none";
+    createArmorSections();
     fetchPrices();
 }
 
-createSetSections();
-fetchPrices();
-setInterval(fetchPrices,60000);
+function showPotionFlips(){
+    document.getElementById("armorSection").style.display = "none";
+    document.getElementById("potionSection").style.display = "block";
+    createPotionSections();
+    fetchPrices();
+}
+
+// --- Event Listeners ---
+document.getElementById("armorBtn").addEventListener("click", ()=>{
+    document.getElementById("armorBtn").classList.add("active");
+    document.getElementById("potionBtn").classList.remove("active");
+    showArmorFlips();
+});
+
+document.getElementById("potionBtn").addEventListener("click", ()=>{
+    document.getElementById("potionBtn").classList.add("active");
+    document.getElementById("armorBtn").classList.remove("active");
+    showPotionFlips();
+});
+
+// --- Initial Load ---
+showArmorFlips();
+setInterval(fetchPrices, 60000);
