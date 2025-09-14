@@ -44,6 +44,14 @@ function calculatePotionProfit(p){
 
     return {profit: perDose, buy, sell, buyLimit: limit, buyLimitProfit: limit ? perDose*limit : null};
 }
+// Smooth scroll to top when clicked
+const backToTopBtn = document.getElementById('backToTop');
+backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
 
 // --- Section Rendering ---
 function createArmorSections(){

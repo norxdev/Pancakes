@@ -32,6 +32,15 @@
     </div>
 </header>
 
+<!-- Website Summary -->
+<div class="website-summary" style="margin:20px 0;">
+    <p><strong>FlipMaster OSRS</strong> is a tool to help players make profit in <em>Old School RuneScape</em> through common flipping strategies.</p>
+    <ul>
+        <li><strong>Armor Flips</strong> → Buy individual armor pieces (like helm, platebody, legs, etc.) and resell them together as a full set for higher profit.</li>
+        <li><strong>Potion Flips</strong> → Buy potions in 3-dose form, decant them into 4-dose, and sell at a markup.</li>
+    </ul>
+</div>
+
 <div class="main-content">
     <!-- Collapsible Summary Section -->
     <div class="summary-wrapper">
@@ -49,6 +58,9 @@
         <div id="potionSection" data-mode="potion"></div>
     </div>
 </div>
+<!-- Back to Top Button -->
+<button id="backToTop" title="Back to Top">↑</button>
+
 
 <!-- Footer -->
 <footer style="margin-top:20px; text-align:center;">
@@ -58,5 +70,18 @@
 <!-- JS Files -->
 <script src="itemid.js"></script> <!-- contains armorSetsData & potionData -->
 <script src="script.js"></script>
+
+<script>
+    // Toggle Collapsible Summary
+    const toggleSummaryBtn = document.getElementById('toggleSummary');
+    const armorSummary = document.getElementById('armorSummary');
+    const potionSummary = document.getElementById('potionSummary');
+    toggleSummaryBtn.addEventListener('click', () => {
+        const isHidden = armorSummary.style.display === 'none';
+        armorSummary.style.display = isHidden ? 'block' : 'none';
+        potionSummary.style.display = isHidden ? 'block' : 'none';
+        toggleSummaryBtn.textContent = isHidden ? 'Hide Summary ▲' : 'Show Summary ▼';
+    });
+</script>
 </body>
 </html>
