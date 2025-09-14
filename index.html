@@ -9,6 +9,7 @@
 </head>
 <body>
 
+<!-- Donate Button -->
 <div class="donate-header">
     <a href="https://www.paypal.com/donate/?hosted_button_id=YVZNTWZP8JUCC" target="_blank" class="donate-btn">
         Donate via PayPal
@@ -17,41 +18,80 @@
 
 <h1>FlipMaster OSRS</h1>
 
-<div class="toggle-buttons">
+<!-- Toggle Buttons -->
+<div class="toggle-buttons" style="margin-bottom:15px;">
     <button id="armorBtn" class="active">Armor Flips</button>
     <button id="potionBtn">Potion Flips</button>
 </div>
 
-<div id="lastRefreshed">Last Refreshed: --</div>
+<!-- Collapsible Summary Section -->
+<div class="summary-wrapper">
+    <button id="toggleSummary" class="toggle-summary-btn">Hide Summary ▲</button>
+    <div id="armorSummary" style="display:block;"></div>
+    <div id="potionSummary" style="display:none;"></div>
+</div>
 
+<!-- Last Refreshed -->
+<div id="lastRefreshed" style="margin-top:10px; font-style:italic;">Last Refreshed: --</div>
+
+<!-- Sections -->
 <div class="container">
-    <!-- Armor and Potion Sections -->
     <div id="armorSection" data-mode="armor"></div>
     <div id="potionSection" data-mode="potion" style="display:none;"></div>
 </div>
 
-<footer>OSRS Flipping Dashboard &copy; 2025 — Powered by Norxonics</footer>
+<!-- Footer -->
+<footer style="margin-top:20px; text-align:center;">OSRS Flipping Dashboard &copy; 2025 — Powered by Norxonics</footer>
 
 <!-- JS Files -->
 <script src="potion.js"></script>
 <script src="script.js"></script>
 <script>
-    // Mode Switching Logic for Showing Sections
-    document.getElementById("armorBtn").addEventListener("click", () => {
-        document.getElementById("armorBtn").classList.add("active");
-        document.getElementById("potionBtn").classList.remove("active");
+document.addEventListener("DOMContentLoaded", () => {
+    const armorBtn = document.getElementById("armorBtn");
+    const potionBtn = document.getElementById("potionBtn");
+    const toggleBtn = document.getElementById("toggleSummary");
+    const armorSummary = document.getElementById("armorSummary");
+    const potionSummary = document.getElementById("potionSummary");
+
+    function showArmor() {
+        armorBtn.classList.add("active");
+        potionBtn.classList.remove("active");
         document.getElementById("armorSection").style.display = "block";
         document.getElementById("potionSection").style.display = "none";
+        armorSummary.style.display = toggleBtn.dataset.hidden === "true" ? "none" : "block";
+        potionSummary.style.display = "none";
         showArmorFlips();
-    });
+    }
 
-    document.getElementById("potionBtn").addEventListener("click", () => {
-        document.getElementById("potionBtn").classList.add("active");
-        document.getElementById("armorBtn").classList.remove("active");
+    function showPotion() {
+        potionBtn.classList.add("active");
+        armorBtn.classList.remove("active");
         document.getElementById("armorSection").style.display = "none";
         document.getElementById("potionSection").style.display = "block";
+        potionSummary.style.display = toggleBtn.dataset.hidden === "true" ? "none" : "block";
+        armorSummary.style.display = "none";
         showPotionFlips();
+    }
+
+    armorBtn.addEventListener("click", showArmor);
+    potionBtn.addEventListener("click", showPotion);
+
+    toggleBtn.dataset.hidden = "false";
+    toggleBtn.addEventListener("click", () => {
+        const isHidden = toggleBtn.dataset.hidden === "true";
+        toggleBtn.dataset.hidden = isHidden ? "false" : "true";
+        toggleBtn.textContent = isHidden ? "Hide Summary ▲" : "Show Summary ▼";
+
+        // Only toggle the currently visible summary
+        if (armorBtn.classList.contains("active")) {
+            armorSummary.style.display = isHidden ? "block" : "none";
+        } else if (potionBtn.classList.contains("active")) {
+            potionSummary.style.display = isHidden ? "block" : "none";
+        }
     });
+});
 </script>
+
 </body>
 </html>
