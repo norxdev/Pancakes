@@ -57,29 +57,30 @@ const armorSetsData = [
     setImgName: "Ancestral_robes_set"
   },
 
-  // Inquisitor's Armour Set
-  {
-    name: "Inquisitor's Armour Set",
-    items: [
-      { name: "Inquisitor's great helm", id: "24419", imgName: "Inquisitor_great_helm" },
-      { name: "Inquisitor's hauberk", id: "24420", imgName: "Inquisitor_hauberk" },
-      { name: "Inquisitor's plateskirt", id: "24421", imgName: "Inquisitor_plateskirt" },
-      { name: "Inquisitor's mace", id: "24417", imgName: "Inquisitor_mace" }
-    ],
-    setId: "24488",
-    setImgName: "Inquisitor_armour_set"
-  },
+// Inquisitor's Armour Set
+{
+  name: "Inquisitor's Armour Set",
+  items: [
+    { name: "Inquisitor's great helm", id: "24419", imgName: "Inquisitor's_great_helm" },
+    { name: "Inquisitor's hauberk", id: "24420", imgName: "Inquisitor's_hauberk" },
+    { name: "Inquisitor's plateskirt", id: "24421", imgName: "Inquisitor's_plateskirt" },
+  ],
+  setId: "24488",
+  setImgName: "Inquisitor's_armour_set_detail",
+  layout: "vertical" // optional flag for rendering vertically like wiki
+},
+
 
   // Dagon'hai Robes Set
   {
     name: "Dagon'hai Robes Set",
     items: [
-      { name: "Dagon'hai hat", id: "24288", imgName: "Dagonhai_hat" },
-      { name: "Dagon'hai robe top", id: "24291", imgName: "Dagonhai_robe_top" },
-      { name: "Dagon'hai robe bottom", id: "24294", imgName: "Dagonhai_robe_bottom" }
+      { name: "Dagon'hai hat", id: "24288", imgName: "Dagon'hai_hat_detail" },
+      { name: "Dagon'hai robe top", id: "24291", imgName: "Dagon'hai_robe_top_detail" },
+      { name: "Dagon'hai robe bottom", id: "24294", imgName: "Dagon'hai_robe_bottom_detail" }
     ],
     setId: "24333",
-    setImgName: "Dagonhai_robes_set"
+    setImgName: "Dagon'hai_robes_set_detail"
   },
 
   // Justiciar Armour Set
@@ -147,12 +148,12 @@ const armorSetsData = [
   {
     name: "Masori Armour Set (f)",
     items: [
-      { name: "Masori mask (f)", id: "27235", imgName: "Masori_mask_f" },
-      { name: "Masori body (f)", id: "27238", imgName: "Masori_body_f" },
-      { name: "Masori chaps (f)", id: "27241", imgName: "Masori_chaps_f" }
+      { name: "Masori mask (f)", id: "27235", imgName: "Masori_mask_(f)_detail" },
+      { name: "Masori body (f)", id: "27238", imgName: "Masori_body_(f)_detail" },
+      { name: "Masori chaps (f)", id: "27241", imgName: "Masori_chaps_(f)_detail" }
     ],
     setId: "27355",
-    setImgName: "Masori_armour_set_f"
+    setImgName: "Masori_armour_set_(f)_detail"
   },
 
   // Hueycoatl Hide Armour Set
@@ -172,68 +173,68 @@ const armorSetsData = [
   {
     name: "Ahrim's Armour Set",
     items: [
-      { name: "Ahrim's hood", id: "4708", imgName: "Ahrim_the_Blighted_hood" },
-      { name: "Ahrim's robetop", id: "4712", imgName: "Ahrim_the_Blighted_robetop" },
-      { name: "Ahrim's robeskirt", id: "4714", imgName: "Ahrim_the_Blighted_robeskirt" },
-      { name: "Ahrim's staff", id: "4710", imgName: "Ahrim_the_Blighted_staff" }
+      { name: "Ahrim's hood", id: "4708", imgName: "Ahrim's_hood_detail" },
+      { name: "Ahrim's robetop", id: "4712", imgName: "Ahrim's_robetop_detail" },
+      { name: "Ahrim's robeskirt", id: "4714", imgName: "Ahrim's_robeskirt_detail" },
+      { name: "Ahrim's staff", id: "4710", imgName: "Ahrim's_staff_detail" }
     ],
     setId: "12881",
-    setImgName: "Ahrim_the_Blighted_set"
+    setImgName: "Ahrim's_armour_set_detail"
   },
   {
     name: "Dharok's Armour Set",
     items: [
-      { name: "Dharok's helm", id: "4716", imgName: "Dharok_the_Wretched_helm" },
-      { name: "Dharok's platebody", id: "4720", imgName: "Dharok_the_Wretched_platebody" },
-      { name: "Dharok's platelegs", id: "4722", imgName: "Dharok_the_Wretched_platelegs" },
-      { name: "Dharok's greataxe", id: "4718", imgName: "Dharok_the_Wretched_greataxe" }
+      { name: "Dharok's helm", id: "4716", imgName: "Dharok's_helm_detail" },
+      { name: "Dharok's platebody", id: "4720", imgName: "Dharok's_platebody" },
+      { name: "Dharok's platelegs", id: "4722", imgName: "Dharok's_platelegs" },
+      { name: "Dharok's greataxe", id: "4718", imgName: "Dharok's_greataxe" }
     ],
     setId: "12877",
-    setImgName: "Dharok_the_Wretched_set"
+    setImgName: "Dharok's_armour_set"
   },
   {
     name: "Guthan's Armour Set",
     items: [
-      { name: "Guthan's helm", id: "4724", imgName: "Guthan_the_Infested_helm" },
-      { name: "Guthan's platebody", id: "4728", imgName: "Guthan_the_Infested_platebody" },
-      { name: "Guthan's chainskirt", id: "4730", imgName: "Guthan_the_Infested_chainskirt" },
-      { name: "Guthan's warspear", id: "4726", imgName: "Guthan_the_Infested_warspear" }
+      { name: "Guthan's helm", id: "4724", imgName: "Guthan's_helm" },
+      { name: "Guthan's platebody", id: "4728", imgName: "Guthan's_platebody" },
+      { name: "Guthan's chainskirt", id: "4730", imgName: "Guthan's_chainskirt" },
+      { name: "Guthan's warspear", id: "4726", imgName: "Guthan's_warspear" }
     ],
     setId: "12873",
-    setImgName: "Guthan_the_Infested_set"
+    setImgName: "Guthan's_armour_set"
   },
   {
     name: "Karil's Armour Set",
     items: [
-      { name: "Karil's coif", id: "4732", imgName: "Karil_the_Tainted_coif" },
-      { name: "Karil's leathertop", id: "4736", imgName: "Karil_the_Tainted_leathertop" },
-      { name: "Karil's leatherskirt", id: "4738", imgName: "Karil_the_Tainted_leatherskirt" },
-      { name: "Karil's crossbow", id: "4734", imgName: "Karil_the_Tainted_crossbow" }
+      { name: "Karil's coif", id: "4732", imgName: "Karil's_coif" },
+      { name: "Karil's leathertop", id: "4736", imgName: "Karil's_leathertop" },
+      { name: "Karil's leatherskirt", id: "4738", imgName: "Karil's_leatherskirt" },
+      { name: "Karil's crossbow", id: "4734", imgName: "Karil's_crossbow" }
     ],
     setId: "12883",
-    setImgName: "Karil_the_Tainted_set"
+    setImgName: "Karil's_armour_set"
   },
   {
     name: "Torag's Armour Set",
     items: [
-      { name: "Torag's helm", id: "4745", imgName: "Torag_the_Corrupted_helm" },
-      { name: "Torag's platebody", id: "4749", imgName: "Torag_the_Corrupted_platebody" },
-      { name: "Torag's platelegs", id: "4751", imgName: "Torag_the_Corrupted_platelegs" },
-      { name: "Torag's hammers", id: "4747", imgName: "Torag_the_Corrupted_hammers" }
+      { name: "Torag's helm", id: "4745", imgName: "Torag's_helm" },
+      { name: "Torag's platebody", id: "4749", imgName: "Torag's_platebody" },
+      { name: "Torag's platelegs", id: "4751", imgName: "Torag's_platelegs" },
+      { name: "Torag's hammers", id: "4747", imgName: "Torag's_hammers" }
     ],
     setId: "12879",
-    setImgName: "Torag_the_Corrupted_set"
+    setImgName: "Torag's_armour_set"
   },
   {
     name: "Verac's Armour Set",
     items: [
-      { name: "Verac's helm", id: "4753", imgName: "Verac_the_Defiled_helm" },
-      { name: "Verac's brassard", id: "4757", imgName: "Verac_the_Defiled_brassard" },
-      { name: "Verac's plateskirt", id: "4759", imgName: "Verac_the_Defiled_plateskirt" },
-      { name: "Verac's flail", id: "4755", imgName: "Verac_the_Defiled_flail" }
+      { name: "Verac's helm", id: "4753", imgName: "Verac's_helm" },
+      { name: "Verac's brassard", id: "4757", imgName: "Verac's_brassard" },
+      { name: "Verac's plateskirt", id: "4759", imgName: "Verac's_plateskirt" },
+      { name: "Verac's flail", id: "4755", imgName: "Verac's_flail" }
     ],
     setId: "12875",
-    setImgName: "Verac_the_Defiled_set"
+    setImgName: "Verac's_armour_set"
   }
 ];
 
