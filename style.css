@@ -1,41 +1,92 @@
+/* --- Global --- */
 body {
     background-color: #121212;
     color: #e0e0e0;
     font-family: 'Roboto', sans-serif;
     margin: 0;
+    padding: 0;
+}
+
+.main-content {
     padding: 20px;
 }
 
 h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
 
-.donate-header { text-align: center; margin-bottom: 20px; }
-.donate-btn {
-    display: inline-block;
-    padding: 12px 25px;
+/* --- Sticky Header --- */
+.sticky-header {
+    position: sticky;
+    top: 0;
+    background-color: #1e1e1e;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    border-bottom: 1px solid #333;
+}
+
+.header-left .site-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.header-right button {
+    padding: 8px 18px;
+    margin: 0 5px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    border: none;
     background-color: #00e676;
     color: #000;
     font-weight: bold;
-    font-size: 1.3rem;
-    border-radius: 8px;
-    text-decoration: none;
+    cursor: pointer;
     transition: background 0.3s, transform 0.2s;
 }
-.donate-btn:hover { background-color: #00c853; transform: scale(1.05); }
 
-.toggle-buttons { text-align: center; margin-bottom: 15px; }
-.toggle-buttons button {
-    padding: 10px 20px;
-    font-size: 1.2rem;
-    margin: 0 5px;
+.header-right button.active {
+    background-color: #00c853;
+}
+
+.header-right button:hover {
+    background-color: #00c853;
+    transform: scale(1.05);
+}
+
+/* Distinct Donate Button */
+.donate-btn-header {
+    padding: 10px 22px;
+    margin-left: 10px;
+    background: linear-gradient(135deg, #ffca28, #ffc107);
+    color: #000;
+    font-weight: bold;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.donate-btn-header:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.5);
+}
+
+/* --- Toggle Summary Button --- */
+.toggle-summary-btn {
+    display: block;
+    margin: 10px auto;
+    padding: 6px 12px;
+    background-color: #333;
+    color: #e0e0e0;
     border: none;
     border-radius: 5px;
+    font-size: 1rem;
     cursor: pointer;
+    transition: background 0.2s;
 }
-.toggle-buttons .active { background-color: #00e676; color:#000; }
-.toggle-buttons button:hover { background-color: #00c853; color:#000; }
+.toggle-summary-btn:hover { background-color: #444; }
 
-#lastRefreshed { text-align: center; margin-bottom: 15px; color: #aaa; font-size: 0.9rem; }
-
+/* --- Containers & Cards --- */
 .container { display: flex; flex-direction: column; gap: 20px; }
 
 .set-wrapper {
@@ -59,16 +110,13 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     align-items: center;
     font-size: 1.2rem;
     cursor: pointer;
-    text-decoration: none; /* remove underline */
-    color: inherit;        /* inherit font color */
+    text-decoration: none;
+    color: inherit;
     transition: background 0.2s;
 }
-.card:hover {
-    background: #333;
-}
+.card:hover { background: #333; }
 .card.total { font-weight: bold; }
 
-/* Ensure links inside cards look like cards */
 .card a {
     text-decoration: none;
     color: inherit;
@@ -78,7 +126,7 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     width: 100%;
 }
 
-/* Profit box styling */
+/* Profit Box Styling */
 .profit-box {
     background: #2a2a2a;
     border-radius: 10px;
@@ -93,8 +141,6 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
 .profit-negative span { color: #ff3d00; }
 
 input[type="number"] { width: 70px; padding: 8px; border-radius: 5px; border: none; margin-left: 10px; text-align: center; font-size: 1.2rem; }
-button { padding: 8px 12px; border-radius: 5px; border: none; background-color: #00e676; color: #000; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
-button:hover { background-color: #00c853; }
 
 .item-icon { width: 50px; height: 50px; margin-right: 12px; image-rendering: pixelated; }
 .item-label { display: flex; align-items: center; font-size: 1.3rem; }
@@ -102,53 +148,18 @@ button:hover { background-color: #00c853; }
 footer { text-align: center; margin-top: 20px; color: #888; font-size: 14px; }
 
 /* --- Summary Tables --- */
-.summary-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 15px 0;
-}
-.summary-table th, .summary-table td {
-    padding: 12px 15px;
-    text-align: left;
-}
-.summary-table th {
-    background-color: #2a2a2a;
-    font-size: 1.3rem;
-}
-.summary-table tr {
-    background-color: #1e1e1e;
-    border-bottom: 1px solid #333;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-.summary-table tr:hover {
-    background-color: #333;
-}
-.summary-table td.profit-cell {
-    font-weight: bold;
-    text-align: right;
-    font-size: 1.2rem;
-}
+.summary-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+.summary-table th, .summary-table td { padding: 12px 15px; text-align: left; }
+.summary-table th { background-color: #2a2a2a; font-size: 1.3rem; }
+.summary-table tr { background-color: #1e1e1e; border-bottom: 1px solid #333; cursor: pointer; transition: background 0.2s; }
+.summary-table tr:hover { background-color: #333; }
+.summary-table td.profit-cell { font-weight: bold; text-align: right; font-size: 1.2rem; }
 .summary-table tr.profit-positive td.profit-cell { color: #00e676; }
 .summary-table tr.profit-negative td.profit-cell { color: #ff3d00; }
-
-.toggle-summary-btn {
-    display: block;
-    margin: 0 auto 10px auto;
-    padding: 6px 12px;
-    background-color: #333;
-    color: #e0e0e0;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-.toggle-summary-btn:hover { background-color: #444; }
-
 
 @media (max-width: 800px) {
     .card { flex-direction: column; align-items: flex-start; gap: 5px; }
     input[type="number"] { width: 60px; }
     .summary-table th, .summary-table td { font-size: 1rem; padding: 8px 10px; }
+    .sticky-header { flex-direction: column; gap: 10px; align-items: flex-start; padding: 10px; }
 }
