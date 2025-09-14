@@ -59,9 +59,26 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     align-items: center;
     font-size: 1.2rem;
     cursor: pointer;
+    text-decoration: none; /* remove underline */
+    color: inherit;        /* inherit font color */
+    transition: background 0.2s;
+}
+.card:hover {
+    background: #333;
 }
 .card.total { font-weight: bold; }
 
+/* Ensure links inside cards look like cards */
+.card a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* Profit box styling */
 .profit-box {
     background: #2a2a2a;
     border-radius: 10px;
@@ -84,7 +101,54 @@ button:hover { background-color: #00c853; }
 
 footer { text-align: center; margin-top: 20px; color: #888; font-size: 14px; }
 
+/* --- Summary Tables --- */
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+.summary-table th, .summary-table td {
+    padding: 12px 15px;
+    text-align: left;
+}
+.summary-table th {
+    background-color: #2a2a2a;
+    font-size: 1.3rem;
+}
+.summary-table tr {
+    background-color: #1e1e1e;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.summary-table tr:hover {
+    background-color: #333;
+}
+.summary-table td.profit-cell {
+    font-weight: bold;
+    text-align: right;
+    font-size: 1.2rem;
+}
+.summary-table tr.profit-positive td.profit-cell { color: #00e676; }
+.summary-table tr.profit-negative td.profit-cell { color: #ff3d00; }
+
+.toggle-summary-btn {
+    display: block;
+    margin: 0 auto 10px auto;
+    padding: 6px 12px;
+    background-color: #333;
+    color: #e0e0e0;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.toggle-summary-btn:hover { background-color: #444; }
+
+
 @media (max-width: 800px) {
     .card { flex-direction: column; align-items: flex-start; gap: 5px; }
     input[type="number"] { width: 60px; }
+    .summary-table th, .summary-table td { font-size: 1rem; padding: 8px 10px; }
 }
