@@ -1,5 +1,8 @@
 // --- Global Data ---
 let latestData = {};
+let itemMapping = {};
+let summaryVisible = true; // controls visibility of current summary
+let activeSection = "armor"; // "armor" or "potion"
 
 // --- Armor Sets ---
 const armorSets = [
@@ -28,189 +31,208 @@ const armorSets = [
     ], setId: "31142", setImgName: "Eclipse_moon_armour_set_detail" }
 ];
 
-// --- Utility ---
-function formatNum(num){ return num.toLocaleString(); }
+// --- Utils ---
+function formatNum(num){ return Number(num)?.toLocaleString() || '—'; }
 
-// --- Armor Flip Functions ---
+// --- Fetch Mapping ---
+async function fetchItemMappingOnce(){
+    if(Object.keys(itemMapping).length>0) return;
+    try{
+        const res = await fetch("https://corsproxy.io/?https://prices.runescape.wiki/api/v1/osrs/mapping");
+        const mapping = await res.json();
+        mapping.forEach(item => itemMapping[String(item.id)] = item);
+    }catch(err){ console.warn("Mapping fetch failed", err); }
+}
+
+// --- Armor Profit ---
 function calculateArmorProfit(set){
-    let piecesTotal = set.items.reduce((sum,item)=>sum+(latestData.data[item.id]?.low || 0),0);
-    const setSell = latestData.data[set.setId]?.high || 0;
-    const setSellAfterTax = setSell * 0.98;
-    const profit = setSellAfterTax - piecesTotal;
-    const roi = piecesTotal ? ((profit/piecesTotal)*100).toFixed(2) : 0;
-    return {profit, roi, cost: piecesTotal};
+    let totalCost = set.items.reduce((s,i)=>s+(latestData.data?.[i.id]?.low||0),0);
+    const sellPrice = latestData.data?.[set.setId]?.high||0;
+    const profit = sellPrice*0.98 - totalCost;
+    return {profit, totalCost};
 }
 
 function createArmorSections(){
     const container = document.getElementById("armorSection");
     container.innerHTML = "";
-    armorSets.forEach((set,index)=>{
+    armorSets.forEach((set,i)=>{
         const div = document.createElement("div");
-        div.className = "set-wrapper";
-        div.id = `armor-set-${index}`;
-
-        div.innerHTML = `
+        div.className="set-wrapper";
+        div.id=`armor-set-${i}`;
+        div.innerHTML=`
             <div class="set-title">${set.name} Set</div>
             <div class="cards">
-                ${set.items.map(item=>`
-                    <div class="card">
+                ${set.items.map(it=>`
+                    <a class="card" href="https://prices.runescape.wiki/osrs/item/${it.id}" target="_blank">
                         <div class="item-label">
-                            <img class="item-icon" src="https://oldschool.runescape.wiki/images/${item.imgName}.png" alt="${item.name}"> ${item.name}
+                            <img class="item-icon" src="https://oldschool.runescape.wiki/images/${it.imgName}.png">${it.name}
                         </div>
-                        <div id="armor-${item.id}">Loading...</div>
-                    </div>`).join("")}
+                        <div id="armor-${it.id}">Loading...</div>
+                    </a>`).join("")}
                 <div class="card total">
-                    <div>Total Pieces Cost:</div>
-                    <div id="armor-total-${index}">Loading...</div>
+                    <div>Total Pieces:</div>
+                    <div id="armor-total-${i}">Loading...</div>
                 </div>
-                <div class="card total" onclick="window.open('https://prices.runescape.wiki/osrs/item/${set.setId}','_blank')">
+                <a class="card total" href="https://prices.runescape.wiki/osrs/item/${set.setId}" target="_blank">
                     <div class="item-label">
-                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${set.setImgName}.png" alt="${set.name}"> Set Price:
+                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${set.setImgName}.png">${set.name} Set Price
                     </div>
-                    <div id="armor-setPrice-${index}">Loading...</div>
-                </div>
+                    <div id="armor-setPrice-${i}">Loading...</div>
+                </a>
             </div>
-            <div class="profit-box" id="armor-profit-${index}">Loading...</div>
-            <div>
-                <label>Number of Sets: </label>
-                <input type="number" id="armor-numSets-${index}" value="1" min="1">
-                <button onclick="updateArmorProfit(${index})">Refresh</button>
-            </div>
-        `;
+            <div class="profit-box" id="armor-profit-${i}">Loading...</div>`;
         container.appendChild(div);
     });
 }
 
-function updateArmorProfit(index){
-    const set = armorSets[index];
-    const numSets = parseInt(document.getElementById(`armor-numSets-${index}`).value);
-    const {profit, roi} = calculateArmorProfit(set);
-    document.getElementById(`armor-profit-${index}`).innerHTML =
-        `Profit per set (after 2% tax): <span>${formatNum(profit)} gp</span><br>`+
-        `Total profit for ${numSets} set(s): <span>${formatNum(profit*numSets)} gp</span><br>`+
-        `ROI per set: <span>${roi}%</span>`;
-}
-
-// --- Potion Flip Functions ---
-function calculatePotionProfit(potion){
-    const buyData = latestData.data[potion.id3]; // 3-dose
-    const sellData = latestData.data[potion.id4]; // 4-dose
-    if(!buyData || !sellData) return {profit:0, roi:0, buy:0, sell:0};
-
-    const totalBuy = buyData.low * 4;                 // cost for 4 3-dose
-    const totalSell = sellData.high * 3 * 0.98;       // revenue from 3 4-dose with 2% tax
-    const totalProfit = totalSell - totalBuy;
-    const profitPerDose = totalProfit / 3;            // divide by 3 sold 4-dose potions
-    const roi = totalBuy ? ((totalProfit / totalBuy) * 100).toFixed(2) : 0;
-
-    return {profit: profitPerDose, roi, buy: buyData.low, sell: sellData.high};
+// --- Potion Profit ---
+function calculatePotionProfit(p){
+    const id3=String(p.id3), id4=String(p.id4);
+    const buy=latestData.data?.[id3]?.low, sell=latestData.data?.[id4]?.high;
+    if(!buy||!sell) return {profit:0, roi:0, buy:0, sell:0, buyLimit:null, buyLimitProfit:null};
+    const totalBuy=buy*4, totalSell=sell*3*0.98;
+    const profit=totalSell-totalBuy, perDose=Math.round(profit/3);
+    const mapped=itemMapping[id4], limit=mapped?.limit??null;
+    return {profit:perDose, buy, sell, buyLimit:limit, buyLimitProfit:limit?perDose*limit:null};
 }
 
 function createPotionSections(){
     const container = document.getElementById("potionSection");
-    container.innerHTML = "";
-    potionData.forEach((potion,index)=>{
+    container.innerHTML="";
+    potionData.forEach((p,i)=>{
         const div = document.createElement("div");
-        div.className = "set-wrapper";
-        div.id = `potion-${index}`;
-        div.innerHTML = `
-            <div class="set-title">${potion.name}</div>
-            <div class="cards">
-                <div class="card">
-                    <div class="item-label">
-                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${potion.imgName}(3)_detail.png" alt="${potion.name}"> Buy 3 Dose
-                    </div>
-                    <div id="p3-${potion.id3}">Loading...</div>
-                </div>
-                <div class="card">
-                    <div class="item-label">
-                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${potion.imgName}(4)_detail.png" alt="${potion.name}"> Sell 4 Dose
-                    </div>
-                    <div id="p4-${potion.id4}">Loading...</div>
-                </div>
+        div.className="set-wrapper";
+        div.id=`potion-${i}`;
+        div.innerHTML=`
+            <div class="set-title">${p.name}
+                <span id="p-buyLimit-${i}" class="buy-limit">(Buy limit: —)</span>
             </div>
-            <div class="profit-box" id="potion-profit-${index}">Loading...</div>
-        `;
+            <div class="cards">
+                <a class="card" href="https://prices.runescape.wiki/osrs/item/${p.id3}" target="_blank">
+                    <div class="item-label"><img class="item-icon" src="https://oldschool.runescape.wiki/images/${p.imgName}(3)_detail.png">Buy 3-dose</div>
+                    <div id="p3-${p.id3}">Loading...</div>
+                </a>
+                <a class="card" href="https://prices.runescape.wiki/osrs/item/${p.id4}" target="_blank">
+                    <div class="item-label"><img class="item-icon" src="https://oldschool.runescape.wiki/images/${p.imgName}(4)_detail.png">Sell 4-dose</div>
+                    <div id="p4-${p.id4}">Loading...</div>
+                </a>
+            </div>
+            <div class="profit-box" id="potion-profit-${i}">Loading...</div>`;
         container.appendChild(div);
     });
 }
 
+// --- Update Summaries ---
+function updateSummaries(){
+    const armorSummary = document.getElementById("armorSummary");
+    const potionSummary = document.getElementById("potionSummary");
+
+    if(armorSummary) armorSummary.style.display = (activeSection==="armor" && summaryVisible) ? "block" : "none";
+    if(potionSummary) potionSummary.style.display = (activeSection==="potion" && summaryVisible) ? "block" : "none";
+
+    if(activeSection==="armor" && armorSummary){
+        const list = armorSets.map((s,i)=>({ ...calculateArmorProfit(s), name:s.name, index:i }))
+            .sort((a,b)=>b.profit-a.profit);
+        armorSummary.innerHTML = `<table class="summary-table">
+            <thead><tr><th>Armor Set</th><th>Profit</th></tr></thead>
+            <tbody>` +
+            list.map(x=>`<tr class="summary-row" onclick="document.getElementById('armor-set-${x.index}').scrollIntoView({behavior:'smooth'})">
+                <td>${x.name}</td><td>${formatNum(x.profit)} gp</td>
+            </tr>`).join("") +
+            `</tbody></table>`;
+    }
+
+    if(activeSection==="potion" && potionSummary){
+        const list = potionData.map((p,i)=>({ ...calculatePotionProfit(p), name:p.name, index:i }))
+            .sort((a,b)=>(b.buyLimitProfit||0)-(a.buyLimitProfit||0));
+        potionSummary.innerHTML = `<table class="summary-table">
+            <thead><tr><th>Potion</th><th>Profit @ Buy Limit</th></tr></thead>
+            <tbody>` +
+            list.map(x=>`<tr class="summary-row" onclick="document.getElementById('potion-${x.index}').scrollIntoView({behavior:'smooth'})">
+                <td>${x.name}</td><td>${x.buyLimitProfit?formatNum(x.buyLimitProfit)+" gp":"—"}</td>
+            </tr>`).join("") +
+            `</tbody></table>`;
+    }
+}
+
+// --- Update Potions ---
 function updatePotionPrices(){
-    potionData.forEach((potion,index)=>{
-        const {profit, roi, buy, sell} = calculatePotionProfit(potion);
-
-        const p3 = document.getElementById(`p3-${potion.id3}`);
-        const p4 = document.getElementById(`p4-${potion.id4}`);
-        const profitBox = document.getElementById(`potion-profit-${index}`);
-
-        if(p3) p3.innerText = buy ? formatNum(buy)+' gp' : 'Loading...';
-        if(p4) p4.innerText = sell ? formatNum(sell)+' gp' : 'Loading...';
-        if(profitBox) profitBox.innerHTML =
-            `Profit per single dose (after tax): <span>${formatNum(profit)} gp</span><br>`+
-            `ROI: <span>${roi}%</span>`;
+    potionData.forEach((p,i)=>{
+        const {profit,buy,sell,buyLimit,buyLimitProfit} = calculatePotionProfit(p);
+        document.getElementById(`p3-${p.id3}`).innerText=buy?formatNum(buy)+" gp":"—";
+        document.getElementById(`p4-${p.id4}`).innerText=sell?formatNum(sell)+" gp":"—";
+        const box = document.getElementById(`potion-profit-${i}`);
+        if(box){
+            let html=`Profit per dose: ${formatNum(profit)} gp`;
+            if(buyLimit) html+=`<br>Profit @ limit (${formatNum(buyLimit)}): ${formatNum(buyLimitProfit)} gp`;
+            box.innerHTML=html;
+        }
+        const bl = document.getElementById(`p-buyLimit-${i}`);
+        if(bl) bl.innerText=buyLimit?`(Buy limit: ${formatNum(buyLimit)})`:"(Buy limit: —)";
     });
 }
 
 // --- Fetch Prices ---
 async function fetchPrices(){
     try{
+        await fetchItemMappingOnce();
         const res = await fetch("https://corsproxy.io/?https://prices.runescape.wiki/api/v1/osrs/latest");
         latestData = await res.json();
 
-        // Update Armor
-        if(document.getElementById("armorSection").style.display !== "none"){
-            armorSets.forEach((set,index)=>{
-                let piecesTotal = 0;
-                set.items.forEach(item=>{
-                    const price = latestData.data[item.id]?.low || 0;
-                    document.getElementById(`armor-${item.id}`).innerText = formatNum(price)+' gp';
-                    piecesTotal += price;
+        if(activeSection==="armor"){
+            armorSets.forEach((s,i)=>{
+                let total=0;
+                s.items.forEach(it=>{
+                    const price = latestData.data[it.id]?.low||0;
+                    document.getElementById(`armor-${it.id}`).innerText=formatNum(price)+" gp";
+                    total+=price;
                 });
-                document.getElementById(`armor-total-${index}`).innerText = formatNum(piecesTotal);
-                const setPrice = latestData.data[set.setId]?.high || 0;
-                document.getElementById(`armor-setPrice-${index}`).innerText = formatNum(setPrice);
-                updateArmorProfit(index);
+                document.getElementById(`armor-total-${i}`).innerText=formatNum(total);
+                document.getElementById(`armor-setPrice-${i}`).innerText=formatNum(latestData.data[s.setId]?.high||0);
             });
         }
 
-        // Update Potions
-        if(document.getElementById("potionSection").style.display !== "none"){
-            updatePotionPrices();
-        }
+        if(activeSection==="potion") updatePotionPrices();
 
-        const now = new Date();
-        document.getElementById("lastRefreshed").innerText = `Last Refreshed: ${now.toLocaleTimeString()}`;
-    } catch(err){ console.error(err); }
+        updateSummaries();
+        document.getElementById("lastRefreshed").innerText="Last Refreshed: "+new Date().toLocaleTimeString();
+    }catch(e){console.error(e);}
 }
 
-// --- Mode Switching ---
+// --- Show Sections ---
 function showArmorFlips(){
-    document.getElementById("armorSection").style.display = "block";
-    document.getElementById("potionSection").style.display = "none";
+    activeSection = "armor";
+    document.getElementById("armorSection").style.display="block";
+    document.getElementById("potionSection").style.display="none";
     createArmorSections();
+    summaryVisible = true;
+    document.getElementById("toggleSummary").textContent = "Hide Summary ▲";
     fetchPrices();
 }
 
 function showPotionFlips(){
-    document.getElementById("armorSection").style.display = "none";
-    document.getElementById("potionSection").style.display = "block";
+    activeSection = "potion";
+    document.getElementById("armorSection").style.display="none";
+    document.getElementById("potionSection").style.display="block";
     createPotionSections();
+    summaryVisible = true;
+    document.getElementById("toggleSummary").textContent = "Hide Summary ▲";
     fetchPrices();
 }
 
-// --- Event Listeners ---
-document.getElementById("armorBtn").addEventListener("click", ()=>{
-    document.getElementById("armorBtn").classList.add("active");
-    document.getElementById("potionBtn").classList.remove("active");
-    showArmorFlips();
-});
+// --- Toggle Summary ---
+const toggleSummaryBtn = document.getElementById("toggleSummary");
+if(toggleSummaryBtn){
+    toggleSummaryBtn.addEventListener("click", ()=>{
+        summaryVisible = !summaryVisible;
+        toggleSummaryBtn.textContent = summaryVisible ? "Hide Summary ▲" : "Show Summary ▼";
+        updateSummaries();
+    });
+}
 
-document.getElementById("potionBtn").addEventListener("click", ()=>{
-    document.getElementById("potionBtn").classList.add("active");
-    document.getElementById("armorBtn").classList.remove("active");
-    showPotionFlips();
-});
+// --- Init ---
+document.getElementById("armorBtn").addEventListener("click",()=>showArmorFlips());
+document.getElementById("potionBtn").addEventListener("click",()=>showPotionFlips());
 
-// --- Initial Load ---
 showArmorFlips();
-setInterval(fetchPrices, 60000);
+setInterval(fetchPrices,60000);
