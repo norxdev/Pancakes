@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FlipMaster OSRS</title>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MZKESVVFTT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MZKESVVFTT');
+</script>
+
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -44,8 +54,9 @@
 <footer style="margin-top:20px; text-align:center;">OSRS Flipping Dashboard &copy; 2025 — Powered by Norxonics</footer>
 
 <!-- JS Files -->
-<script src="potion.js"></script>
+<script src="itemid.js"></script> <!-- contains armorSetsData & potionData -->
 <script src="script.js"></script>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const armorBtn = document.getElementById("armorBtn");
