@@ -1,27 +1,45 @@
-# Pancakes
-# OSRS Flipping Dashboard
+# FlipMaster OSRS
 
-A simple web dashboard for monitoring **Old School RuneScape** flipping margins.  
-It fetches live price data from the [OSRS Wiki Prices API](https://prices.runescape.wiki) and shows potential profit, ROI, and margins when assembling the **Sunfire Fanatic Set**.
+**FlipMaster OSRS** is a dashboard for tracking and assisting with flipping items in *Old School RuneScape* (OSRS), with a focus on armor flips, potion flips, and other profit-based trading activities.
 
 ---
 
 ## 🚀 Features
-- Live price fetching for:
-  - Sunfire Fanatic Helm
-  - Sunfire Fanatic Cuirass
-  - Sunfire Fanatic Chausses
-  - Sunfire Fanatic Armour Set
-- Calculates:
-  - Total cost of individual pieces
-  - Profit per set (after 1% tax)
-  - ROI percentage
-  - Total profit based on the number of sets
-- Icons flash green/red when prices move up or down
-- Data auto-refreshes every 60 seconds
+
+- 📊 Displays summaries of item flip opportunities (armor, potions, etc.)
+- 🔄 Regularly refreshed/updated data
+- 🎛️ Interactive UI elements (toggle summaries for a cleaner view)
 
 ---
 
-## 🖼 Preview
-Example UI:
+## 🌐 Getting Started
 
+### View the Dashboard
+Open the dashboard directly in your browser:
+
+👉 [FlipMaster OSRS](https://norxdev.github.io/Pancakes/)
+
+### Support Development
+If you’d like to support this project, donations are accepted via PayPal.
+
+---
+
+## 🛠️ Technologies
+
+- Static web frontend hosted on **GitHub Pages**
+- Data refreshed periodically (exact schedule not displayed)
+
+---
+
+## 📜 License & Attribution
+
+OSRS Flipping Dashboard © 2025 by **Norxdev**.
+
+---
+
+## 📌 Roadmap / Improvements
+
+- Show the last refresh timestamp explicitly  
+- Add more flip categories  
+- User preferences, historical data, and filtering options  
+- Potential open API for external use
