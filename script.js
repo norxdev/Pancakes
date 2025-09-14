@@ -4,33 +4,6 @@ let itemMapping = {};
 let summaryVisible = true; // controls visibility of current summary
 let activeSection = "armor"; // "armor" or "potion"
 
-// --- Armor Sets ---
-const armorSets = [
-    { name: "Sunfire Fanatic", items: [
-        {name: "Helm", id: "28933", imgName: "Sunfire_fanatic_helm"},
-        {name: "Cuirass", id: "28936", imgName: "Sunfire_fanatic_cuirass"},
-        {name: "Chausses", id: "28939", imgName: "Sunfire_fanatic_chausses"}
-    ], setId: "29424", setImgName: "Sunfire_fanatic_armour_set" },
-    { name: "Blood Moon", items: [
-        {name: "Chestplate", id: "29022", imgName: "Blood_moon_chestplate_detail"},
-        {name: "Helm", id: "29028", imgName: "Blood_moon_helm_detail"},
-        {name: "Tassets", id: "29025", imgName: "Blood_moon_tassets_detail"},
-        {name: "Dual Macuahuitl", id: "28997", imgName: "Dual_macuahuitl_detail"}
-    ], setId: "31136", setImgName: "Blood_moon_armour_set_detail" },
-    { name: "Blue Moon", items: [
-        {name: "Chestplate", id: "29013", imgName: "Blue_moon_chestplate_detail"},
-        {name: "Helm", id: "29019", imgName: "Blue_moon_helm_detail"},
-        {name: "Spear", id: "28988", imgName: "Blue_moon_spear_detail"},
-        {name: "Tassets", id: "29016", imgName: "Blue_moon_tassets_detail"}
-    ], setId: "31139", setImgName: "Blue_moon_armour_set_detail" },
-    { name: "Eclipse Moon", items: [
-        {name: "Chestplate", id: "29004", imgName: "Eclipse_moon_chestplate_detail"},
-        {name: "Helm", id: "29010", imgName: "Eclipse_moon_helm_detail"},
-        {name: "Tassets", id: "29007", imgName: "Eclipse_moon_tassets_detail"},
-        {name: "Atlatl", id: "29000", imgName: "Eclipse_atlatl_detail"}
-    ], setId: "31142", setImgName: "Eclipse_moon_armour_set_detail" }
-];
-
 // --- Utils ---
 function formatNum(num){ return Number(num)?.toLocaleString() || '—'; }
 
@@ -48,14 +21,15 @@ async function fetchItemMappingOnce(){
 function calculateArmorProfit(set){
     let totalCost = set.items.reduce((s,i)=>s+(latestData.data?.[i.id]?.low||0),0);
     const sellPrice = latestData.data?.[set.setId]?.high||0;
-    const profit = sellPrice*0.98 - totalCost;
-    return {profit, totalCost};
+    const profit = Math.round(sellPrice*0.98 - totalCost);
+    const roi = totalCost ? ((profit / totalCost) * 100).toFixed(2) : 0;
+    return {profit, totalCost, roi};
 }
 
 function createArmorSections(){
     const container = document.getElementById("armorSection");
     container.innerHTML = "";
-    armorSets.forEach((set,i)=>{
+    armorSetsData.forEach((set,i)=>{
         const div = document.createElement("div");
         div.className="set-wrapper";
         div.id=`armor-set-${i}`;
@@ -70,7 +44,7 @@ function createArmorSections(){
                         <div id="armor-${it.id}">Loading...</div>
                     </a>`).join("")}
                 <div class="card total">
-                    <div>Total Pieces:</div>
+                    <div>Total Pieces Cost:</div>
                     <div id="armor-total-${i}">Loading...</div>
                 </div>
                 <a class="card total" href="https://prices.runescape.wiki/osrs/item/${set.setId}" target="_blank">
@@ -131,7 +105,7 @@ function updateSummaries(){
     if(potionSummary) potionSummary.style.display = (activeSection==="potion" && summaryVisible) ? "block" : "none";
 
     if(activeSection==="armor" && armorSummary){
-        const list = armorSets.map((s,i)=>({ ...calculateArmorProfit(s), name:s.name, index:i }))
+        const list = armorSetsData.map((s,i)=>({ ...calculateArmorProfit(s), name:s.name, index:i }))
             .sort((a,b)=>b.profit-a.profit);
         armorSummary.innerHTML = `<table class="summary-table">
             <thead><tr><th>Armor Set</th><th>Profit</th></tr></thead>
@@ -180,23 +154,37 @@ async function fetchPrices(){
         latestData = await res.json();
 
         if(activeSection==="armor"){
-            armorSets.forEach((s,i)=>{
-                let total=0;
+            armorSetsData.forEach((s,i)=>{
+                let totalCost = 0, setPrice = latestData.data?.[s.setId]?.high||0;
                 s.items.forEach(it=>{
-                    const price = latestData.data[it.id]?.low||0;
-                    document.getElementById(`armor-${it.id}`).innerText=formatNum(price)+" gp";
-                    total+=price;
+                    const low = latestData.data?.[it.id]?.low||0;
+                    totalCost += low;
+                    const elem = document.getElementById(`armor-${it.id}`);
+                    if(elem) elem.innerText = formatNum(low)+" gp";
                 });
-                document.getElementById(`armor-total-${i}`).innerText=formatNum(total);
-                document.getElementById(`armor-setPrice-${i}`).innerText=formatNum(latestData.data[s.setId]?.high||0);
+                const totalElem = document.getElementById(`armor-total-${i}`);
+                if(totalElem) totalElem.innerText = formatNum(totalCost);
+                const setElem = document.getElementById(`armor-setPrice-${i}`);
+                if(setElem) setElem.innerText = formatNum(setPrice);
+
+                const profit = Math.round(setPrice*0.98 - totalCost);
+                const roi = totalCost ? ((profit/totalCost)*100).toFixed(2) : 0;
+                const profitBox = document.getElementById(`armor-profit-${i}`);
+                if(profitBox){
+                    profitBox.innerHTML = `
+                        Profit per set (after 2% tax):<br><b>${formatNum(profit)} gp</b><br>
+                        ROI per set:<br><b>${roi}%</b>
+                    `;
+                }
             });
         }
 
         if(activeSection==="potion") updatePotionPrices();
-
         updateSummaries();
-        document.getElementById("lastRefreshed").innerText="Last Refreshed: "+new Date().toLocaleTimeString();
-    }catch(e){console.error(e);}
+        const ref = document.getElementById("lastRefreshed");
+        if(ref) ref.innerText="Last Refreshed: "+new Date().toLocaleTimeString();
+
+    }catch(e){ console.error(e);}
 }
 
 // --- Show Sections ---
@@ -206,7 +194,8 @@ function showArmorFlips(){
     document.getElementById("potionSection").style.display="none";
     createArmorSections();
     summaryVisible = true;
-    document.getElementById("toggleSummary").textContent = "Hide Summary ▲";
+    const btn = document.getElementById("toggleSummary");
+    if(btn) btn.textContent = "Hide Summary ▲";
     fetchPrices();
 }
 
@@ -216,7 +205,8 @@ function showPotionFlips(){
     document.getElementById("potionSection").style.display="block";
     createPotionSections();
     summaryVisible = true;
-    document.getElementById("toggleSummary").textContent = "Hide Summary ▲";
+    const btn = document.getElementById("toggleSummary");
+    if(btn) btn.textContent = "Hide Summary ▲";
     fetchPrices();
 }
 
