@@ -261,6 +261,26 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('refreshData')?.addEventListener('click', () => {
         fetchPrices();
     });
+	
+// Refresh button click animation
+const refreshBtn = document.getElementById('refreshData');
+refreshBtn.addEventListener('click', () => {
+    const icon = refreshBtn.querySelector('span') || refreshBtn;
+    icon.classList.add('spin-icon');
+    setTimeout(() => icon.classList.remove('spin-icon'), 500); // remove class after animation
+    fetchPrices();
+});
+
+// Back to top click animation
+const backBtn = document.getElementById('backToTop');
+backBtn.addEventListener('click', () => {
+    const icon = backBtn.querySelector('span') || backBtn;
+    icon.classList.add('bounce-icon');
+    setTimeout(() => icon.classList.remove('bounce-icon'), 400);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+
 
 
 
