@@ -57,19 +57,18 @@ const armorSetsData = [
     setImgName: "Ancestral_robes_set"
   },
 
-// Inquisitor's Armour Set
-{
-  name: "Inquisitor's Armour Set",
-  items: [
-    { name: "Inquisitor's great helm", id: "24419", imgName: "Inquisitor's_great_helm" },
-    { name: "Inquisitor's hauberk", id: "24420", imgName: "Inquisitor's_hauberk" },
-    { name: "Inquisitor's plateskirt", id: "24421", imgName: "Inquisitor's_plateskirt" },
-  ],
-  setId: "24488",
-  setImgName: "Inquisitor's_armour_set_detail",
-  layout: "vertical" // optional flag for rendering vertically like wiki
-},
-
+  // Inquisitor's Armour Set
+  {
+    name: "Inquisitor's Armour Set",
+    items: [
+      { name: "Inquisitor's great helm", id: "24419", imgName: "Inquisitor's_great_helm" },
+      { name: "Inquisitor's hauberk", id: "24420", imgName: "Inquisitor's_hauberk" },
+      { name: "Inquisitor's plateskirt", id: "24421", imgName: "Inquisitor's_plateskirt" }
+    ],
+    setId: "24488",
+    setImgName: "Inquisitor's_armour_set_detail",
+    layout: "vertical" // optional flag for rendering vertically like wiki
+  },
 
   // Dagon'hai Robes Set
   {
@@ -239,7 +238,6 @@ const armorSetsData = [
 ];
 
 // --- Potion Data ---
-
 const potionData = [
   { name: "Agility potion", id1: "3038", id2: "3036", id3: "3034", id4: "3032", imgName: "Agility_potion" },
   { name: "Antifire potion", id1: "2458", id2: "2456", id3: "2454", id4: "2452", imgName: "Antifire_potion" },
@@ -263,11 +261,15 @@ const potionData = [
   { name: "Hunter potion", id1: "10004", id2: "10002", id3: "10000", id4: "9998", imgName: "Hunter_potion" },
   { name: "Magic potion", id1: "3046", id2: "3044", id3: "3042", id4: "3040", imgName: "Magic_potion" },
   { name: "Prayer potion", id1: "143", id2: "141", id3: "139", id4: "2434", imgName: "Prayer_potion" },
-  { name: "Prayer regeneration potion", id1: "30134", id2: "30131", id3: "30128", id4: "30125", imgName: "Prayer_regeneration_potion" },
   { name: "Ranging potion", id1: "173", id2: "171", id3: "169", id4: "2444", imgName: "Ranging_potion" },
   { name: "Restore potion", id1: "131", id2: "129", id3: "127", id4: "2430", imgName: "Restore_potion" },
   { name: "Stamina potion", id1: "12631", id2: "12629", id3: "12627", id4: "12625", imgName: "Stamina_potion" },
   { name: "Strength potion", id1: "119", id2: "117", id3: "115", id4: "113", imgName: "Strength_potion" },
-  { name: "Super antifire potion", id1: "21987", id2: "21984", id3: "21981", id4: "21978", imgName: "Super_antifire_potion" },
+  { name: "Super attack potion", id1: "149", id2: "147", id3: "145", id4: "2436", imgName: "Super_attack" },
   { name: "Super combat potion", id1: "12701", id2: "12699", id3: "12697", id4: "12695", imgName: "Super_combat_potion" },
+  { name: "Super defence potion", id1: "163", id2: "161", id3: "159", id4: "2442", imgName: "Super_defence" },
+  { name: "Super energy potion", id1: "3022", id2: "3020", id3: "3018", id4: "3016", imgName: "Super_energy" },
+  { name: "Super restore potion", id1: "3030", id2: "3028", id3: "3026", id4: "3024", imgName: "Super_restore" },
+  { name: "Super strength potion", id1: "161", id2: "159", id3: "157", id4: "2440", imgName: "Super_strength" },
+  { name: "Zamorak brew", id1: "191", id2: "189", id3: "187", id4: "2450", imgName: "Zamorak_brew" }
 ];
