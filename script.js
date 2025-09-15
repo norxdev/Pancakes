@@ -44,14 +44,6 @@ function calculatePotionProfit(p){
 
     return {profit: perDose, buy, sell, buyLimit: limit, buyLimitProfit: limit ? perDose*limit : null};
 }
-// Smooth scroll to top when clicked
-const backToTopBtn = document.getElementById('backToTop');
-backToTopBtn.addEventListener('click', () => {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-});
 
 // --- Section Rendering ---
 function createArmorSections(){
@@ -211,15 +203,6 @@ function showPotionFlips(){
     fetchPrices();
 }
 
-// --- Toggle Summary ---
-document.getElementById("toggleSummary")?.addEventListener("click", ()=>{
-    summaryVisible = !summaryVisible;
-    sessionStorage.setItem("summaryVisible", summaryVisible?"true":"false");
-    const btn = document.getElementById("toggleSummary");
-    if(btn) btn.textContent = summaryVisible ? "Hide Summary ▲" : "Show Summary ▼";
-    updateSummaries();
-});
-
 // --- Fetch Prices ---
 async function fetchPrices(){
     try{
@@ -268,7 +251,28 @@ async function fetchPrices(){
 }
 
 // --- Init ---
-document.addEventListener("DOMContentLoaded", ()=>{
+document.addEventListener("DOMContentLoaded", () => {
+    // Back-to-top button
+    document.getElementById('backToTop')?.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Refresh Data button
+    document.getElementById('refreshData')?.addEventListener('click', () => {
+        fetchPrices();
+    });
+
+
+
+    // Toggle summary button
+    document.getElementById("toggleSummary")?.addEventListener("click", ()=>{
+        summaryVisible = !summaryVisible;
+        sessionStorage.setItem("summaryVisible", summaryVisible?"true":"false");
+        const btn = document.getElementById("toggleSummary");
+        if(btn) btn.textContent = summaryVisible ? "Hide Summary ▲" : "Show Summary ▼";
+        updateSummaries();
+    });
+
     const savedSection = sessionStorage.getItem("activeSection");
     const savedSummary = sessionStorage.getItem("summaryVisible");
 
