@@ -26,6 +26,7 @@
     <div class="header-right">
         <button id="armorBtn">Armor</button>
         <button id="potionBtn">Potions</button>
+        <button id="miscBtn">Misc</button>
         <a href="https://www.paypal.com/donate/?hosted_button_id=YVZNTWZP8JUCC" target="_blank" class="donate-btn-header">
             Donate
         </a>
@@ -38,6 +39,7 @@
     <ul>
         <li><strong>Armor Flips</strong> → Buy individual armor pieces (like helm, platebody, legs, etc.) and resell them together as a full set for higher profit.</li>
         <li><strong>Potion Flips</strong> → Buy potions in 3-dose form, decant them into 4-dose, and sell at a markup.</li>
+        <li><strong>Misc Items</strong> → Track popular single items for flipping based on buy/sell price and profit limits.</li>
     </ul>
 </div>
 
@@ -47,6 +49,7 @@
         <button id="toggleSummary" class="toggle-summary-btn">Hide Summary ▲</button>
         <div id="armorSummary"></div>
         <div id="potionSummary"></div>
+        <div id="miscSummary"></div>
     </div>
 
     <!-- Last Refreshed -->
@@ -56,11 +59,11 @@
     <div class="container">
         <div id="armorSection" data-mode="armor"></div>
         <div id="potionSection" data-mode="potion"></div>
+        <div id="miscSection" data-mode="misc"></div>
     </div>
 </div>
 
 <!-- Floating Buttons -->
-<!-- Refresh Data Button -->
 <button id="refreshData" class="floating-btn" title="Refresh Data">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
         <path d="M23 4v6h-6"></path>
@@ -70,7 +73,6 @@
     </svg>
 </button>
 
-<!-- Back to Top Button -->
 <button id="backToTop" class="floating-btn" title="Back to Top">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
         <line x1="12" y1="19" x2="12" y2="5"></line>
@@ -78,28 +80,14 @@
     </svg>
 </button>
 
-
-
 <!-- Footer -->
 <footer style="margin-top:20px; text-align:center;">
     FlipMaster OSRS &copy; 2025 — Norxdev
 </footer>
 
-<!-- JS Files -->
-<script src="itemid.js"></script> <!-- contains armorSetsData & potionData -->
+<!-- Scripts -->
+<script src="itemid.js"></script>
 <script src="script.js"></script>
 
-<script>
-    // Toggle Collapsible Summary
-    const toggleSummaryBtn = document.getElementById('toggleSummary');
-    const armorSummary = document.getElementById('armorSummary');
-    const potionSummary = document.getElementById('potionSummary');
-    toggleSummaryBtn.addEventListener('click', () => {
-        const isHidden = armorSummary.style.display === 'none';
-        armorSummary.style.display = isHidden ? 'block' : 'none';
-        potionSummary.style.display = isHidden ? 'block' : 'none';
-        toggleSummaryBtn.textContent = isHidden ? 'Hide Summary ▲' : 'Show Summary ▼';
-    });
-</script>
 </body>
 </html>

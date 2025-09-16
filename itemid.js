@@ -57,18 +57,19 @@ const armorSetsData = [
     setImgName: "Ancestral_robes_set"
   },
 
-  // Inquisitor's Armour Set
-  {
-    name: "Inquisitor's Armour Set",
-    items: [
-      { name: "Inquisitor's great helm", id: "24419", imgName: "Inquisitor's_great_helm" },
-      { name: "Inquisitor's hauberk", id: "24420", imgName: "Inquisitor's_hauberk" },
-      { name: "Inquisitor's plateskirt", id: "24421", imgName: "Inquisitor's_plateskirt" }
-    ],
-    setId: "24488",
-    setImgName: "Inquisitor's_armour_set_detail",
-    layout: "vertical" // optional flag for rendering vertically like wiki
-  },
+// Inquisitor's Armour Set
+{
+  name: "Inquisitor's Armour Set",
+  items: [
+    { name: "Inquisitor's great helm", id: "24419", imgName: "Inquisitor's_great_helm" },
+    { name: "Inquisitor's hauberk", id: "24420", imgName: "Inquisitor's_hauberk" },
+    { name: "Inquisitor's plateskirt", id: "24421", imgName: "Inquisitor's_plateskirt" },
+  ],
+  setId: "24488",
+  setImgName: "Inquisitor's_armour_set_detail",
+  layout: "vertical" // optional flag for rendering vertically like wiki
+},
+
 
   // Dagon'hai Robes Set
   {
@@ -238,6 +239,7 @@ const armorSetsData = [
 ];
 
 // --- Potion Data ---
+
 const potionData = [
   { name: "Agility potion", id1: "3038", id2: "3036", id3: "3034", id4: "3032", imgName: "Agility_potion" },
   { name: "Antifire potion", id1: "2458", id2: "2456", id3: "2454", id4: "2452", imgName: "Antifire_potion" },
@@ -261,15 +263,108 @@ const potionData = [
   { name: "Hunter potion", id1: "10004", id2: "10002", id3: "10000", id4: "9998", imgName: "Hunter_potion" },
   { name: "Magic potion", id1: "3046", id2: "3044", id3: "3042", id4: "3040", imgName: "Magic_potion" },
   { name: "Prayer potion", id1: "143", id2: "141", id3: "139", id4: "2434", imgName: "Prayer_potion" },
+  { name: "Prayer regeneration potion", id1: "30134", id2: "30131", id3: "30128", id4: "30125", imgName: "Prayer_regeneration_potion" },
   { name: "Ranging potion", id1: "173", id2: "171", id3: "169", id4: "2444", imgName: "Ranging_potion" },
   { name: "Restore potion", id1: "131", id2: "129", id3: "127", id4: "2430", imgName: "Restore_potion" },
   { name: "Stamina potion", id1: "12631", id2: "12629", id3: "12627", id4: "12625", imgName: "Stamina_potion" },
   { name: "Strength potion", id1: "119", id2: "117", id3: "115", id4: "113", imgName: "Strength_potion" },
-  { name: "Super attack potion", id1: "149", id2: "147", id3: "145", id4: "2436", imgName: "Super_attack" },
+  { name: "Super antifire potion", id1: "21987", id2: "21984", id3: "21981", id4: "21978", imgName: "Super_antifire_potion" },
   { name: "Super combat potion", id1: "12701", id2: "12699", id3: "12697", id4: "12695", imgName: "Super_combat_potion" },
-  { name: "Super defence potion", id1: "163", id2: "161", id3: "159", id4: "2442", imgName: "Super_defence" },
-  { name: "Super energy potion", id1: "3022", id2: "3020", id3: "3018", id4: "3016", imgName: "Super_energy" },
-  { name: "Super restore potion", id1: "3030", id2: "3028", id3: "3026", id4: "3024", imgName: "Super_restore" },
-  { name: "Super strength potion", id1: "161", id2: "159", id3: "157", id4: "2440", imgName: "Super_strength" },
-  { name: "Zamorak brew", id1: "191", id2: "189", id3: "187", id4: "2450", imgName: "Zamorak_brew" }
 ];
+
+// --- Misc Items / Resources ---
+const miscItemsData = [
+  // Arrows
+  { name: "Steel arrow", id: "884", imgName: "Steel_arrow" },
+  { name: "Mithril arrow", id: "886", imgName: "Mithril_arrow" },
+  { name: "Adamant arrow", id: "888", imgName: "Adamant_arrow" },
+  { name: "Rune arrow", id: "892", imgName: "Rune_arrow" },
+
+  // Throwing knives
+  { name: "Bronze knife", id: "864", imgName: "Bronze_knife" },
+  { name: "Iron knife", id: "866", imgName: "Iron_knife" },
+  { name: "Rune knife", id: "868", imgName: "Rune_knife" },
+
+  // Darts
+  { name: "Steel dart", id: "819", imgName: "Steel_dart" },
+  { name: "Mithril dart", id: "821", imgName: "Mithril_dart" },
+  { name: "Adamant dart", id: "823", imgName: "Adamant_dart" },
+  { name: "Rune dart", id: "825", imgName: "Rune_dart" },
+  { name: "Dragon dart", id: "11230", imgName: "Dragon_dart" },
+
+  // Hides
+  { name: "Snake hide", id: "6287", imgName: "Snake_hide" },
+  { name: "Green dragonhide", id: "1753", imgName: "Green_dragonhide" },
+  { name: "Blue dragonhide", id: "2505", imgName: "Blue_dragonhide" },
+  { name: "Red dragonhide", id: "1745", imgName: "Red_dragonhide" },
+  { name: "Black dragonhide", id: "1747", imgName: "Black_dragonhide" },
+
+  // Essence
+  { name: "Rune essence", id: "1436", imgName: "Rune_essence" },
+  { name: "Pure essence", id: "7936", imgName: "Pure_essence" },
+
+  // Runes
+  { name: "Air rune", id: "556", imgName: "Air_rune" },
+  { name: "Water rune", id: "555", imgName: "Water_rune" },
+  { name: "Nature rune", id: "561", imgName: "Nature_rune" },
+  { name: "Dust rune", id: "4696", imgName: "Dust_rune" },
+  { name: "Cosmic rune", id: "564", imgName: "Cosmic_rune" },
+  { name: "Chaos rune", id: "562", imgName: "Chaos_rune" },
+  { name: "Law rune", id: "563", imgName: "Law_rune" },
+  { name: "Death rune", id: "560", imgName: "Death_rune" },
+  { name: "Blood rune", id: "565", imgName: "Blood_rune" },
+
+  // Logs
+  { name: "Logs", id: "1511", imgName: "Logs" },
+  { name: "Maple logs", id: "1517", imgName: "Maple_logs" },
+  { name: "Yew logs", id: "1515", imgName: "Yew_logs" },
+  { name: "Magic logs", id: "1513", imgName: "Magic_logs" },
+
+  // Ores
+  { name: "Iron ore", id: "440", imgName: "Iron_ore" },
+  { name: "Coal", id: "453", imgName: "Coal" },
+  { name: "Gold ore", id: "444", imgName: "Gold_ore" },
+  { name: "Mithril ore", id: "447", imgName: "Mithril_ore" },
+  { name: "Adamantite ore", id: "449", imgName: "Adamantite_ore" },
+
+  // Bars
+  { name: "Iron bar", id: "2351", imgName: "Iron_bar" },
+  { name: "Steel bar", id: "2353", imgName: "Steel_bar" },
+  { name: "Mithril bar", id: "2359", imgName: "Mithril_bar" },
+  { name: "Adamant bar", id: "2361", imgName: "Adamant_bar" },
+
+  // Raw fish
+  { name: "Tuna", id: "359", imgName: "Tuna" },
+  { name: "Lobster", id: "377", imgName: "Lobster" },
+  { name: "Swordfish", id: "373", imgName: "Swordfish" },
+  { name: "Shark", id: "385", imgName: "Shark" },
+
+  // Seeds
+  { name: "Harralander seed", id: "5294", imgName: "Harralander_seed" },
+  { name: "Ranarr seed", id: "5295", imgName: "Ranarr_seed" },
+  { name: "Snapdragon seed", id: "5300", imgName: "Snapdragon_seed" },
+  { name: "Limpwurt seed", id: "5100", imgName: "Limpwurt_seed" },
+  { name: "Watermelon seed", id: "5321", imgName: "Watermelon_seed" },
+
+  // Herbs
+  { name: "Harralander", id: "5294", imgName: "Harralander" },
+  { name: "Kwuarm", id: "5299", imgName: "Kwuarm" },
+  { name: "Ranarr", id: "5295", imgName: "Ranarr" },
+  { name: "Lantadyme", id: "5302", imgName: "Lantadyme" },
+  { name: "Snapdragon", id: "5300", imgName: "Snapdragon" },
+
+  // Misc
+  { name: "Eye of newt", id: "221", imgName: "Eye_of_newt" },
+  { name: "Feathers", id: "314", imgName: "Feathers" },
+  { name: "Vial of water", id: "227", imgName: "Vial_of_water" },
+
+  // PvP / PvM Gear
+  { name: "Dragon boots", id: "11840", imgName: "Dragon_boots" },
+  { name: "GODSWORD", id: "", imgName: "Godsword" },
+
+  // Prayer training
+  { name: "Dragon bones", id: "536", imgName: "Dragon_bones" },
+  { name: "Lava dragon bones", id: "11943", imgName: "Lava_dragon_bones" },
+  { name: "Ensouled heads", id: "", imgName: "Ensouled_heads" },
+];
+
