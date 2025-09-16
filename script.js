@@ -2,7 +2,8 @@
 let latestData = {};
 let itemMapping = {};
 let summaryVisible = true; // controls visibility of current summary
-let activeSection = "armor"; // "armor" or "potion"
+let activeSection = "armor"; // "armor", "potion", or "misc"
+let dailyData = {};  // holds 24h volume data
 
 // --- Utils ---
 function formatNum(num){ return Number(num)?.toLocaleString() || '—'; }
@@ -43,6 +44,15 @@ function calculatePotionProfit(p){
     const limit = mapped?.limit ?? null;
 
     return {profit: perDose, buy, sell, buyLimit: limit, buyLimitProfit: limit ? perDose*limit : null};
+}
+
+function calculateMiscProfit(item){
+    const buy = latestData.data?.[item.id]?.low || 0;
+    const sell = latestData.data?.[item.id]?.high || 0;
+    const profit = Math.round(sell * 0.98 - buy);
+    const mapped = itemMapping[item.id];
+    const limit = mapped?.limit ?? null;
+    return {profit, buy, sell, buyLimit: limit, buyLimitProfit: limit ? profit*limit : null};
 }
 
 // --- Section Rendering ---
@@ -107,42 +117,54 @@ function createPotionSections(){
     });
 }
 
-// --- Update Summaries ---
-function updateSummaries(){
-    const armorSummary = document.getElementById("armorSummary");
-    const potionSummary = document.getElementById("potionSummary");
-
-    if(armorSummary) armorSummary.style.display = (activeSection==="armor" && summaryVisible) ? "block" : "none";
-    if(potionSummary) potionSummary.style.display = (activeSection==="potion" && summaryVisible) ? "block" : "none";
-
-    // Armor summary
-    if(activeSection==="armor" && armorSummary){
-        const list = armorSetsData.map((s,i)=>({ ...calculateArmorProfit(s), name:s.name, index:i }))
-            .sort((a,b)=>b.profit-a.profit);
-        armorSummary.innerHTML = `<table class="summary-table">
-            <thead><tr><th>Armor Set</th><th>Profit per Set</th></tr></thead>
-            <tbody>` +
-            list.map(x=>`<tr class="summary-row" onclick="document.getElementById('armor-set-${x.index}')?.scrollIntoView({behavior:'smooth'})">
-                <td>${x.name}</td><td>${formatNum(x.profit)} gp</td>
-            </tr>`).join("") +
-            `</tbody></table>`;
-    }
-
-    // Potion summary
-    if(activeSection==="potion" && potionSummary){
-        const list = potionData.map((p,i)=>({ ...calculatePotionProfit(p), name:p.name, index:i }))
-            .sort((a,b)=>(b.buyLimitProfit||0)-(a.buyLimitProfit||0));
-        potionSummary.innerHTML = `<table class="summary-table">
-            <thead><tr><th>Potion</th><th>Profit @ Buy Limit</th></tr></thead>
-            <tbody>` +
-            list.map(x=>`<tr class="summary-row" onclick="document.getElementById('potion-${x.index}')?.scrollIntoView({behavior:'smooth'})">
-                <td>${x.name}</td><td>${x.buyLimitProfit?formatNum(x.buyLimitProfit)+" gp":"—"}</td>
-            </tr>`).join("") +
-            `</tbody></table>`;
-    }
+function createMiscSections(){
+    const container = document.getElementById("miscSection");
+    if(!container) return;
+    container.innerHTML="";
+    miscItemsData.forEach((item,i)=>{
+        const div = document.createElement("div");
+        div.className="set-wrapper";
+        div.id=`misc-${i}`;
+        div.innerHTML=`
+            <div class="set-title">${item.name}
+                <span id="m-buyLimit-${i}" class="buy-limit">(Buy limit: —)</span>
+            </div>
+            <div class="cards">
+                <a class="card" href="https://prices.runescape.wiki/osrs/item/${item.id}" target="_blank">
+                    <div class="item-label">
+                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${item.imgName}.png">${item.name}
+                    </div>
+                    <div id="m-price-${item.id}">Loading...</div>
+                </a>
+            </div>
+            <div class="profit-box" id="misc-profit-${i}">Loading...</div>`;
+        container.appendChild(div);
+    });
 }
 
-// --- Update Potion Prices ---
+// --- Update Prices ---
+function updateArmorPrices(){
+    armorSetsData.forEach((set, i) => {
+        let totalCost = 0;
+        set.items.forEach(item => {
+            const low = latestData.data?.[item.id]?.low || 0;
+            totalCost += low;
+            const elem = document.getElementById(`armor-${item.id}`);
+            if(elem) elem.innerText = low ? formatNum(low) + " gp" : "—";
+        });
+        const totalElem = document.getElementById(`armor-total-${i}`);
+        if(totalElem) totalElem.innerText = totalCost ? formatNum(totalCost) + " gp" : "—";
+        const setPrice = latestData.data?.[set.setId]?.high || 0;
+        const setPriceElem = document.getElementById(`armor-setPrice-${i}`);
+        if(setPriceElem) setPriceElem.innerText = setPrice ? formatNum(setPrice) + " gp" : "—";
+        const profitElem = document.getElementById(`armor-profit-${i}`);
+        if(profitElem){
+            const profit = Math.round(setPrice * 0.98 - totalCost);
+            profitElem.innerText = profit ? formatNum(profit) + " gp" : "—";
+        }
+    });
+}
+
 function updatePotionPrices(){
     potionData.forEach((p,i)=>{
         const {profit,buy,sell,buyLimit,buyLimitProfit} = calculatePotionProfit(p);
@@ -150,7 +172,6 @@ function updatePotionPrices(){
         const p4Elem = document.getElementById(`p4-${p.id4}`);
         const profitBox = document.getElementById(`potion-profit-${i}`);
         const bl = document.getElementById(`p-buyLimit-${i}`);
-
         if(p3Elem) p3Elem.innerText = buy ? formatNum(buy)+" gp" : "—";
         if(p4Elem) p4Elem.innerText = sell ? formatNum(sell)+" gp" : "—";
         if(profitBox){
@@ -162,25 +183,112 @@ function updatePotionPrices(){
     });
 }
 
+function updateMiscPrices(){
+    miscItemsData.forEach((item,i)=>{
+        const {profit,buy,sell,buyLimit,buyLimitProfit} = calculateMiscProfit(item);
+        const priceElem = document.getElementById(`m-price-${item.id}`);
+        const profitBox = document.getElementById(`misc-profit-${i}`);
+        const bl = document.getElementById(`m-buyLimit-${i}`);
+        if(priceElem) priceElem.innerText = sell ? formatNum(sell) + " gp" : "—";
+        if(profitBox){
+            let html = `Profit per item: ${formatNum(profit)} gp`;
+            if(buyLimit) html += `<br>Profit @ limit (${formatNum(buyLimit)}): ${formatNum(buyLimitProfit)} gp`;
+            profitBox.innerHTML = html;
+        }
+        if(bl) bl.innerText = buyLimit ? `(Buy limit: ${formatNum(buyLimit)})` : "(Buy limit: —)";
+    });
+}
+
+// --- Update Summaries ---
+function updateSummaries(){
+    const armorSummary = document.getElementById("armorSummary");
+    const potionSummary = document.getElementById("potionSummary");
+    const miscSummary = document.getElementById("miscSummary");
+
+    if(armorSummary) armorSummary.style.display = (activeSection==="armor" && summaryVisible) ? "block" : "none";
+    if(potionSummary) potionSummary.style.display = (activeSection==="potion" && summaryVisible) ? "block" : "none";
+    if(miscSummary) miscSummary.style.display = (activeSection==="misc" && summaryVisible) ? "block" : "none";
+
+    // Armor summary
+    if(activeSection==="armor" && armorSummary){
+        const list = armorSetsData.map((s,i)=>{
+            const calc = calculateArmorProfit(s);
+            const pieceVolumes = s.items.map(it => {
+                const d = dailyData.data?.[it.id];
+                return d?.highPriceVolume || d?.lowPriceVolume || 0;
+            });
+            const dailyVol = pieceVolumes.length ? Math.min(...pieceVolumes) : 0;
+            return { ...calc, name:s.name, index:i, dailyVol };
+        }).sort((a,b)=>b.profit-a.profit);
+
+        armorSummary.innerHTML = `<table class="summary-table">
+            <thead><tr><th>Armor Set</th><th>Profit per Set</th><th>Daily Volume</th></tr></thead>
+            <tbody>` +
+            list.map(x=>`<tr class="summary-row" onclick="document.getElementById('armor-set-${x.index}')?.scrollIntoView({behavior:'smooth'})">
+                <td>${x.name}</td>
+                <td>${formatNum(x.profit)} gp</td>
+                <td>${formatNum(x.dailyVol)}</td>
+            </tr>`).join("") +
+            `</tbody></table>`;
+    }
+
+    // Potion summary
+    if(activeSection==="potion" && potionSummary){
+        const list = potionData.map((p,i)=>{
+            const calc = calculatePotionProfit(p);
+            const d = dailyData.data?.[p.id4];
+            const dailyVol = d?.highPriceVolume || d?.lowPriceVolume || 0;
+            return { ...calc, name:p.name, index:i, dailyVol };
+        }).sort((a,b)=>(b.buyLimitProfit||0)-(a.buyLimitProfit||0));
+
+        potionSummary.innerHTML = `<table class="summary-table">
+            <thead><tr><th>Potion</th><th>Profit @ Buy Limit</th><th>Daily Volume</th></tr></thead>
+            <tbody>` +
+            list.map(x=>`<tr class="summary-row" onclick="document.getElementById('potion-${x.index}')?.scrollIntoView({behavior:'smooth'})">
+                <td>${x.name}</td>
+                <td>${x.buyLimitProfit?formatNum(x.buyLimitProfit)+" gp":"—"}</td>
+                <td>${formatNum(x.dailyVol)}</td>
+            </tr>`).join("") +
+            `</tbody></table>`;
+    }
+
+    // Misc summary
+    if(activeSection==="misc" && miscSummary){
+        const list = miscItemsData.map((item,i)=>{
+            const calc = calculateMiscProfit(item);
+            const d = dailyData.data?.[item.id];
+            const dailyVol = d?.highPriceVolume || d?.lowPriceVolume || 0;
+            return { ...calc, name:item.name, index:i, dailyVol };
+        }).sort((a,b)=>(b.buyLimitProfit||0)-(a.buyLimitProfit||0));
+
+        miscSummary.innerHTML = `<table class="summary-table">
+            <thead><tr><th>Item</th><th>Profit @ Buy Limit</th><th>Daily Volume</th></tr></thead>
+            <tbody>` +
+            list.map(x=>`<tr class="summary-row" onclick="document.getElementById('misc-${x.index}')?.scrollIntoView({behavior:'smooth'})">
+                <td>${x.name}</td>
+                <td>${x.buyLimitProfit?formatNum(x.buyLimitProfit)+" gp":"—"}</td>
+                <td>${formatNum(x.dailyVol)}</td>
+            </tr>`).join("") +
+            `</tbody></table>`;
+    }
+}
+
 // --- Header Button Active ---
 function updateActiveHeaderButton(section){
     document.getElementById("armorBtn")?.classList.toggle("active", section==="armor");
     document.getElementById("potionBtn")?.classList.toggle("active", section==="potion");
+    document.getElementById("miscBtn")?.classList.toggle("active", section==="misc");
 }
 
 // --- Section Switch ---
 function showArmorFlips(){
     activeSection = "armor";
     sessionStorage.setItem("activeSection","armor");
-
     document.getElementById("armorSection")?.style.setProperty("display","block");
     document.getElementById("potionSection")?.style.setProperty("display","none");
-
+    document.getElementById("miscSection")?.style.setProperty("display","none");
     createArmorSections();
-
-    const btn = document.getElementById("toggleSummary");
-    if(btn) btn.textContent = summaryVisible ? "Hide Summary ▲" : "Show Summary ▼";
-
+    document.getElementById("toggleSummary").textContent = summaryVisible ? "Hide Summary ▲" : "Show Summary ▼";
     updateActiveHeaderButton("armor");
     updateSummaries();
     fetchPrices();
@@ -189,124 +297,74 @@ function showArmorFlips(){
 function showPotionFlips(){
     activeSection = "potion";
     sessionStorage.setItem("activeSection","potion");
-
     document.getElementById("armorSection")?.style.setProperty("display","none");
     document.getElementById("potionSection")?.style.setProperty("display","block");
-
+    document.getElementById("miscSection")?.style.setProperty("display","none");
     createPotionSections();
-
-    const btn = document.getElementById("toggleSummary");
-    if(btn) btn.textContent = summaryVisible ? "Hide Summary ▲" : "Show Summary ▼";
-
+    document.getElementById("toggleSummary").textContent = summaryVisible ? "Hide Summary ▲" : "Show Summary ▼";
     updateActiveHeaderButton("potion");
     updateSummaries();
     fetchPrices();
+}
+
+function showMiscFlips(){
+    activeSection = "misc";
+    sessionStorage.setItem("activeSection","misc");
+    document.getElementById("armorSection")?.style.setProperty("display","none");
+    document.getElementById("potionSection")?.style.setProperty("display","none");
+    document.getElementById("miscSection")?.style.setProperty("display","block");
+    createMiscSections();
+    document.getElementById("toggleSummary").textContent = summaryVisible ? "Hide Summary ▲" : "Show Summary ▼";
+    updateActiveHeaderButton("misc");
+    updateMiscPrices();
+    updateSummaries();
 }
 
 // --- Fetch Prices ---
 async function fetchPrices(){
     try{
         await fetchItemMappingOnce();
-        const res = await fetch("https://corsproxy.io/?https://prices.runescape.wiki/api/v1/osrs/latest");
-        latestData = await res.json();
 
-        // Update Armor
-        if(activeSection==="armor"){
-            armorSetsData.forEach((s,i)=>{
-                let totalCost = 0, setPrice = latestData.data?.[s.setId]?.high||0;
-                s.items.forEach(it=>{
-                    const low = latestData.data?.[it.id]?.low||0;
-                    totalCost += low;
-                    const elem = document.getElementById(`armor-${it.id}`);
-                    if(elem) elem.innerText = formatNum(low)+" gp";
-                });
-                const totalElem = document.getElementById(`armor-total-${i}`);
-                if(totalElem) totalElem.innerText = formatNum(totalCost);
-                const setElem = document.getElementById(`armor-setPrice-${i}`);
-                if(setElem) setElem.innerText = formatNum(setPrice);
+        const [latestRes, dailyRes] = await Promise.all([
+            fetch("https://corsproxy.io/?https://prices.runescape.wiki/api/v1/osrs/latest"),
+            fetch("https://corsproxy.io/?https://prices.runescape.wiki/api/v1/osrs/24h")
+        ]);
 
-                const profit = Math.round(setPrice*0.98 - totalCost);
-                const roi = totalCost ? ((profit/totalCost)*100).toFixed(2) : 0;
-                const profitBox = document.getElementById(`armor-profit-${i}`);
-                if(profitBox){
-                    profitBox.innerHTML = `
-                        Profit per set (after 2% tax):<br><b>${formatNum(profit)} gp</b><br>
-                        ROI per set:<br><b>${roi}%</b>
-                    `;
-                }
-            });
-        }
+        latestData = await latestRes.json();
+        dailyData = await dailyRes.json();  
 
-        // Update Potions
+        if(activeSection==="armor") updateArmorPrices();
         if(activeSection==="potion") updatePotionPrices();
-
-        // Update summaries
+        if(activeSection==="misc") updateMiscPrices();
         updateSummaries();
 
-        // Last refreshed
         const ref = document.getElementById("lastRefreshed");
         if(ref) ref.innerText="Last Refreshed: "+new Date().toLocaleTimeString();
 
-    }catch(e){ console.error(e); }
+    }catch(e){ 
+        console.error(e); 
+    }
 }
 
 // --- Init ---
 document.addEventListener("DOMContentLoaded", () => {
-    // Back-to-top button
-    document.getElementById('backToTop')?.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // Refresh Data button
-    document.getElementById('refreshData')?.addEventListener('click', () => {
-        fetchPrices();
-    });
-	
-// Refresh button click animation
-const refreshBtn = document.getElementById('refreshData');
-refreshBtn.addEventListener('click', () => {
-    const icon = refreshBtn.querySelector('span') || refreshBtn;
-    icon.classList.add('spin-icon');
-    setTimeout(() => icon.classList.remove('spin-icon'), 500); // remove class after animation
-    fetchPrices();
-});
-
-// Back to top click animation
-const backBtn = document.getElementById('backToTop');
-backBtn.addEventListener('click', () => {
-    const icon = backBtn.querySelector('span') || backBtn;
-    icon.classList.add('bounce-icon');
-    setTimeout(() => icon.classList.remove('bounce-icon'), 400);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-});
-
-
-
-
-
-    // Toggle summary button
+    document.getElementById('backToTop')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    document.getElementById('refreshData')?.addEventListener('click', () => fetchPrices());
     document.getElementById("toggleSummary")?.addEventListener("click", ()=>{
         summaryVisible = !summaryVisible;
         sessionStorage.setItem("summaryVisible", summaryVisible?"true":"false");
-        const btn = document.getElementById("toggleSummary");
-        if(btn) btn.textContent = summaryVisible ? "Hide Summary ▲" : "Show Summary ▼";
+        document.getElementById("toggleSummary").textContent = summaryVisible ? "Hide Summary ▲" : "Show Summary ▼";
         updateSummaries();
     });
-
     const savedSection = sessionStorage.getItem("activeSection");
     const savedSummary = sessionStorage.getItem("summaryVisible");
-
     if(savedSection) activeSection = savedSection;
     if(savedSummary) summaryVisible = savedSummary === "true";
-
-    // Attach header buttons
     document.getElementById("armorBtn")?.addEventListener("click", showArmorFlips);
     document.getElementById("potionBtn")?.addEventListener("click", showPotionFlips);
-
-    // Initial section
-    if(activeSection==="armor") showArmorFlips();
-    else showPotionFlips();
-
-    // Auto refresh every 60s
+    document.getElementById("miscBtn")?.addEventListener("click", showMiscFlips);
+    if(activeSection==="armor") showArmorFlips(); 
+    else if(activeSection==="potion") showPotionFlips();
+    else showMiscFlips();
     setInterval(fetchPrices,60000);
 });
