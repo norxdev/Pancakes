@@ -146,24 +146,37 @@ function createMiscSections(){
 function updateArmorPrices(){
     armorSetsData.forEach((set, i) => {
         let totalCost = 0;
+
+        // Update each piece price
         set.items.forEach(item => {
             const low = latestData.data?.[item.id]?.low || 0;
             totalCost += low;
             const elem = document.getElementById(`armor-${item.id}`);
             if(elem) elem.innerText = low ? formatNum(low) + " gp" : "—";
         });
+
+        // Total pieces cost
         const totalElem = document.getElementById(`armor-total-${i}`);
         if(totalElem) totalElem.innerText = totalCost ? formatNum(totalCost) + " gp" : "—";
+
+        // Set price
         const setPrice = latestData.data?.[set.setId]?.high || 0;
         const setPriceElem = document.getElementById(`armor-setPrice-${i}`);
         if(setPriceElem) setPriceElem.innerText = setPrice ? formatNum(setPrice) + " gp" : "—";
+
+        // Profit per set & ROI
         const profitElem = document.getElementById(`armor-profit-${i}`);
         if(profitElem){
-            const profit = Math.round(setPrice * 0.98 - totalCost);
-            profitElem.innerText = profit ? formatNum(profit) + " gp" : "—";
+            const profit = Math.round(setPrice * 0.98 - totalCost); // after 2% tax
+            const roi = totalCost ? ((profit / totalCost) * 100).toFixed(2) : 0;
+            profitElem.innerHTML = `
+                <div><strong>Profit per set:</strong> ${profit ? formatNum(profit) + " gp" : "—"}</div>
+                <div><strong>ROI:</strong> ${profit ? roi + "%" : "—"}</div>
+            `;
         }
     });
 }
+
 
 function updatePotionPrices(){
     potionData.forEach((p,i)=>{
@@ -175,10 +188,12 @@ function updatePotionPrices(){
         if(p3Elem) p3Elem.innerText = buy ? formatNum(buy)+" gp" : "—";
         if(p4Elem) p4Elem.innerText = sell ? formatNum(sell)+" gp" : "—";
         if(profitBox){
-            let html = `Profit per dose: ${formatNum(profit)} gp`;
-            if(buyLimit) html += `<br>Profit @ limit (${formatNum(buyLimit)}): ${formatNum(buyLimitProfit)} gp`;
-            profitBox.innerHTML = html;
-        }
+    const roi = buy ? ((profit / buy) * 100).toFixed(2) : 0;
+    let html = `Profit per dose: ${formatNum(profit)} gp (ROI: ${roi}%)`;
+    if(buyLimit) html += `<br>Profit @ limit (${formatNum(buyLimit)}): ${formatNum(buyLimitProfit)} gp`;
+    profitBox.innerHTML = html;
+}
+
         if(bl) bl.innerText = buyLimit ? `(Buy limit: ${formatNum(buyLimit)})` : "(Buy limit: —)";
     });
 }
@@ -191,10 +206,12 @@ function updateMiscPrices(){
         const bl = document.getElementById(`m-buyLimit-${i}`);
         if(priceElem) priceElem.innerText = sell ? formatNum(sell) + " gp" : "—";
         if(profitBox){
-            let html = `Profit per item: ${formatNum(profit)} gp`;
-            if(buyLimit) html += `<br>Profit @ limit (${formatNum(buyLimit)}): ${formatNum(buyLimitProfit)} gp`;
-            profitBox.innerHTML = html;
-        }
+    const roi = buy ? ((profit / buy) * 100).toFixed(2) : 0;
+    let html = `Profit per item: ${formatNum(profit)} gp (ROI: ${roi}%)`;
+    if(buyLimit) html += `<br>Profit @ limit (${formatNum(buyLimit)}): ${formatNum(buyLimitProfit)} gp`;
+    profitBox.innerHTML = html;
+}
+
         if(bl) bl.innerText = buyLimit ? `(Buy limit: ${formatNum(buyLimit)})` : "(Buy limit: —)";
     });
 }
