@@ -2,7 +2,7 @@
 const armorSetsData = [
   // Sunfire & Moon Sets
   {
-    name: "Sunfire Fanatic",
+    name: "Sunfire Fanatic Armour Set",
     items: [
       { name: "Helm", id: "28933", imgName: "Sunfire_fanatic_helm" },
       { name: "Cuirass", id: "28936", imgName: "Sunfire_fanatic_cuirass" },
@@ -12,7 +12,7 @@ const armorSetsData = [
     setImgName: "Sunfire_fanatic_armour_set"
   },
   {
-    name: "Blood Moon",
+    name: "Blood Moon Armour Set",
     items: [
       { name: "Chestplate", id: "29022", imgName: "Blood_moon_chestplate_detail" },
       { name: "Helm", id: "29028", imgName: "Blood_moon_helm_detail" },
@@ -23,7 +23,7 @@ const armorSetsData = [
     setImgName: "Blood_moon_armour_set_detail"
   },
   {
-    name: "Blue Moon",
+    name: "Blue Moon Armour Set",
     items: [
       { name: "Chestplate", id: "29013", imgName: "Blue_moon_chestplate_detail" },
       { name: "Helm", id: "29019", imgName: "Blue_moon_helm_detail" },
@@ -34,7 +34,7 @@ const armorSetsData = [
     setImgName: "Blue_moon_armour_set_detail"
   },
   {
-    name: "Eclipse Moon",
+    name: "Eclipse Moon Armour Set",
     items: [
       { name: "Chestplate", id: "29004", imgName: "Eclipse_moon_chestplate_detail" },
       { name: "Helm", id: "29010", imgName: "Eclipse_moon_helm_detail" },
