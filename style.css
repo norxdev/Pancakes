@@ -6,11 +6,7 @@ body {
     margin: 0;
     padding: 0;
 }
-
-.main-content {
-    padding: 20px;
-}
-
+.main-content { padding: 20px; }
 h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
 
 /* --- Sticky Header --- */
@@ -25,39 +21,13 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     z-index: 100;
     border-bottom: 1px solid #333;
 }
+.header-left .site-title { font-size: 1.8rem; font-weight: bold; }
 
-.header-left .site-title {
-    font-size: 1.8rem;
-    font-weight: bold;
-}
-
-.header-right button {
-    padding: 8px 18px;
-    margin: 0 5px;
-    font-size: 1.1rem;
-    border-radius: 5px;
-    border: none;
-    background-color: #00e676;
-    color: #000;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
-}
-
-.header-right button.active {
-    background-color: #00c853;
-}
-
-.header-right button:hover {
-    background-color: #00c853;
-    transform: scale(1.05);
-}
-
-/* Distinct Donate Button */
+/* Donate button */
 .donate-btn-header {
     padding: 10px 22px;
     margin-left: 10px;
-    background: linear-gradient(135deg, #ffca28, #ffc107);
+    background-color: #00e676;
     color: #000;
     font-weight: bold;
     border-radius: 25px;
@@ -68,10 +38,10 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
 
 .donate-btn-header:hover {
     transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.5);
+    box-shadow: 0 4px 12px rgba(0,230,118,0.5);
 }
 
-/* --- Website Summary Styling --- */
+/* --- Website Summary --- */
 .website-summary {
     background: linear-gradient(135deg, #1f1f1f, #2a2a2a);
     border: 1px solid #333;
@@ -82,34 +52,9 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     font-size: 1.2rem;
     line-height: 1.6;
 }
+.website-summary p { font-size: 1.4rem; margin-bottom: 15px; }
 
-.website-summary p {
-    font-size: 1.4rem;
-    margin-bottom: 15px;
-}
-
-.website-summary ul {
-    list-style: disc inside;
-    padding-left: 0;
-}
-
-.website-summary li {
-    margin-bottom: 10px;
-    padding-left: 10px;
-}
-
-.website-summary li strong {
-    color: #00e676; /* Highlight key terms */
-}
-
-@media (max-width: 800px) {
-    .website-summary {
-        padding: 20px;
-        font-size: 1rem;
-    }
-}
-
-/* --- Floating Buttons (Back to Top & Refresh) --- */
+/* --- Floating Buttons --- */
 .floating-btn {
     position: fixed;
     right: 20px;
@@ -117,47 +62,47 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     height: 50px;
     border-radius: 50%;
     border: none;
-    background-color: #28a745;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
+    background-color: #00e676; /* Match donate button */
+    color: #000; /* Black text */
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    transition: background-color 0.2s;
     z-index: 1000;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.floating-btn:hover { background-color: #218838; } /* No scale on hover */
+.floating-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,230,118,0.5);
+}
+
+.floating-btn svg {
+    width: 28px;
+    height: 28px;
+    fill: #000; /* Black icon fill to match text */
+}
 
 /* Stack buttons */
 #backToTop { bottom: 20px; }
 #refreshData { bottom: 80px; }
 
-/* Animation classes */
-.spin-icon {
-    animation: spin 0.5s linear;
-}
-
-@keyframes spin {
+/* Animations */
+@keyframes spin180 {
     from { transform: rotate(0deg); }
     to { transform: rotate(180deg); }
 }
-
-.bounce-icon {
-    animation: bounce 0.4s ease;
-}
-
-@keyframes bounce {
+@keyframes bounceUp {
     0% { transform: translateY(0); }
     30% { transform: translateY(-15px); }
     60% { transform: translateY(0); }
     100% { transform: translateY(0); }
 }
+.spin-icon { animation: spin180 0.5s linear; }
+.bounce-icon { animation: bounceUp 0.4s ease; }
 
-
-/* --- Toggle Summary Button --- */
+/* --- Toggle Summary --- */
 .toggle-summary-btn {
     display: block;
     margin: 10px auto;
@@ -174,7 +119,6 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
 
 /* --- Containers & Cards --- */
 .container { display: flex; flex-direction: column; gap: 20px; }
-
 .set-wrapper {
     background: #1e1e1e;
     border: 1px solid #333;
@@ -183,7 +127,6 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     margin-bottom: 30px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.6);
 }
-
 .set-title { font-size: 1.8rem; text-align: center; margin-bottom: 15px; }
 
 .cards { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
@@ -203,14 +146,8 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
 .card:hover { background: #333; }
 .card.total { font-weight: bold; }
 
-.card a {
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
+.item-icon { width: 50px; height: 50px; margin-right: 12px; image-rendering: pixelated; }
+.item-label { display: flex; align-items: center; font-size: 1.3rem; }
 
 /* Profit Box Styling */
 .profit-box {
@@ -222,30 +159,36 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     margin-top: 10px;
 }
-.profit-box span { display: block; font-size: 1.6rem; font-weight: bold; }
-.profit-positive span { color: #00e676; }
-.profit-negative span { color: #ff3d00; }
 
-input[type="number"] { width: 70px; padding: 8px; border-radius: 5px; border: none; margin-left: 10px; text-align: center; font-size: 1.2rem; }
-
-.item-icon { width: 50px; height: 50px; margin-right: 12px; image-rendering: pixelated; }
-.item-label { display: flex; align-items: center; font-size: 1.3rem; }
-
-footer { text-align: center; margin-top: 20px; color: #888; font-size: 14px; }
-
-/* --- Summary Tables --- */
+/* --- Summary Table --- */
 .summary-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
 .summary-table th, .summary-table td { padding: 12px 15px; text-align: left; }
-.summary-table th { background-color: #2a2a2a; font-size: 1.3rem; }
+.summary-table th { background-color: #2a2a2a; font-size: 1.3rem; cursor: pointer; }
 .summary-table tr { background-color: #1e1e1e; border-bottom: 1px solid #333; cursor: pointer; transition: background 0.2s; }
 .summary-table tr:hover { background-color: #333; }
-.summary-table td.profit-cell { font-weight: bold; text-align: right; font-size: 1.2rem; }
+.summary-table td.profit-cell { text-align: right; }
 .summary-table tr.profit-positive td.profit-cell { color: #00e676; }
 .summary-table tr.profit-negative td.profit-cell { color: #ff3d00; }
 
 @media (max-width: 800px) {
     .card { flex-direction: column; align-items: flex-start; gap: 5px; }
-    input[type="number"] { width: 60px; }
     .summary-table th, .summary-table td { font-size: 1rem; padding: 8px 10px; }
-    .sticky-header { flex-direction: column; gap: 10px; align-items: flex-start; padding: 10px; }
 }
+
+/* --- Remove hover effects on touch devices --- */
+@media (hover: hover) and (pointer: fine) {
+    .floating-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0,230,118,0.5);
+    }
+
+    .donate-btn-header:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0,230,118,0.5);
+    }
+
+    .toggle-summary-btn:hover {
+        background-color: #444;
+    }
+}
+
