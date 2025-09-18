@@ -3,91 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FlipMaster OSRS</title>
+<title>FlipMaster OSRS - Armor Flipper</title>
+<link rel="stylesheet" href="style.css">
 
 <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MZKESVVFTT"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-MZKESVVFTT');
+  gtag('config', 'GA_MEASUREMENT_ID');
 </script>
 
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<header class="sticky-header">
+<!-- Sticky Header -->
+<div class="sticky-header">
     <div class="header-left">
-        <span class="site-title">FlipMaster OSRS</span>
+        <div class="site-title">FlipMaster OSRS</div>
     </div>
     <div class="header-right">
-        <button id="armorBtn">Armor</button>
-        <button id="potionBtn">Potions</button>
-        <button id="miscBtn">Misc</button>
-        <a href="https://www.paypal.com/donate/?hosted_button_id=YVZNTWZP8JUCC" target="_blank" class="donate-btn-header">
-            Donate
-        </a>
+        <a href="#" class="donate-btn-header">Donate</a>
     </div>
-</header>
-
-<!-- Website Summary -->
-<div class="website-summary" style="margin:20px 0;">
-    <p><strong>FlipMaster OSRS</strong> is a tool to help players make profit in <em>Old School RuneScape</em> through common flipping strategies.</p>
-    <ul>
-        <li><strong>Armor Flips</strong> → Buy individual armor pieces (like helm, platebody, legs, etc.) and resell them together as a full set for higher profit.</li>
-        <li><strong>Potion Flips</strong> → Buy potions in 3-dose form, decant them into 4-dose, and sell at a markup.</li>
-        <li><strong>Misc Items</strong> → Track popular single items for flipping based on buy/sell price and profit limits.</li>
-    </ul>
 </div>
 
+<!-- Main Content -->
 <div class="main-content">
-    <!-- Collapsible Summary Section -->
-    <div class="summary-wrapper">
-        <button id="toggleSummary" class="toggle-summary-btn">Hide Summary ▲</button>
-        <div id="armorSummary"></div>
-        <div id="potionSummary"></div>
-        <div id="miscSummary"></div>
+    <h1>Armor Flipper</h1>
+    <div class="website-summary">
+        <p>FlipMaster OSRS is a tool to help players make profit in Old School RuneScape.</p>
+        <p><strong>Armor Flips →</strong> Buy individual armor pieces (like helm, platebody, legs, etc.) and resell them together as a full set for higher profit.</p>
+        <p>All profits displayed below take the <strong>2% Grand Exchange tax</strong> into account.</p>
     </div>
 
-    <!-- Last Refreshed -->
-    <div id="lastRefreshed" style="margin-top:10px; font-style:italic;">Last Refreshed: --</div>
+    <button id="toggleSummary" class="toggle-summary-btn">Hide Summary ▲</button>
+    <div id="armorSummary"></div>
 
-    <!-- Sections -->
-    <div class="container">
-        <div id="armorSection" data-mode="armor"></div>
-        <div id="potionSection" data-mode="potion"></div>
-        <div id="miscSection" data-mode="misc"></div>
-    </div>
+    <div id="armorSection" class="container"></div>
 </div>
 
 <!-- Floating Buttons -->
-<button id="refreshData" class="floating-btn" title="Refresh Data">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-        <path d="M23 4v6h-6"></path>
-        <path d="M1 20v-6h6"></path>
-        <path d="M3.51 9a9 9 0 0114.13-3.36L23 10"></path>
-        <path d="M20.49 15a9 9 0 01-14.13 3.36L1 14"></path>
-    </svg>
+<button id="backToTop" class="floating-btn">
+  <svg viewBox="0 0 24 24" width="24" height="24" fill="white" class="floating-icon">
+    <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.59 5.58L20 12l-8-8-8 8z"/>
+  </svg>
 </button>
 
-<button id="backToTop" class="floating-btn" title="Back to Top">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-        <line x1="12" y1="19" x2="12" y2="5"></line>
-        <polyline points="5 12 12 5 19 12"></polyline>
-    </svg>
+<button id="refreshData" class="floating-btn">
+  <svg viewBox="0 0 24 24" width="24" height="24" fill="white" class="floating-icon">
+    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4 7.58 4 4 7.58 4 12h2a6 6 0 0 1 11.29-3.71l-2.88 2.88H20V4l-2.35 2.35zM6.35 17.65C7.8 19.1 9.79 20 12 20c4.42 0 8-3.58 8-8h-2a6 6 0 0 1-11.29 3.71l2.88-2.88H4v6l2.35-2.35z"/>
+  </svg>
 </button>
 
-<!-- Footer -->
-<footer style="margin-top:20px; text-align:center;">
-    FlipMaster OSRS &copy; 2025 — Norxdev
-</footer>
-
-<!-- Scripts -->
+<!-- JS Scripts -->
 <script src="itemid.js"></script>
 <script src="script.js"></script>
+<footer id="pageFooter" style="
+    text-align: center;
+    padding: 10px;
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 20px;
+">
+    Created by Norxdev
+</footer>
 
 </body>
 </html>
