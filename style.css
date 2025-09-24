@@ -19,8 +19,23 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: nowrap;
-    min-width: 0;      /* allow children to shrink */
+    flex-wrap: nowrap; /* keep everything on one line */
+    min-width: 0;       /* allow children to shrink */
+    z-index: 100;
+    border-bottom: 1px solid #333;
+}
+
+/* --- Sticky Header --- */
+.sticky-header {
+    position: sticky;
+    top: 0;
+    background-color: #1e1e1e;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap; /* keep everything on one line */
+    min-width: 0;
     z-index: 100;
     border-bottom: 1px solid #333;
 }
@@ -31,9 +46,9 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     align-items: center;
     gap: 8px;
     font-weight: bold;
-    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem); /* slightly larger default */
     white-space: nowrap;
-    flex-shrink: 1; /* allow shrinking to avoid wrap */
+    flex-shrink: 1; /* allow shrinking to prevent wrap */
     min-width: 0;
 }
 
@@ -56,23 +71,28 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* --- Responsive tweaks for iPhone 13 Pro and smaller --- */
-@media (max-width: 400px) {
+/* --- Responsive adjustments for small mobile --- */
+@media (max-width: 420px) {
     .site-title {
-        font-size: 0.85rem; /* shrink text more */
+        font-size: 0.95rem; /* shrink header text */
+    }
+
+    .donate-btn-header {
+        font-size: 0.85rem; /* shrink donate button */
+        padding: 4px 10px;
     }
 
     .title-icon {
         display: none; /* hide icon */
     }
-
-    .donate-btn-header {
-        padding: 5px 10px;
-        font-size: 0.8rem; /* shrink button text */
-    }
 }
 
+/* Extra small tweak for very narrow phones (<380px) */
+@media (max-width: 380px) {
+    .site-title { font-size: 0.9rem; }
+    .donate-btn-header { font-size: 0.8rem; padding: 3px 8px; }
 }
+
 
 /* --- Website Summary --- */
 .website-summary {
