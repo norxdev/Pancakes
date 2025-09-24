@@ -29,6 +29,12 @@ function calculateArmorProfit(set) {
     return { profit, totalCost, roi };
 }
 
+// Feedback button
+document.getElementById('feedbackBtn')?.addEventListener('click', () => {
+    window.open('https://forms.gle/nBDrdCE8176h5zdS9', '_blank');
+});
+
+
 // --- Section Rendering ---
 function createArmorSections() {
     const container = document.getElementById("armorSection");
@@ -39,7 +45,7 @@ function createArmorSections() {
         div.className = "set-wrapper";
         div.id = `armor-set-${i}`;
         div.innerHTML = `
-            <div class="set-title">${set.name} Set</div>
+            <div class="set-title">${set.name}</div>
             <div class="cards">
                 ${set.items.map(it => `
                     <a class="card" href="https://prices.runescape.wiki/osrs/item/${it.id}" target="_blank">
@@ -54,7 +60,7 @@ function createArmorSections() {
                 </div>
                 <a class="card total" href="https://prices.runescape.wiki/osrs/item/${set.setId}" target="_blank">
                     <div class="item-label">
-                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${set.setImgName}.png">${set.name} Set Price
+                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${set.setImgName}.png">${set.name} Price
                     </div>
                     <div id="armor-setPrice-${i}">Loading...</div>
                 </a>

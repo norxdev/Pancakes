@@ -176,19 +176,34 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
 }
 
 /* --- Remove hover effects on touch devices --- */
-@media (hover: hover) and (pointer: fine) {
-    .floating-btn:hover {
-        transform: scale(1.05);
-        box-shadow: 0 4px 12px rgba(0,230,118,0.5);
-    }
-
-    .donate-btn-header:hover {
-        transform: scale(1.05);
-        box-shadow: 0 4px 12px rgba(0,230,118,0.5);
-    }
-
-    .toggle-summary-btn:hover {
-        background-color: #444;
+@media (hover: none) and (pointer: coarse) {
+    .donate-btn-header:hover,
+    .floating-btn:hover,
+    .toggle-summary-btn:hover,
+    .card:hover,
+    .summary-table tr:hover {
+        background: inherit;
+        transform: none;
+        box-shadow: none;
     }
 }
+
+/* Feedback Button */
+.feedback-section {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.feedback-btn {
+    background-color: #1e1e1e; /* dark, subtle */
+    color: #00e676; /* accent color */
+    border: 1px solid #00e676;
+    border-radius: 12px;
+    padding: 6px 14px; /* smaller than donate button */
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
 
