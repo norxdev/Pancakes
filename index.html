@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OSRS - Armour Flipper</title>
+<title>Armour Flipper</title>
 <link rel="stylesheet" href="style.css">
 
 <!-- Favicon -->
@@ -27,7 +27,7 @@
     <div class="header-left">
         <div class="site-title">
     <img src="https://github.com/norxdev/Pancakes/raw/main/faviconAF.png" alt="AF Icon" class="title-icon">
-    OSRS Armour Flipper
+    Armour Flipper
 </div>
 
     </div>
@@ -100,8 +100,13 @@
     color: #888;
     margin-top: 20px;
 ">
-    Created by Norxdev
+   &copy; <span id="currentYear"></span> Armour Flipper. Created by Norxdev.
 </footer>
+
+<script>
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+</script>
+
 
 </body>
 </html>
