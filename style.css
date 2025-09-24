@@ -23,7 +23,7 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
 }
 .header-left .site-title { font-size: 1.8rem; font-weight: bold; }
 
-/* Donate button */
+/* --- Donate Button --- */
 .donate-btn-header {
     padding: 10px 22px;
     margin-left: 10px;
@@ -35,11 +35,25 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     font-size: 1.1rem;
     transition: transform 0.2s, box-shadow 0.2s;
 }
-
 .donate-btn-header:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(0,230,118,0.5);
 }
+
+/* --- Toggle Summary Button --- */
+.toggle-summary-btn {
+    display: block;
+    margin: 10px auto;
+    padding: 6px 12px;
+    background-color: #333;
+    color: #e0e0e0;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.toggle-summary-btn:hover { background-color: #444; }
 
 /* --- Website Summary --- */
 .website-summary {
@@ -62,8 +76,8 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     height: 50px;
     border-radius: 50%;
     border: none;
-    background-color: #00e676; /* Match donate button */
-    color: #000; /* Black text */
+    background-color: #00e676;
+    color: #000;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -72,23 +86,20 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     z-index: 1000;
     transition: transform 0.2s, box-shadow 0.2s;
 }
-
 .floating-btn:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(0,230,118,0.5);
 }
-
 .floating-btn svg {
     width: 28px;
     height: 28px;
-    fill: #000; /* Black icon fill to match text */
+    fill: #000;
 }
-
 /* Stack buttons */
 #backToTop { bottom: 20px; }
 #refreshData { bottom: 80px; }
 
-/* Animations */
+/* --- Animations --- */
 @keyframes spin180 {
     from { transform: rotate(0deg); }
     to { transform: rotate(180deg); }
@@ -101,21 +112,6 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
 }
 .spin-icon { animation: spin180 0.5s linear; }
 .bounce-icon { animation: bounceUp 0.4s ease; }
-
-/* --- Toggle Summary --- */
-.toggle-summary-btn {
-    display: block;
-    margin: 10px auto;
-    padding: 6px 12px;
-    background-color: #333;
-    color: #e0e0e0;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-.toggle-summary-btn:hover { background-color: #444; }
 
 /* --- Containers & Cards --- */
 .container { display: flex; flex-direction: column; gap: 20px; }
@@ -175,35 +171,65 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     .summary-table th, .summary-table td { font-size: 1rem; padding: 8px 10px; }
 }
 
-/* --- Remove hover effects on touch devices --- */
-@media (hover: none) and (pointer: coarse) {
-    .donate-btn-header:hover,
-    .floating-btn:hover,
-    .toggle-summary-btn:hover,
-    .card:hover,
-    .summary-table tr:hover {
-        background: inherit;
-        transform: none;
-        box-shadow: none;
-    }
+/* --- Remove mobile tap highlight / prevent black flash --- */
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+button:focus,
+a:focus { outline: none; }
+
+/* --- Down-press / active states --- */
+button:active,
+a:active { 
+    background-color: inherit;  
+    color: inherit;             
+    transform: none;
+    box-shadow: none;
 }
 
-/* Feedback Button */
+/* --- Specific overrides to keep styling on press --- */
+.floating-btn:active {
+    background-color: #00e676;
+    color: #000;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+.donate-btn-header:active {
+    background-color: #00e676;
+    color: #000;
+    box-shadow: 0 4px 12px rgba(0,230,118,0.5);
+}
+.toggle-summary-btn:active {
+    background-color: #333;
+    color: #e0e0e0;
+}
+.feedback-btn:active {
+    background-color: #1e1e1e;
+    color: #00e676;
+    border-color: #00e676;
+}
+
+/* --- Feedback Button --- */
 .feedback-section {
     margin-top: 20px;
     text-align: center;
 }
-
 .feedback-btn {
-    background-color: #1e1e1e; /* dark, subtle */
-    color: #00e676; /* accent color */
+    background-color: #1e1e1e;
+    color: #00e676;
     border: 1px solid #00e676;
     border-radius: 12px;
-    padding: 6px 14px; /* smaller than donate button */
+    padding: 6px 14px;
     font-size: 0.95rem;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
-
-
+.feedback-btn:hover {
+    background-color: #262626;
+}
