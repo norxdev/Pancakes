@@ -19,8 +19,8 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: nowrap; /* keep everything on one line */
-    min-width: 0;       /* allow children to shrink */
+    flex-wrap: nowrap;
+    min-width: 0;      /* allow children to shrink */
     z-index: 100;
     border-bottom: 1px solid #333;
 }
@@ -29,11 +29,11 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
 .site-title {
     display: flex;
     align-items: center;
-    gap: 8px; /* space between icon and text */
+    gap: 8px;
     font-weight: bold;
-    font-size: clamp(1.2rem, 2.5vw, 1.6rem); /* responsive font size */
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
     white-space: nowrap;
-    flex-shrink: 1; /* allow shrinking to prevent wrap */
+    flex-shrink: 1; /* allow shrinking to avoid wrap */
     min-width: 0;
 }
 
@@ -56,9 +56,22 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.donate-btn-header:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0,230,118,0.5);
+/* --- Responsive tweaks for iPhone 13 Pro and smaller --- */
+@media (max-width: 400px) {
+    .site-title {
+        font-size: 0.85rem; /* shrink text more */
+    }
+
+    .title-icon {
+        display: none; /* hide icon */
+    }
+
+    .donate-btn-header {
+        padding: 5px 10px;
+        font-size: 0.8rem; /* shrink button text */
+    }
+}
+
 }
 
 /* --- Website Summary --- */
