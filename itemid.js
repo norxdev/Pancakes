@@ -247,6 +247,7 @@ const armorSetsData = [
     { name: "Gilded Kiteshield", id: "3488", imgName: "Gilded_kiteshield_detail" }
   ],
   setId: "13036",
+  isF2P: true,
   setImgName: "Gilded_armour_set_(lg)_detail"
 },
 
@@ -258,6 +259,7 @@ const armorSetsData = [
     { name: "Gilded D'hide Vambraces", id: "23261", imgName: "Gilded_d'hide_vambraces_detail" }
   ],
   setId: "23124",
+  isF2P: true,
   setImgName: "Gilded_dragonhide_set_detail"
 },
 
@@ -271,6 +273,7 @@ const armorSetsData = [
     { name: "Guthix kiteshield", id: "2675", imgName: "Guthix_kiteshield_detail" }
   ],
   setId: "13048",
+  isF2P: true,
   setImgName: "Guthix_armour_set_(lg)_detail"
 },
 {
@@ -282,6 +285,7 @@ const armorSetsData = [
     { name: "Saradomin kiteshield", id: "2667", imgName: "Saradomin_kiteshield_detail" }
   ],
   setId: "13040",
+  isF2P: true,
   setImgName: "Saradomin_armour_set_(lg)_detail"
 },
 {
@@ -293,6 +297,7 @@ const armorSetsData = [
     { name: "Zamorak kiteshield", id: "2659", imgName: "Zamorak_kiteshield_detail" }
   ],
   setId: "13044",
+  isF2P: true,
   setImgName: "Zamorak_armour_set_(lg)_detail"
 }
 ];
