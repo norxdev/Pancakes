@@ -30,24 +30,24 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     align-items: center;
     gap: 8px; /* space between icon and text */
     font-weight: bold;
-    font-size: clamp(1.1rem, 2.5vw, 1.5rem); /* responsive font size */
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem); /* responsive font size */
     white-space: nowrap;
 }
 
 .title-icon {
-    width: clamp(18px, 3vw, 35px);
+    width: clamp(25px, 3vw, 40px);
     height: auto;
 }
 
 /* Donate button */
 .donate-btn-header {
-    padding: clamp(5px, 1vw, 10px) clamp(10px, 2vw, 22px);
+    padding: clamp(6px, 1vw, 12px) clamp(12px, 2vw, 24px);
     background-color: #00e676;
     color: #000;
     font-weight: bold;
     border-radius: 25px;
     text-decoration: none;
-    font-size: clamp(0.8rem, 1.5vw, 1.1rem);
+    font-size: clamp(0.9rem, 1.5vw, 1.2rem);
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -162,8 +162,8 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
 
 img {
   max-width: 100%;
-  height: auto;        /* keeps proportions */
-  object-fit: contain; /* avoids cropping */
+  height: auto;
+  object-fit: contain;
 }
 
 /* Profit Box Styling */
@@ -227,7 +227,6 @@ a:active {
 button:focus,
 a:focus { outline: none; }
 
-/* Specifically for floating buttons */
 .floating-btn:active {
     background-color: #00e676;
     color: #000;
@@ -235,7 +234,6 @@ a:focus { outline: none; }
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 
-/* Donate button */
 .donate-btn-header:active {
     background-color: #00e676;
     color: #000;
@@ -243,7 +241,6 @@ a:focus { outline: none; }
     box-shadow: 0 4px 12px rgba(0,230,118,0.5);
 }
 
-/* Toggle summary button */
 .toggle-summary-btn:active {
     background-color: #333;
     color: #e0e0e0;
@@ -251,7 +248,6 @@ a:focus { outline: none; }
     box-shadow: none;
 }
 
-/* Feedback button */
 .feedback-section {
     margin-top: 20px;
     text-align: center;
@@ -287,3 +283,15 @@ a:focus { outline: none; }
     .summary-table th, .summary-table td { font-size: 1rem; padding: 8px 10px; }
 }
 
+/* --- Responsive header adjustments --- */
+@media (max-width: 600px) {
+    .site-title { font-size: 1rem; }
+    .title-icon { width: 22px; height: 22px; }
+    .donate-btn-header { padding: 6px 14px; font-size: 0.95rem; }
+}
+
+@media (max-width: 400px) {
+    .site-title { font-size: 0.9rem; }
+    .title-icon { display: none; } /* hide icon */
+    .donate-btn-header { padding: 5px 10px; font-size: 0.85rem; }
+}
