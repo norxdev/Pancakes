@@ -71,27 +71,6 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* --- Responsive adjustments for small mobile --- */
-@media (max-width: 420px) {
-    .site-title {
-        font-size: 0.95rem; /* shrink header text */
-    }
-
-    .donate-btn-header {
-        font-size: 0.85rem; /* shrink donate button */
-        padding: 4px 10px;
-    }
-
-    .title-icon {
-        display: none; /* hide icon */
-    }
-}
-
-/* Extra small tweak for very narrow phones (<380px) */
-@media (max-width: 380px) {
-    .site-title { font-size: 0.9rem; }
-    .donate-btn-header { font-size: 0.8rem; padding: 3px 8px; }
-}
 
 
 /* --- Website Summary --- */
