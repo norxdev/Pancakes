@@ -41,59 +41,64 @@ function applyF2PFilter(onlyF2P) {
     armorSetsData.forEach((set, i) => {
         const setEl = document.getElementById(`armor-set-${i}`);
         if (!setEl) return;
-        // If filter is on and set is not F2P -> hide entire set
         if (onlyF2P && !set.isF2P) {
             setEl.style.display = "none";
         } else {
-            setEl.style.display = ""; // show
+            setEl.style.display = "";
         }
     });
 }
 
-// --- Section Rendering ---
+// --- Section Rendering (Sorted by Set Name & F2P Filter) ---
 function createArmorSections() {
     const container = document.getElementById("armorSection");
     if (!container) return;
     container.innerHTML = "";
-    armorSetsData.forEach((set, i) => {
+
+    // Sort sets alphabetically by name, but keep original index
+    const sortedSets = armorSetsData
+        .map((set, idx) => ({ ...set, originalIndex: idx }))
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+    sortedSets.forEach(set => {
+        const idx = set.originalIndex;
         const div = document.createElement("div");
         div.className = "set-wrapper";
-        div.id = `armor-set-${i}`;
-        // mark set as f2p or not with data attribute for completeness
-        div.setAttribute("data-f2p", set.isF2P ? "true" : "false");
+        div.id = `armor-set-${idx}`;
+        div.dataset.f2p = set.isF2P ? "true" : "false";
 
-        // Build items/cards. Note: items themselves don't have per-item F2P flags here;
-        // we filter at the set level. If you later have per-item flags, you can filter each item card similarly.
         div.innerHTML = `
             <div class="set-title">${set.name}</div>
             <div class="cards">
                 ${set.items.map(it => `
                     <a class="card" href="https://prices.runescape.wiki/osrs/item/${it.id}" target="_blank">
                         <div class="item-label">
-                            <img class="item-icon" src="https://oldschool.runescape.wiki/images/${it.imgName}.png" alt="${it.name}">${it.name}
+                            <img class="item-icon" src="https://oldschool.runescape.wiki/images/${it.imgName}.png">${it.name}
                         </div>
                         <div id="armor-${it.id}">Loading...</div>
                     </a>`).join("")}
                 <div class="card total">
                     <div>Total Pieces Cost:</div>
-                    <div id="armor-total-${i}">Loading...</div>
+                    <div id="armor-total-${idx}">Loading...</div>
                 </div>
                 <a class="card total" href="https://prices.runescape.wiki/osrs/item/${set.setId}" target="_blank">
                     <div class="item-label">
-                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${set.setImgName}.png" alt="${set.name}">${set.name} Price
+                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${set.setImgName}.png">${set.name} Price
                     </div>
-                    <div id="armor-setPrice-${i}">Loading...</div>
+                    <div id="armor-setPrice-${idx}">Loading...</div>
                 </a>
             </div>
-            <div class="profit-box" id="armor-profit-${i}">Loading...</div>
-        `;
+            <div class="profit-box" id="armor-profit-${idx}">Loading...</div>`;
+
         container.appendChild(div);
     });
 
-    // After rendering sections, apply saved f2p filter state (if any)
+    // Apply saved F2P filter after rendering
     const savedFilter = localStorage.getItem("f2pFilter") === "true";
-    if (savedFilter) applyF2PFilter(true);
+    applyF2PFilter(savedFilter);
 }
+
+
 
 // --- Update Prices ---
 function updateArmorPrices() {
@@ -105,6 +110,7 @@ function updateArmorPrices() {
             const elem = document.getElementById(`armor-${item.id}`);
             if (elem) elem.innerText = low ? formatNum(low) + " gp" : "—";
         });
+
         const totalElem = document.getElementById(`armor-total-${i}`);
         if (totalElem) totalElem.innerText = totalCost ? formatNum(totalCost) + " gp" : "—";
 
@@ -123,7 +129,6 @@ function updateArmorPrices() {
         }
     });
 
-    // Re-apply F2P filter after prices update (so hidden sets stay hidden)
     const savedFilter = localStorage.getItem("f2pFilter") === "true";
     if (savedFilter) applyF2PFilter(true);
 }
@@ -135,19 +140,16 @@ function updateSummaries(sortKey = 'profit') {
 
     armorSummary.style.display = summaryVisible ? "block" : "none";
 
-    // Build list of summary items
     const list = armorSetsData.map((s, i) => {
         const calc = calculateArmorProfit(s) || {};
         return { ...calc, name: s.name, index: i };
     });
 
-    // Sort
     list.sort((a, b) => {
         if (sortKey === 'name') return a.name.localeCompare(b.name);
         return b[sortKey] - a[sortKey];
     });
 
-    // Render sort and filter controls + table
     armorSummary.innerHTML = `
     <div class="summary-controls">
         <label for="sortDropdown">Sort by:</label>
@@ -187,7 +189,6 @@ function updateSummaries(sortKey = 'profit') {
     </table>
     `;
 
-    // Restore saved sortKey (if any) and persist selection on change
     const savedSort = localStorage.getItem("sortKey") || sortKey;
     const sortDropdown = document.getElementById("sortDropdown");
     if (sortDropdown) {
@@ -199,15 +200,12 @@ function updateSummaries(sortKey = 'profit') {
         });
     }
 
-    // Restore F2P filter state and hook checkbox listener
     const savedFilter = localStorage.getItem("f2pFilter") === "true";
     const f2pCheckbox = document.getElementById("f2pFilter");
     if (f2pCheckbox) {
         f2pCheckbox.checked = savedFilter;
-        // apply initially
         applyF2PFilter(savedFilter);
 
-        // on change, save and apply
         f2pCheckbox.addEventListener("change", function () {
             const onlyF2P = this.checked;
             localStorage.setItem("f2pFilter", onlyF2P ? "true" : "false");
@@ -215,7 +213,6 @@ function updateSummaries(sortKey = 'profit') {
         });
     }
 
-    // Row click scroll
     document.querySelectorAll("#armorSummaryTable tbody tr").forEach(row => {
         row.addEventListener("click", () => {
             const idx = row.getAttribute("data-index");
@@ -260,7 +257,7 @@ async function fetchLatestPrices() {
     }
 }
 
-// --- Feedback button (open form) ---
+// --- Feedback button ---
 function initFeedbackButton() {
     const fb = document.getElementById('feedbackBtn');
     if (fb) {
@@ -273,7 +270,11 @@ function initFeedbackButton() {
 // --- Init ---
 window.addEventListener("load", async () => {
     await fetchItemMappingOnce();
-    createArmorSections();
+
+    // Restore saved F2P filter state
+    const savedFilter = localStorage.getItem("f2pFilter") === "true";
+
+    createArmorSections(savedFilter);
     initFeedbackButton();
     await fetchLatestPrices();
 });
