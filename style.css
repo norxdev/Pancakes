@@ -19,21 +19,35 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: nowrap; /* keep everything on one line */
     z-index: 100;
     border-bottom: 1px solid #333;
 }
-.header-left .site-title { font-size: 1.8rem; font-weight: bold; }
+
+/* Site title with icon */
+.site-title {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* space between icon and text */
+    font-weight: bold;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem); /* responsive font size */
+    white-space: nowrap;
+}
+
+.title-icon {
+    width: clamp(18px, 3vw, 35px);
+    height: auto;
+}
 
 /* Donate button */
 .donate-btn-header {
-    padding: 10px 22px;
-    margin-left: 10px;
+    padding: clamp(5px, 1vw, 10px) clamp(10px, 2vw, 22px);
     background-color: #00e676;
     color: #000;
     font-weight: bold;
     border-radius: 25px;
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: clamp(0.8rem, 1.5vw, 1.1rem);
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -173,11 +187,6 @@ img {
 .summary-table tr.profit-positive td.profit-cell { color: #00e676; }
 .summary-table tr.profit-negative td.profit-cell { color: #ff3d00; }
 
-@media (max-width: 800px) {
-    .card { flex-direction: column; align-items: flex-start; gap: 5px; }
-    .summary-table th, .summary-table td { font-size: 1rem; padding: 8px 10px; }
-}
-
 .summary-controls {
   display: flex;
   align-items: center;
@@ -195,7 +204,6 @@ img {
   margin-right: 6px;
   transform: scale(1.1);
 }
-
 
 /* --- Prevent black flash on press --- */
 button,
@@ -266,22 +274,16 @@ a:focus { outline: none; }
 }
 
 .feedback-btn:active {
-    background-color: #1e1e1e; /* same as normal */
+    background-color: #1e1e1e;
     color: #00e676;
     border-color: #00e676;
     transform: none;
     box-shadow: none;
 }
-/* Site title with icon */
-.site-title {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* space between icon and text */
-    font-weight: bold;
-    font-size: 1.2rem;
+
+/* --- Responsive cards & table --- */
+@media (max-width: 800px) {
+    .card { flex-direction: column; align-items: flex-start; gap: 5px; }
+    .summary-table th, .summary-table td { font-size: 1rem; padding: 8px 10px; }
 }
 
-.title-icon {
-    width: 35px;
-    height: 35px;
-}
