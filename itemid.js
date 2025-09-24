@@ -235,8 +235,65 @@ const armorSetsData = [
     ],
     setId: "12875",
     setImgName: "Verac's_armour_set"
-  }
-
+  },
   
+//Gilded
+{
+  name: "Gilded Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+  items: [
+    { name: "Gilded Full Helm", id: "3486", imgName: "Gilded_full_helm_detail" },
+    { name: "Gilded Platebody", id: "3481", imgName: "Gilded_platebody_detail" },
+    { name: "Gilded Platelegs", id: "3483", imgName: "Gilded_platelegs_detail" },
+    { name: "Gilded Kiteshield", id: "3488", imgName: "Gilded_kiteshield_detail" }
+  ],
+  setId: "13036",
+  setImgName: "Gilded_armour_set_(lg)_detail"
+},
+
+{
+  name: "Gilded Dragonhide Set&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+  items: [
+    { name: "Gilded D'hide Body", id: "23264", imgName: "Gilded_d'hide_body_detail" },
+    { name: "Gilded D'hide Chaps", id: "23267", imgName: "Gilded_d'hide_chaps_detail" },
+    { name: "Gilded D'hide Vambraces", id: "23261", imgName: "Gilded_d'hide_vambraces_detail" }
+  ],
+  setId: "23124",
+  setImgName: "Gilded_dragonhide_set_detail"
+},
+
+//F2P God Armour
+  {
+  name: "Guthix Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+  items: [
+    { name: "Guthix full helm", id: "2673", imgName: "Guthix_full_helm_detail" },
+    { name: "Guthix platebody", id: "2669", imgName: "Guthix_platebody_detail" },
+    { name: "Guthix platelegs", id: "2671", imgName: "Guthix_platelegs_detail" },
+    { name: "Guthix kiteshield", id: "2675", imgName: "Guthix_kiteshield_detail" }
+  ],
+  setId: "13048",
+  setImgName: "Guthix_armour_set_(lg)_detail"
+},
+{
+  name: "Saradomin Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+  items: [
+    { name: "Saradomin full helm", id: "2665", imgName: "Saradomin_full_helm_detail" },
+    { name: "Saradomin platebody", id: "2661", imgName: "Saradomin_platebody_detail" },
+    { name: "Saradomin platelegs", id: "2663", imgName: "Saradomin_platelegs_detail" },
+    { name: "Saradomin kiteshield", id: "2667", imgName: "Saradomin_kiteshield_detail" }
+  ],
+  setId: "13040",
+  setImgName: "Saradomin_armour_set_(lg)_detail"
+},
+{
+  name: "Zamorak Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+  items: [
+    { name: "Zamorak full helm", id: "2657", imgName: "Zamorak_full_helm_detail" },
+    { name: "Zamorak platebody", id: "2653", imgName: "Zamorak_platebody_detail" },
+    { name: "Zamorak platelegs", id: "2655", imgName: "Zamorak_platelegs_detail" },
+    { name: "Zamorak kiteshield", id: "2659", imgName: "Zamorak_kiteshield_detail" }
+  ],
+  setId: "13044",
+  setImgName: "Zamorak_armour_set_(lg)_detail"
+}
 ];
 
