@@ -29,11 +29,26 @@ function calculateArmorProfit(set) {
     return { profit, totalCost, roi };
 }
 
-// Feedback button
-document.getElementById('feedbackBtn')?.addEventListener('click', () => {
-    window.open('https://forms.gle/nBDrdCE8176h5zdS9', '_blank');
-});
+// --- Apply F2P Filter (summary rows + armorSection sets) ---
+function applyF2PFilter(onlyF2P) {
+    // Summary table rows
+    document.querySelectorAll("#armorSummaryTable tbody tr").forEach(row => {
+        const isF2P = row.getAttribute("data-f2p") === "true";
+        row.style.display = (onlyF2P && !isF2P) ? "none" : "";
+    });
 
+    // Armor sections (sets)
+    armorSetsData.forEach((set, i) => {
+        const setEl = document.getElementById(`armor-set-${i}`);
+        if (!setEl) return;
+        // If filter is on and set is not F2P -> hide entire set
+        if (onlyF2P && !set.isF2P) {
+            setEl.style.display = "none";
+        } else {
+            setEl.style.display = ""; // show
+        }
+    });
+}
 
 // --- Section Rendering ---
 function createArmorSections() {
@@ -44,13 +59,18 @@ function createArmorSections() {
         const div = document.createElement("div");
         div.className = "set-wrapper";
         div.id = `armor-set-${i}`;
+        // mark set as f2p or not with data attribute for completeness
+        div.setAttribute("data-f2p", set.isF2P ? "true" : "false");
+
+        // Build items/cards. Note: items themselves don't have per-item F2P flags here;
+        // we filter at the set level. If you later have per-item flags, you can filter each item card similarly.
         div.innerHTML = `
             <div class="set-title">${set.name}</div>
             <div class="cards">
                 ${set.items.map(it => `
                     <a class="card" href="https://prices.runescape.wiki/osrs/item/${it.id}" target="_blank">
                         <div class="item-label">
-                            <img class="item-icon" src="https://oldschool.runescape.wiki/images/${it.imgName}.png">${it.name}
+                            <img class="item-icon" src="https://oldschool.runescape.wiki/images/${it.imgName}.png" alt="${it.name}">${it.name}
                         </div>
                         <div id="armor-${it.id}">Loading...</div>
                     </a>`).join("")}
@@ -60,14 +80,19 @@ function createArmorSections() {
                 </div>
                 <a class="card total" href="https://prices.runescape.wiki/osrs/item/${set.setId}" target="_blank">
                     <div class="item-label">
-                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${set.setImgName}.png">${set.name} Price
+                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${set.setImgName}.png" alt="${set.name}">${set.name} Price
                     </div>
                     <div id="armor-setPrice-${i}">Loading...</div>
                 </a>
             </div>
-            <div class="profit-box" id="armor-profit-${i}">Loading...</div>`;
+            <div class="profit-box" id="armor-profit-${i}">Loading...</div>
+        `;
         container.appendChild(div);
     });
+
+    // After rendering sections, apply saved f2p filter state (if any)
+    const savedFilter = localStorage.getItem("f2pFilter") === "true";
+    if (savedFilter) applyF2PFilter(true);
 }
 
 // --- Update Prices ---
@@ -97,6 +122,10 @@ function updateArmorPrices() {
             `;
         }
     });
+
+    // Re-apply F2P filter after prices update (so hidden sets stay hidden)
+    const savedFilter = localStorage.getItem("f2pFilter") === "true";
+    if (savedFilter) applyF2PFilter(true);
 }
 
 // --- Update Summary Table ---
@@ -106,6 +135,7 @@ function updateSummaries(sortKey = 'profit') {
 
     armorSummary.style.display = summaryVisible ? "block" : "none";
 
+    // Build list of summary items
     const list = armorSetsData.map((s, i) => {
         const calc = calculateArmorProfit(s) || {};
         return { ...calc, name: s.name, index: i };
@@ -117,7 +147,9 @@ function updateSummaries(sortKey = 'profit') {
         return b[sortKey] - a[sortKey];
     });
 
+    // Render sort and filter controls + table
     armorSummary.innerHTML = `
+    <div class="summary-controls">
         <label for="sortDropdown">Sort by:</label>
         <select id="sortDropdown">
             <option value="profit">Profit per set</option>
@@ -125,35 +157,63 @@ function updateSummaries(sortKey = 'profit') {
             <option value="name">Name</option>
             <option value="totalCost">Total pieces cost</option>
         </select>
-        <table class="summary-table" id="armorSummaryTable">
-            <thead>
-                <tr>
-                    <th>Armor Set</th>
-                    <th>Profit per set</th>
-                    <th>ROI %</th>
-                    <th>Total Pieces Cost</th>
+
+        <label class="f2p-filter" style="margin-left:12px;">
+            <input type="checkbox" id="f2pFilter"> Show F2P sets only
+        </label>
+    </div>
+
+    <table class="summary-table" id="armorSummaryTable">
+        <thead>
+            <tr>
+                <th>Armor Set</th>
+                <th>Profit per set</th>
+                <th>ROI %</th>
+                <th>Total Pieces Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${list.map(l => `
+                <tr class="${l.profit >= 0 ? 'profit-positive' : 'profit-negative'}"
+                    data-index="${l.index}"
+                    data-f2p="${armorSetsData[l.index].isF2P ? "true" : "false"}">
+                    <td style="text-align:left">${l.name}</td>
+                    <td style="text-align:left">${formatNum(l.profit)} gp</td>
+                    <td style="text-align:left">${l.roi}%</td>
+                    <td style="text-align:left">${formatNum(l.totalCost)} gp</td>
                 </tr>
-            </thead>
-            <tbody>
-                ${list.map(l => `
-                    <tr class="${l.profit >= 0 ? 'profit-positive' : 'profit-negative'}" data-index="${l.index}">
-                        <td style="text-align:left">${l.name}</td>
-                        <td style="text-align:left">${formatNum(l.profit)} gp</td>
-                        <td style="text-align:left">${l.roi}%</td>
-                        <td style="text-align:left">${formatNum(l.totalCost)} gp</td>
-                    </tr>
-                `).join("")}
-            </tbody>
-        </table>
+            `).join("")}
+        </tbody>
+    </table>
     `;
 
-    // ✅ Ensure current selection is shown
-    document.getElementById("sortDropdown").value = sortKey;
+    // Restore saved sortKey (if any) and persist selection on change
+    const savedSort = localStorage.getItem("sortKey") || sortKey;
+    const sortDropdown = document.getElementById("sortDropdown");
+    if (sortDropdown) {
+        sortDropdown.value = savedSort;
+        sortDropdown.addEventListener("change", (e) => {
+            const newSort = e.target.value;
+            localStorage.setItem("sortKey", newSort);
+            updateSummaries(newSort);
+        });
+    }
 
-    // Dropdown sorting
-    document.getElementById("sortDropdown")?.addEventListener("change", (e) => {
-        updateSummaries(e.target.value);
-    });
+    // Restore F2P filter state and hook checkbox listener
+    const savedFilter = localStorage.getItem("f2pFilter") === "true";
+    const f2pCheckbox = document.getElementById("f2pFilter");
+    if (f2pCheckbox) {
+        f2pCheckbox.checked = savedFilter;
+        // apply initially
+        applyF2PFilter(savedFilter);
+
+        // on change, save and apply
+        f2pCheckbox.addEventListener("change", function () {
+            const onlyF2P = this.checked;
+            localStorage.setItem("f2pFilter", onlyF2P ? "true" : "false");
+            applyF2PFilter(onlyF2P);
+        });
+    }
 
     // Row click scroll
     document.querySelectorAll("#armorSummaryTable tbody tr").forEach(row => {
@@ -168,22 +228,24 @@ function updateSummaries(sortKey = 'profit') {
 document.getElementById("toggleSummary")?.addEventListener("click", () => {
     summaryVisible = !summaryVisible;
     document.getElementById("toggleSummary").innerText = summaryVisible ? "Hide Summary ▲" : "Show Summary ▼";
-    updateSummaries();
+    updateSummaries(localStorage.getItem("sortKey") || "profit");
 });
 
 // --- Floating Buttons ---
 document.getElementById('backToTop')?.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     const icon = document.querySelector('#backToTop .floating-icon');
-    icon.classList.add('bounce-icon');
-    setTimeout(() => icon.classList.remove('bounce-icon'), 400);
+    if (icon) {
+        icon.classList.add('bounce-icon');
+        setTimeout(() => icon.classList.remove('bounce-icon'), 400);
+    }
 });
 
 document.getElementById('refreshData')?.addEventListener('click', async () => {
     const icon = document.querySelector('#refreshData .floating-icon');
-    icon.classList.add('spin-icon');
+    if (icon) icon.classList.add('spin-icon');
     await fetchLatestPrices();
-    setTimeout(() => icon.classList.remove('spin-icon'), 500);
+    if (icon) setTimeout(() => icon.classList.remove('spin-icon'), 500);
 });
 
 // --- Fetch Latest Prices ---
@@ -192,9 +254,19 @@ async function fetchLatestPrices() {
         const res = await fetch("https://prices.runescape.wiki/api/v1/osrs/latest");
         latestData = await res.json();
         updateArmorPrices();
-        updateSummaries();
+        updateSummaries(localStorage.getItem("sortKey") || "profit");
     } catch (err) {
         console.warn("Failed to fetch latest prices", err);
+    }
+}
+
+// --- Feedback button (open form) ---
+function initFeedbackButton() {
+    const fb = document.getElementById('feedbackBtn');
+    if (fb) {
+        fb.addEventListener('click', () => {
+            window.open('https://forms.gle/nBDrdCE8176h5zdS9', '_blank');
+        });
     }
 }
 
@@ -202,5 +274,6 @@ async function fetchLatestPrices() {
 window.addEventListener("load", async () => {
     await fetchItemMappingOnce();
     createArmorSections();
+    initFeedbackButton();
     await fetchLatestPrices();
 });
