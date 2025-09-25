@@ -1,45 +1,41 @@
-# FlipMaster OSRS
+# ArmourFlipper
 
-**FlipMaster OSRS** is a dashboard for tracking and assisting with flipping items in *Old School RuneScape* (OSRS), with a focus on armor flips, potion flips, and other profit-based trading activities.
+**ArmourFlipper** is a web-based tool designed to help *Old School RuneScape* (OSRS) players maximize profit by flipping armor sets on the Grand Exchange. This single-page dashboard shows buy and sell prices for individual armor pieces and full sets, taking the 2% Grand Exchange tax into account.  
 
 ---
 
 ## 🚀 Features
 
-- 📊 Displays summaries of item flip opportunities (armor, potions, etc.)
-- 🔄 Regularly refreshed/updated data
-- 🎛️ Interactive UI elements (toggle summaries for a cleaner view)
+- 📊 Displays summaries of profitable armor set flips  
+- 🔄 Real-time/regularly refreshed Grand Exchange data  
+- 🎛️ Interactive UI elements (toggle summaries, refresh data)  
+- 💰 Calculates potential profit per set after tax  
 
 ---
 
 ## 🌐 Getting Started
 
 ### View the Dashboard
-Open the dashboard directly in your browser:
+Open the tool directly in your browser:
 
-👉 [FlipMaster OSRS](https://norxdev.github.io/Pancakes/)
+👉 [ArmourFlipper](https://www.armourflipper.com/)
 
 ### Support Development
-If you’d like to support this project, donations are accepted via PayPal.
+If you’d like to support this project, donations are accepted via PayPal:
+
+[Donate](https://www.paypal.com/donate/?hosted_button_id=YVZNTWZP8JUCC)
 
 ---
 
 ## 🛠️ Technologies
 
-- Static web frontend hosted on **GitHub Pages**
-- Data refreshed periodically (exact schedule not displayed)
+- Static web frontend hosted on **GitHub Pages**  
+- HTML, CSS, and JavaScript (no backend required)  
+- Data periodically refreshed for accurate flipping prices  
 
 ---
 
 ## 📜 License & Attribution
 
-OSRS Flipping Dashboard © 2025 by **Norxdev**.
-
----
-
-## 📌 Roadmap / Improvements
-
-- Show the last refresh timestamp explicitly  
-- Add more flip categories  
-- User preferences, historical data, and filtering options  
-- Potential open API for external use
+ArmourFlipper © 2025 by **Norxdev**.  
+Built as a community tool for OSRS players.  
