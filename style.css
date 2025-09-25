@@ -19,22 +19,7 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: nowrap; /* keep everything on one line */
-    min-width: 0;       /* allow children to shrink */
-    z-index: 100;
-    border-bottom: 1px solid #333;
-}
-
-/* --- Sticky Header --- */
-.sticky-header {
-    position: sticky;
-    top: 0;
-    background-color: #1e1e1e;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: nowrap; /* keep everything on one line */
+    flex-wrap: nowrap;
     min-width: 0;
     z-index: 100;
     border-bottom: 1px solid #333;
@@ -46,9 +31,9 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     align-items: center;
     gap: 8px;
     font-weight: bold;
-    font-size: clamp(1.4rem, 2.5vw, 1.8rem); /* slightly larger default */
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
     white-space: nowrap;
-    flex-shrink: 1; /* allow shrinking to prevent wrap */
+    flex-shrink: 1;
     min-width: 0;
 }
 
@@ -70,8 +55,6 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
     white-space: nowrap;
     transition: transform 0.2s, box-shadow 0.2s;
 }
-
-
 
 /* --- Website Summary --- */
 .website-summary {
@@ -117,10 +100,7 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
 #refreshData { bottom: 80px; }
 
 /* --- Animations --- */
-@keyframes spin180 {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(180deg); }
-}
+@keyframes spin180 { from { transform: rotate(0deg); } to { transform: rotate(180deg); } }
 @keyframes bounceUp {
     0% { transform: translateY(0); }
     30% { transform: translateY(-15px); }
@@ -160,12 +140,12 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
 .cards { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 .card {
     background: #2a2a2a;
-    padding: 10px 15px;
+    padding: 8px 12px;
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     cursor: pointer;
     text-decoration: none;
     color: inherit;
@@ -174,30 +154,39 @@ h1 { text-align: center; font-size: 2.5rem; margin-bottom: 20px; }
 .card:hover { background: #333; }
 .card.total { font-weight: bold; }
 
-.item-icon { width: 50px; height: 50px; margin-right: 12px; image-rendering: pixelated; }
-.item-label { display: flex; align-items: center; font-size: 1.3rem; }
+.item-icon {
+    width: 42px;
+    height: 42px;
+    margin-right: 10px;
+    image-rendering: pixelated;
+}
+.item-label {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+}
 
 img {
   max-width: 100%;
-  height: auto;        /* keeps proportions */
-  object-fit: contain; /* avoids cropping */
+  height: auto;
+  object-fit: contain;
 }
 
 /* Profit Box Styling */
 .profit-box {
     background: #2a2a2a;
     border-radius: 10px;
-    padding: 20px 15px;
+    padding: 15px 12px;
     text-align: center;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     margin-top: 10px;
 }
 
 /* --- Summary Table --- */
 .summary-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-.summary-table th, .summary-table td { padding: 12px 15px; text-align: left; }
-.summary-table th { background-color: #2a2a2a; font-size: 1.3rem; cursor: pointer; }
+.summary-table th, .summary-table td { padding: 10px 12px; text-align: left; }
+.summary-table th { background-color: #2a2a2a; font-size: 1.1rem; cursor: pointer; }
 .summary-table tr { background-color: #1e1e1e; border-bottom: 1px solid #333; cursor: pointer; transition: background 0.2s; }
 .summary-table tr:hover { background-color: #333; }
 .summary-table td.profit-cell { text-align: right; }
@@ -234,33 +223,22 @@ a {
 }
 
 button:active,
-a:active {
-    background-color: inherit;
-    color: inherit;
-    transform: none;
-    box-shadow: none;
-}
-
+a:active { background-color: inherit; color: inherit; transform: none; box-shadow: none; }
 button:focus,
 a:focus { outline: none; }
 
-/* Specifically for floating buttons */
 .floating-btn:active {
     background-color: #00e676;
     color: #000;
     transform: none;
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
-
-/* Donate button */
 .donate-btn-header:active {
     background-color: #00e676;
     color: #000;
     transform: none;
     box-shadow: 0 4px 12px rgba(0,230,118,0.5);
 }
-
-/* Toggle summary button */
 .toggle-summary-btn:active {
     background-color: #333;
     color: #e0e0e0;
@@ -269,11 +247,7 @@ a:focus { outline: none; }
 }
 
 /* Feedback button */
-.feedback-section {
-    margin-top: 20px;
-    text-align: center;
-}
-
+.feedback-section { margin-top: 20px; text-align: center; }
 .feedback-btn {
     background-color: #1e1e1e;
     color: #00e676;
@@ -285,11 +259,7 @@ a:focus { outline: none; }
     cursor: pointer;
     transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
-
-.feedback-btn:hover {
-    background-color: #222;
-}
-
+.feedback-btn:hover { background-color: #222; }
 .feedback-btn:active {
     background-color: #1e1e1e;
     color: #00e676;
@@ -298,10 +268,19 @@ a:focus { outline: none; }
     box-shadow: none;
 }
 
-/* --- Responsive cards & table --- */
+/* --- Responsive Adjustments --- */
 @media (max-width: 800px) {
-    .card { flex-direction: column; align-items: flex-start; gap: 5px; }
-    .summary-table th, .summary-table td { font-size: 1rem; padding: 8px 10px; }
+    .card { flex-direction: row; font-size: 1rem; padding: 6px 10px; }
+    .item-icon { width: 36px; height: 36px; margin-right: 8px; }
+    .item-label { font-size: 1rem; }
+    .summary-table th, .summary-table td { font-size: 0.95rem; padding: 6px 8px; }
+}
+
+@media (max-width: 500px) {
+    .card { flex-direction: row; gap: 6px; }
+    .item-icon { width: 32px; height: 32px; margin-right: 6px; }
+    .item-label { font-size: 0.95rem; }
+    .profit-box { font-size: 1rem; padding: 12px 8px; }
 }
 
 /* Hide icon on very small screens */
