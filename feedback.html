@@ -31,7 +31,7 @@
   <script>
     const form = document.getElementById('feedbackForm');
     const responseDiv = document.getElementById('response');
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz16C4tTCfggOQgw59eFe8--0TiorM83cO2Y6dXVmLjr0ZxmfHlc0EqqRLfWNBHGZGh/exec'; // Your Apps Script URL
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz16C4tTCfggOQgw59eFe8--0TiorM83cO2Y6dXVmLjr0ZxmfHlc0EqqRLfWNBHGZGh/exec';
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -41,7 +41,7 @@
         Feedback: document.getElementById('feedback').value
       };
 
-      fetch(https://script.google.com/macros/s/AKfycbz16C4tTCfggOQgw59eFe8--0TiorM83cO2Y6dXVmLjr0ZxmfHlc0EqqRLfWNBHGZGh/exec, {
+      fetch(WEB_APP_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
