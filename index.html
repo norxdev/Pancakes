@@ -6,11 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 
-  <!-- Favicon -->
-<link rel="icon" href="faviconAF.png" type="image/png">
-<link rel="apple-touch-icon" href="faviconAF.png">
-<link rel="icon" sizes="192x192" href="faviconAF.png">
-<link rel="icon" sizes="512x512" href="faviconAF.png">
+  <!-- Favicon (all sizes) -->
+  <link rel="icon" href="faviconAF.png" type="image/png">
+  <link rel="apple-touch-icon" href="faviconAF.png">
+  <link rel="icon" sizes="192x192" href="faviconAF.png">
+  <link rel="icon" sizes="512x512" href="faviconAF.png">
 
   <!-- Primary SEO -->
   <title>Armour Flipper | OSRS Flipping Tool</title>
@@ -52,102 +52,78 @@
     })(window,document,'script','dataLayer','GTM-K6L68P6W');
   </script>
 </head>
-
-
-</head>
 <body>
-
   <!-- Google Tag Manager (noscript) -->
   <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K6L68P6W"
     height="0" width="0" style="display:none;visibility:hidden"></iframe>
   </noscript>
 
-<!-- Sticky Header -->
-<div class="sticky-header">
+  <!-- Sticky Header -->
+  <header class="sticky-header">
     <div class="header-left">
-        <div class="site-title">
-<img src="faviconAF.png" alt="AF Icon" class="title-icon">
-    Armour Flipper
-</div>
-
+      <div class="site-title">
+        <img src="faviconAF.png" alt="AF Icon" class="title-icon">
+        Armour Flipper
+      </div>
     </div>
     <div class="header-right">
-        <a class="donate-btn-header" 
-   href="https://www.paypal.com/donate/?hosted_button_id=YVZNTWZP8JUCC" 
-   target="_blank">
-   Donate
-</a>
-
+      <a class="donate-btn-header" 
+         href="https://www.paypal.com/donate/?hosted_button_id=YVZNTWZP8JUCC" 
+         target="_blank">
+         Donate
+      </a>
     </div>
-</div>
+  </header>
 
-<!-- Main Content -->
-<div class="main-content">
-    <div class="website-summary">
-        <p>This is a tool to help players make profit in Old School RuneScape by flipping armour sets.</p>
-        <h2>How to Flip Armour Sets</h2>
-        <p>Buy individual armour pieces (like helm, platebody, legs, etc.) and combine them to create a full set for higher profit.</p>
-        <ol>
-            <li>
-                <strong>Purchase:</strong> Acquire the individual pieces from the Grand Exchange at the prices listed below.
-            </li>
-            <li>
-                <strong>Combine:</strong> Bring the pieces to a Grand Exchange Clerk to assemble them into a complete armour set.
-            </li>
-            <li>
-                <strong>Sell:</strong> List the full set for sale on the Grand Exchange at the prices indicated below to maximize your profit.
-            </li>
-        </ol>
-        <p>Select an armour set from the summary table below to view detailed information on its individual pieces and set prices.</p>
-        <p>All profits displayed below take the <strong>2% Grand Exchange tax</strong> into account.</p>
+  <!-- Main Content -->
+  <main class="main-content">
+    <section class="website-summary">
+      <p>This is a tool to help players make profit in Old School RuneScape by flipping armour sets.</p>
+      <h2>How to Flip Armour Sets</h2>
+      <p>Buy individual armour pieces (like helm, platebody, legs, etc.) and combine them to create a full set for higher profit.</p>
+      <ol>
+        <li><strong>Purchase:</strong> Acquire the individual pieces from the Grand Exchange at the prices listed below.</li>
+        <li><strong>Combine:</strong> Bring the pieces to a Grand Exchange Clerk to assemble them into a complete armour set.</li>
+        <li><strong>Sell:</strong> List the full set for sale on the Grand Exchange at the prices indicated below to maximize your profit.</li>
+      </ol>
+      <p>Select an armour set from the summary table below to view detailed information on its individual pieces and set prices.</p>
+      <p>All profits displayed below take the <strong>2% Grand Exchange tax</strong> into account.</p>
 
-        <!-- Feedback Section -->
-        <div class="feedback-section">
-            <p>Have a suggestion? <button id="feedbackBtn" class="feedback-btn">Let me know</button></p>
-        </div>
-    </div>
-</div>
-
-
-
+      <!-- Feedback Section -->
+      <div class="feedback-section">
+        <p>Have a suggestion? <button id="feedbackBtn" class="feedback-btn">Let me know</button></p>
+      </div>
+    </section>
 
     <button id="toggleSummary" class="toggle-summary-btn">Hide Summary ▲</button>
     <div id="armorSummary"></div>
-
     <div id="armorSection" class="container"></div>
-</div>
+  </main>
 
-<!-- Floating Buttons -->
-<button id="backToTop" class="floating-btn">
-  <svg viewBox="0 0 24 24" width="24" height="24" fill="white" class="floating-icon">
-    <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.59 5.58L20 12l-8-8-8 8z"/>
-  </svg>
-</button>
+  <!-- Floating Buttons -->
+  <button id="backToTop" class="floating-btn">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="white" class="floating-icon">
+      <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.59 5.58L20 12l-8-8-8 8z"/>
+    </svg>
+  </button>
 
-<button id="refreshData" class="floating-btn">
-  <svg viewBox="0 0 24 24" width="24" height="24" fill="white" class="floating-icon">
-    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4 7.58 4 4 7.58 4 12h2a6 6 0 0 1 11.29-3.71l-2.88 2.88H20V4l-2.35 2.35zM6.35 17.65C7.8 19.1 9.79 20 12 20c4.42 0 8-3.58 8-8h-2a6 6 0 0 1-11.29 3.71l2.88-2.88H4v6l2.35-2.35z"/>
-  </svg>
-</button>
+  <button id="refreshData" class="floating-btn">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="white" class="floating-icon">
+      <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4 7.58 4 4 7.58 4 12h2a6 6 0 0 1 11.29-3.71l-2.88 2.88H20V4l-2.35 2.35zM6.35 17.65C7.8 19.1 9.79 20 12 20c4.42 0 8-3.58 8-8h-2a6 6 0 0 1-11.29 3.71l2.88-2.88H4v6l2.35-2.35z"/>
+    </svg>
+  </button>
 
-<!-- JS Scripts -->
-<script src="itemid.js"></script>
-<script src="script.js"></script>
-<footer id="pageFooter" style="
-    text-align: center;
-    padding: 10px;
-    font-size: 0.9rem;
-    color: #888;
-    margin-top: 20px;
-">
-   &copy; <span id="currentYear"></span> Armour Flipper. Created by Norxdev.
-</footer>
+  <!-- JS Scripts -->
+  <script src="itemid.js"></script>
+  <script src="script.js"></script>
 
-<script>
+  <footer id="pageFooter" style="text-align:center; padding:10px; font-size:0.9rem; color:#888; margin-top:20px;">
+    &copy; <span id="currentYear"></span> Armour Flipper. Created by Norxdev.
+  </footer>
+
+  <script>
     document.getElementById('currentYear').textContent = new Date().getFullYear();
-</script>
-
-
+  </script>
 </body>
 </html>
