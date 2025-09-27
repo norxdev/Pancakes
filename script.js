@@ -55,44 +55,44 @@ function createArmorSections() {
     if (!container) return;
     container.innerHTML = "";
 
-    // Sort sets alphabetically by name, but keep original index
-    const sortedSets = armorSetsData
-        .map((set, idx) => ({ ...set, originalIndex: idx }))
-        .sort((a, b) => a.name.localeCompare(b.name));
+// Sort sets alphabetically by name, but keep original index
+const sortedSets = armorSetsData
+    .map((set, idx) => ({ ...set, originalIndex: idx }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 
-    sortedSets.forEach(set => {
-        const idx = set.originalIndex;
-        const div = document.createElement("div");
-        div.className = "set-wrapper";
-        div.id = `armor-set-${idx}`;
-        div.dataset.f2p = set.isF2P ? "true" : "false";
+sortedSets.forEach(set => {
+    const idx = set.originalIndex;
+    const div = document.createElement("div");
+    div.className = "set-wrapper";
+    div.id = `armor-set-${idx}`;
+    div.dataset.f2p = set.isF2P ? "true" : "false";
 
-        div.innerHTML = `
-            <div class="set-title">${set.name}</div>
-            <div class="cards">
-                ${set.items.map(it => `
-                    <a class="card" href="https://prices.runescape.wiki/osrs/item/${it.id}" target="_blank">
-                        <div class="item-label">
-                            <img class="item-icon" src="https://oldschool.runescape.wiki/images/${it.imgName}.png" loading="lazy">${it.name}
-
-                        </div>
-                        <div id="armor-${it.id}">Loading...</div>
-                    </a>`).join("")}
-                <div class="card total">
-                    <div>Total Pieces Cost:</div>
-                    <div id="armor-total-${idx}">Loading...</div>
-                </div>
-                <a class="card total" href="https://prices.runescape.wiki/osrs/item/${set.setId}" target="_blank">
+    div.innerHTML = `
+        <div class="set-title">${set.name}</div>
+        <div class="cards">
+            ${set.items.map(it => `
+                <a class="card" href="https://prices.runescape.wiki/osrs/item/${it.id}" target="_blank">
                     <div class="item-label">
-                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${set.setImgName}.png" loading="lazy">${set.name} Price
+                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${it.imgName}.png" loading="lazy" alt="${it.name}">${it.name}
                     </div>
-                    <div id="armor-setPrice-${idx}">Loading...</div>
-                </a>
+                    <div id="armor-${it.id}">Loading...</div>
+                </a>`).join("")}
+            <div class="card total">
+                <div>Total Pieces Cost:</div>
+                <div id="armor-total-${idx}">Loading...</div>
             </div>
-            <div class="profit-box" id="armor-profit-${idx}">Loading...</div>`;
+            <a class="card total" href="https://prices.runescape.wiki/osrs/item/${set.setId}" target="_blank">
+                <div class="item-label">
+                    <img class="item-icon" src="https://oldschool.runescape.wiki/images/${set.setImgName}.png" loading="lazy" alt="${set.name}">${set.name} Price
+                </div>
+                <div id="armor-setPrice-${idx}">Loading...</div>
+            </a>
+        </div>
+        <div class="profit-box" id="armor-profit-${idx}">Loading...</div>`;
 
-        container.appendChild(div);
-    });
+    container.appendChild(div);
+});
+
 
     // Apply saved F2P filter after rendering
     const savedFilter = localStorage.getItem("f2pFilter") === "true";
