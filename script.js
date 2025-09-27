@@ -73,7 +73,8 @@ function createArmorSections() {
                 ${set.items.map(it => `
                     <a class="card" href="https://prices.runescape.wiki/osrs/item/${it.id}" target="_blank">
                         <div class="item-label">
-                            <img class="item-icon" src="https://oldschool.runescape.wiki/images/${it.imgName}.png">${it.name}
+                            <img class="item-icon" src="https://oldschool.runescape.wiki/images/${it.imgName}.png" loading="lazy">${it.name}
+
                         </div>
                         <div id="armor-${it.id}">Loading...</div>
                     </a>`).join("")}
@@ -83,7 +84,7 @@ function createArmorSections() {
                 </div>
                 <a class="card total" href="https://prices.runescape.wiki/osrs/item/${set.setId}" target="_blank">
                     <div class="item-label">
-                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${set.setImgName}.png">${set.name} Price
+                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${set.setImgName}.png" loading="lazy">${set.name} Price
                     </div>
                     <div id="armor-setPrice-${idx}">Loading...</div>
                 </a>
