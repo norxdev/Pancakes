@@ -261,12 +261,25 @@ button:focus-visible, a:focus-visible {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.floating-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(0,230,118,0.5); }
-.floating-btn:active { transform: none; box-shadow: 0 4px 6px var(--shadow-light); }
+/* Explicit stacking */
+#refreshData { bottom: 20px; }
+#backToTop { bottom: 90px; }
 
-.floating-btn + .floating-btn { margin-bottom: 60px; }
+.floating-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,230,118,0.5);
+}
 
-.floating-btn svg { width: 28px; height: 28px; fill: var(--text-dark); }
+.floating-btn:active {
+  transform: none;
+  box-shadow: 0 4px 6px var(--shadow-light);
+}
+
+.floating-btn svg {
+  width: 28px;
+  height: 28px;
+  fill: var(--text-dark);
+}
 
 /* --- Animations --- */
 @keyframes spin180 { from { transform: rotate(0deg); } to { transform: rotate(180deg); } }
