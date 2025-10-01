@@ -263,7 +263,7 @@ function initFeedbackButton() {
     const fb = document.getElementById('feedbackBtn');
     if (fb) {
         fb.addEventListener('click', () => {
-            window.open('https://forms.gle/nBDrdCE8176h5zdS9', '_blank');
+            window.open('https://www.armourflipper.com/feedback', '_blank');
         });
     }
 }
