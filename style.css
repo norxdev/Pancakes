@@ -310,3 +310,63 @@ button:focus-visible, a:focus-visible {
 @media (max-width: 420px) {
   .title-icon { display: none; }
 }
+
+
+/* --- Feedback Page Styling --- */
+.feedback-form {
+  max-width: 500px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  padding: 20px;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px var(--shadow-dark);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.feedback-form label {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.feedback-form select,
+.feedback-form textarea {
+  padding: 10px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-dark);
+  background-color: var(--bg-darker);
+  color: var(--text-light);
+  font-size: 1rem;
+}
+
+.feedback-form textarea {
+  min-height: 120px;
+  resize: none; /* No resize */
+}
+
+/* Buttons */
+.submit-btn {
+  padding: 12px;
+  border: none;
+  border-radius: 25px;
+  background-color: var(--accent);
+  color: var(--text-dark);
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.go-back-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: var(--bg-darker);
+  color: var(--text-light);
+  border: 1px solid var(--border-dark);
+  border-radius: 25px;
+  font-size: 1rem;
+  text-decoration: none;
+  font-weight: bold;
+}
+
