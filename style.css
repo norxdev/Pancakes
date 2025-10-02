@@ -78,7 +78,6 @@ button:focus-visible, a:focus-visible {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.donate-btn-header:hover { transform: scale(1.05); }
 .donate-btn-header:active { transform: none; box-shadow: none; }
 
 /* --- Main Content --- */
@@ -117,7 +116,6 @@ button:focus-visible, a:focus-visible {
   transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
-.feedback-btn:hover { background-color: #222; }
 .feedback-btn:active { transform: none; box-shadow: none; }
 
 /* --- Toggle Summary Button --- */
@@ -264,11 +262,6 @@ button:focus-visible, a:focus-visible {
 /* Explicit stacking */
 #refreshData { bottom: 20px; }
 #backToTop { bottom: 90px; }
-
-.floating-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0,230,118,0.5);
-}
 
 .floating-btn:active {
   transform: none;
