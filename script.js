@@ -124,7 +124,7 @@ function updateArmorPrices() {
             const profit = Math.round(setPrice * 0.98 - totalCost);
             const roi = totalCost ? ((profit / totalCost) * 100).toFixed(2) : 0;
             profitElem.innerHTML = `
-                <div><strong>Profit per set:</strong> ${profit ? formatNum(profit) + " gp" : "—"}</div>
+                <div><strong>Profit per set (after tax):</strong> ${profit ? formatNum(profit) + " gp" : "—"}</div>
                 <div><strong>ROI:</strong> ${profit ? roi + "%" : "—"}</div>
             `;
         }
