@@ -299,6 +299,20 @@ const armorSetsData = [
   setId: "13044",
   isF2P: true,
   setImgName: "Zamorak_armour_set_(lg)_detail"
+},
+
+{
+  name: "Rune Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+  items: [
+    { name: "Rune full helm", id: "1163", imgName: "Rune_full_helm_detail" },
+    { name: "Rune platebody", id: "1127", imgName: "Rune_platebody_detail" },
+    { name: "Rune platelegs", id: "1079", imgName: "Rune_platelegs_detail" },
+    { name: "Rune kiteshield", id: "1201", imgName: "Rune_kiteshield_detail" }
+  ],
+  setId: "13024",
+  isF2P: true,
+  setImgName: "Rune_armour_set_(lg)_detail"
 }
+
 ];
 
