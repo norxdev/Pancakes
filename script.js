@@ -288,10 +288,11 @@ function initFeedbackButton() {
     const fb = document.getElementById('feedbackBtn');
     if (fb) {
         fb.addEventListener('click', () => {
-            window.open('https://www.armourflipper.com/feedback', '_blank');
+            window.location.href = 'https://www.armourflipper.com/feedback';
         });
     }
 }
+
 
 // --- Init ---
 window.addEventListener("load", async () => {
