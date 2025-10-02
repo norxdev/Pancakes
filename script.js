@@ -214,12 +214,30 @@ function updateSummaries(sortKey = 'profit') {
         });
     }
 
-    document.querySelectorAll("#armorSummaryTable tbody tr").forEach(row => {
-        row.addEventListener("click", () => {
-            const idx = row.getAttribute("data-index");
-            document.getElementById(`armor-set-${idx}`)?.scrollIntoView({ behavior: "smooth" });
-        });
+document.querySelectorAll("#armorSummaryTable tbody tr").forEach(row => {
+    row.addEventListener("click", () => {
+        const idx = row.getAttribute("data-index");
+        const set = armorSetsData[idx];
+
+        // Use setImgName for the hash
+        const hash = `#${set.setImgName}`;
+        window.location.hash = hash;
+
+        // Scroll to the set
+        const targetEl = document.getElementById(`armor-set-${idx}`);
+        if (!targetEl) return;
+
+        // --- F2P Filter: ensure set is visible ---
+        if (targetEl.style.display === "none") {
+            targetEl.style.display = ""; // show the set
+        }
+
+        // Scroll smoothly
+        targetEl.scrollIntoView({ behavior: "smooth" });
     });
+});
+
+
 }
 
 // --- Toggle Summary Button ---
@@ -231,13 +249,20 @@ document.getElementById("toggleSummary")?.addEventListener("click", () => {
 
 // --- Floating Buttons ---
 document.getElementById('backToTop')?.addEventListener('click', () => {
+    // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Reset hash
+    history.replaceState(null, '', ' ');
+
+    // Bounce animation for the icon
     const icon = document.querySelector('#backToTop .floating-icon');
     if (icon) {
         icon.classList.add('bounce-icon');
         setTimeout(() => icon.classList.remove('bounce-icon'), 400);
     }
 });
+
 
 document.getElementById('refreshData')?.addEventListener('click', async () => {
     const icon = document.querySelector('#refreshData .floating-icon');
@@ -278,4 +303,15 @@ window.addEventListener("load", async () => {
     createArmorSections(savedFilter);
     initFeedbackButton();
     await fetchLatestPrices();
+	
+	// Scroll to hash if present
+const hash = window.location.hash.substring(1); // remove '#'
+if (hash) {
+    const targetSet = armorSetsData.find((s, i) => s.setImgName === hash);
+    if (targetSet) {
+        const targetEl = document.getElementById(`armor-set-${armorSetsData.indexOf(targetSet)}`);
+        if (targetEl) targetEl.scrollIntoView({ behavior: "smooth" });
+    }
+}
+
 });
