@@ -16,7 +16,7 @@
   <!-- Primary SEO -->
   <title>Armour Flipper | OSRS Flipping Tool</title>
   <meta name="description" content="Armour Flipper is a free OSRS tool to help players maximize profit by flipping armor sets on the Grand Exchange.">
-  <meta name="keywords" content="OSRS, Old School RuneScape, armor flipping, Grand Exchange, profit, OSRS tools, RuneScape guide, OSRS Flipping, OSRS Flipping Tool">
+  <meta name="keywords" content="OSRS, Old School RuneScape, armor flipping, Grand Exchange, profit, OSRS tools, RuneScape guide">
   <link rel="canonical" href="https://www.armourflipper.com/">
   <meta name="robots" content="index, follow">
   <meta name="author" content="Norxdev">
@@ -97,10 +97,19 @@
       </div>
     </section>
 
-    <button id="toggleSummary" class="toggle-summary-btn">Hide Summary ▲</button>
-    <div id="armorSummary"></div>
-    <div id="armorSection" class="container"></div>
-  </main>
+  <!-- Summary Toggle -->
+  <button id="toggleSummary" class="toggle-summary-btn">Hide Summary ▲</button>
+
+  <!-- Armor Summary with Loading Spinner -->
+  <div id="armorSummary">
+    <div id="summaryLoading" style="display:none; text-align:center; padding:20px;">
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  <!-- Detailed Armor Section -->
+  <div id="armorSection" class="container"></div>
+</main>
 
 <!-- Floating Buttons -->
 <button id="backToTop" class="floating-btn" aria-label="Scroll to top">
