@@ -1,5 +1,6 @@
 // --- Global Data ---
 let latestData = {};
+let volumesData = {};
 let itemMapping = {};
 let summaryVisible = true;
 
@@ -29,15 +30,13 @@ function calculateArmorProfit(set) {
     return { profit, totalCost, roi };
 }
 
-// --- Apply F2P Filter (summary rows + armorSection sets) ---
+// --- Apply F2P Filter ---
 function applyF2PFilter(onlyF2P) {
-    // Summary table rows
     document.querySelectorAll("#armorSummaryTable tbody tr").forEach(row => {
         const isF2P = row.getAttribute("data-f2p") === "true";
         row.style.display = (onlyF2P && !isF2P) ? "none" : "";
     });
 
-    // Armor sections (sets)
     armorSetsData.forEach((set, i) => {
         const setEl = document.getElementById(`armor-set-${i}`);
         if (!setEl) return;
@@ -49,57 +48,65 @@ function applyF2PFilter(onlyF2P) {
     });
 }
 
-// --- Section Rendering (Sorted by Set Name & F2P Filter) ---
+// --- Section Rendering ---
 function createArmorSections() {
     const container = document.getElementById("armorSection");
     if (!container) return;
     container.innerHTML = "";
 
-// Sort sets alphabetically by name, but keep original index
-const sortedSets = armorSetsData
-    .map((set, idx) => ({ ...set, originalIndex: idx }))
-    .sort((a, b) => a.name.localeCompare(b.name));
+    const sortedSets = armorSetsData
+        .map((set, idx) => ({ ...set, originalIndex: idx }))
+        .sort((a, b) => a.name.localeCompare(b.name));
 
-sortedSets.forEach(set => {
-    const idx = set.originalIndex;
-    const div = document.createElement("div");
-    div.className = "set-wrapper";
-    div.id = `armor-set-${idx}`;
-    div.dataset.f2p = set.isF2P ? "true" : "false";
+    sortedSets.forEach(set => {
+        const idx = set.originalIndex;
+        const div = document.createElement("div");
+        div.className = "set-wrapper";
+        div.id = `armor-set-${idx}`;
+        div.dataset.f2p = set.isF2P ? "true" : "false";
 
-    div.innerHTML = `
-        <div class="set-title">${set.name}</div>
-        <div class="cards">
-            ${set.items.map(it => `
-                <a class="card" href="https://prices.runescape.wiki/osrs/item/${it.id}" target="_blank">
-                    <div class="item-label">
-                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${it.imgName}.png" loading="lazy" alt="${it.name}">${it.name}
+        div.innerHTML = `
+            <div class="set-title">${set.name}</div>
+            <div class="cards">
+                ${set.items.map(it => `
+                    <a class="card" href="https://prices.runescape.wiki/osrs/item/${it.id}" target="_blank">
+                        <div class="card-left">
+                            <img class="item-icon" src="https://oldschool.runescape.wiki/images/${it.imgName}.png" loading="lazy" alt="${it.name}">
+                        </div>
+                        <div class="card-middle">
+                            <div class="item-name">${it.name}</div>
+                            <div class="volume">Loading...</div>
+                        </div>
+                        <div class="card-right">
+                            <div class="item-price">Loading...</div>
+                        </div>
+                    </a>`).join("")}
+                <div class="card total">
+                    <div class="card-left"></div>
+                    <div class="card-middle">
+                        <div>Total Pieces Cost:</div>
                     </div>
-                    <div id="armor-${it.id}">Loading...</div>
-                </a>`).join("")}
-            <div class="card total">
-                <div>Total Pieces Cost:</div>
-                <div id="armor-total-${idx}">Loading...</div>
-            </div>
-            <a class="card total" href="https://prices.runescape.wiki/osrs/item/${set.setId}" target="_blank">
-                <div class="item-label">
-                    <img class="item-icon" src="https://oldschool.runescape.wiki/images/${set.setImgName}.png" loading="lazy" alt="${set.name}">${set.name} Price
+                    <div class="card-right" id="armor-total-${idx}">Loading...</div>
                 </div>
-                <div id="armor-setPrice-${idx}">Loading...</div>
-            </a>
-        </div>
-        <div class="profit-box" id="armor-profit-${idx}">Loading...</div>`;
+                <a class="card total" href="https://prices.runescape.wiki/osrs/item/${set.setId}" target="_blank">
+                    <div class="card-left">
+                        <img class="item-icon" src="https://oldschool.runescape.wiki/images/${set.setImgName}.png" loading="lazy" alt="${set.name}">
+                    </div>
+                    <div class="card-middle">
+                        <div class="item-name">${set.name} Price</div>
+                        <div class="volume">Loading...</div>
+                    </div>
+                    <div class="card-right" id="armor-setPrice-${idx}">Loading...</div>
+                </a>
+            </div>
+            <div class="profit-box" id="armor-profit-${idx}">Loading...</div>`;
 
-    container.appendChild(div);
-});
+        container.appendChild(div);
+    });
 
-
-    // Apply saved F2P filter after rendering
     const savedFilter = localStorage.getItem("f2pFilter") === "true";
     applyF2PFilter(savedFilter);
 }
-
-
 
 // --- Update Prices ---
 function updateArmorPrices() {
@@ -108,8 +115,9 @@ function updateArmorPrices() {
         set.items.forEach(item => {
             const low = latestData.data?.[item.id]?.low || 0;
             totalCost += low;
-            const elem = document.getElementById(`armor-${item.id}`);
-            if (elem) elem.innerText = low ? formatNum(low) + " gp" : "—";
+
+            const priceEl = document.querySelector(`#armor-set-${i} .card[href*="${item.id}"] .card-right .item-price`);
+            if (priceEl) priceEl.textContent = low ? formatNum(low) + " gp" : "—";
         });
 
         const totalElem = document.getElementById(`armor-total-${i}`);
@@ -132,6 +140,23 @@ function updateArmorPrices() {
 
     const savedFilter = localStorage.getItem("f2pFilter") === "true";
     if (savedFilter) applyF2PFilter(true);
+}
+
+// --- Update Volumes ---
+function updateVolumes() {
+    armorSetsData.forEach((set, i) => {
+        // --- Piece Volumes ---
+        set.items.forEach(item => {
+            const vol = volumesData.data?.[item.id];
+            const volEl = document.querySelector(`#armor-set-${i} .card[href*="${item.id}"] .card-middle .volume`);
+            if (volEl) volEl.textContent = `Daily volume: ${formatNum(vol)}`;
+        });
+
+        // --- Set Volume ---
+        const setVol = volumesData.data?.[set.setId];
+        const setVolEl = document.querySelector(`#armor-set-${i} a.card.total[href*="${set.setId}"] .card-middle .volume`);
+        if (setVolEl) setVolEl.textContent = `Daily volume: ${formatNum(setVol)}`;
+    });
 }
 
 // --- Update Summary Table ---
@@ -206,7 +231,6 @@ function updateSummaries(sortKey = 'profit') {
     if (f2pCheckbox) {
         f2pCheckbox.checked = savedFilter;
         applyF2PFilter(savedFilter);
-
         f2pCheckbox.addEventListener("change", function () {
             const onlyF2P = this.checked;
             localStorage.setItem("f2pFilter", onlyF2P ? "true" : "false");
@@ -214,30 +238,20 @@ function updateSummaries(sortKey = 'profit') {
         });
     }
 
-document.querySelectorAll("#armorSummaryTable tbody tr").forEach(row => {
-    row.addEventListener("click", () => {
-        const idx = row.getAttribute("data-index");
-        const set = armorSetsData[idx];
-
-        // Use setImgName for the hash
-        const hash = `#${set.setImgName}`;
-        window.location.hash = hash;
-
-        // Scroll to the set
-        const targetEl = document.getElementById(`armor-set-${idx}`);
-        if (!targetEl) return;
-
-        // --- F2P Filter: ensure set is visible ---
-        if (targetEl.style.display === "none") {
-            targetEl.style.display = ""; // show the set
-        }
-
-        // Scroll smoothly
-        targetEl.scrollIntoView({ behavior: "smooth" });
+    document.querySelectorAll("#armorSummaryTable tbody tr").forEach(row => {
+        row.addEventListener("click", () => {
+            const idx = row.getAttribute("data-index");
+            const set = armorSetsData[idx];
+            const hash = `#${set.setImgName}`;
+            window.location.hash = hash;
+            const targetEl = document.getElementById(`armor-set-${idx}`);
+            if (!targetEl) return;
+            if (targetEl.style.display === "none") {
+                targetEl.style.display = "";
+            }
+            targetEl.scrollIntoView({ behavior: "smooth" });
+        });
     });
-});
-
-
 }
 
 // --- Toggle Summary Button ---
@@ -249,20 +263,14 @@ document.getElementById("toggleSummary")?.addEventListener("click", () => {
 
 // --- Floating Buttons ---
 document.getElementById('backToTop')?.addEventListener('click', () => {
-    // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    // Reset hash
     history.replaceState(null, '', ' ');
-
-    // Bounce animation for the icon
     const icon = document.querySelector('#backToTop .floating-icon');
     if (icon) {
         icon.classList.add('bounce-icon');
         setTimeout(() => icon.classList.remove('bounce-icon'), 400);
     }
 });
-
 
 document.getElementById('refreshData')?.addEventListener('click', async () => {
     const icon = document.querySelector('#refreshData .floating-icon');
@@ -271,6 +279,18 @@ document.getElementById('refreshData')?.addEventListener('click', async () => {
     if (icon) setTimeout(() => icon.classList.remove('spin-icon'), 500);
 });
 
+// --- Fetch Daily Volumes ---
+async function fetchDailyVolumes() {
+    try {
+        const res = await fetch("https://prices.runescape.wiki/api/v1/osrs/volumes");
+        const data = await res.json();
+        volumesData = data;
+        updateVolumes();
+    } catch (err) {
+        console.warn("Failed to fetch daily volumes", err);
+    }
+}
+
 // --- Fetch Latest Prices ---
 async function fetchLatestPrices() {
     try {
@@ -278,6 +298,7 @@ async function fetchLatestPrices() {
         latestData = await res.json();
         updateArmorPrices();
         updateSummaries(localStorage.getItem("sortKey") || "profit");
+        await fetchDailyVolumes();
     } catch (err) {
         console.warn("Failed to fetch latest prices", err);
     }
@@ -293,26 +314,20 @@ function initFeedbackButton() {
     }
 }
 
-
 // --- Init ---
 window.addEventListener("load", async () => {
     await fetchItemMappingOnce();
-
-    // Restore saved F2P filter state
     const savedFilter = localStorage.getItem("f2pFilter") === "true";
-
     createArmorSections(savedFilter);
     initFeedbackButton();
     await fetchLatestPrices();
-	
-	// Scroll to hash if present
-const hash = window.location.hash.substring(1); // remove '#'
-if (hash) {
-    const targetSet = armorSetsData.find((s, i) => s.setImgName === hash);
-    if (targetSet) {
-        const targetEl = document.getElementById(`armor-set-${armorSetsData.indexOf(targetSet)}`);
-        if (targetEl) targetEl.scrollIntoView({ behavior: "smooth" });
-    }
-}
 
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+        const targetSet = armorSetsData.find((s) => s.setImgName === hash);
+        if (targetSet) {
+            const targetEl = document.getElementById(`armor-set-${armorSetsData.indexOf(targetSet)}`);
+            if (targetEl) targetEl.scrollIntoView({ behavior: "smooth" });
+        }
+    }
 });
