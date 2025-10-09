@@ -156,8 +156,8 @@ button:focus-visible, a:focus-visible {
   padding: 8px 12px;
   border-radius: var(--radius);
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   font-size: 1.1rem;
   cursor: pointer;
   text-decoration: none;
@@ -168,17 +168,42 @@ button:focus-visible, a:focus-visible {
 .card:hover { background-color: #333; }
 .card.total { font-weight: bold; }
 
+.card-left, .card-middle, .card-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-left {
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+
+.card-middle {
+  flex-grow: 1;
+}
+
+.card-right {
+  text-align: right;
+  min-width: 80px;
+  font-weight: bold;
+}
+
 .item-icon {
   width: 42px;
   height: 42px;
-  margin-right: 10px;
   image-rendering: pixelated;
+  object-fit: contain;
 }
 
-.item-label {
-  display: flex;
-  align-items: center;
+.item-name {
   font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+.volume {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-top: 2px;
 }
 
 /* Profit Box */
@@ -259,7 +284,6 @@ button:focus-visible, a:focus-visible {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* Explicit stacking */
 #refreshData { bottom: 20px; }
 #backToTop { bottom: 90px; }
 
@@ -289,21 +313,20 @@ button:focus-visible, a:focus-visible {
 @media (max-width: 800px) {
   .card { flex-direction: row; font-size: 1rem; padding: 6px 10px; }
   .item-icon { width: 36px; height: 36px; margin-right: 8px; }
-  .item-label { font-size: 1rem; }
+  .item-name { font-size: 1rem; }
   .summary-table th, .summary-table td { font-size: 0.95rem; padding: 6px 8px; }
 }
 
 @media (max-width: 500px) {
   .card { gap: 6px; }
   .item-icon { width: 32px; height: 32px; margin-right: 6px; }
-  .item-label { font-size: 0.95rem; }
+  .item-name { font-size: 0.95rem; }
   .profit-box { font-size: 1rem; padding: 12px 8px; }
 }
 
 @media (max-width: 420px) {
   .title-icon { display: none; }
 }
-
 
 /* --- Feedback Page Styling --- */
 .feedback-form {
@@ -335,7 +358,7 @@ button:focus-visible, a:focus-visible {
 
 .feedback-form textarea {
   min-height: 120px;
-  resize: none; /* No resize */
+  resize: none;
 }
 
 /* Buttons */
@@ -363,3 +386,7 @@ button:focus-visible, a:focus-visible {
   font-weight: bold;
 }
 
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
