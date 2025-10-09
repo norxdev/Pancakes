@@ -159,10 +159,23 @@ function updateVolumes() {
     });
 }
 
-// --- Update Summary Table ---
-function updateSummaries(sortKey = 'profit') {
+// --- State to track sort ---
+let currentSortKey = localStorage.getItem('sortKey') || 'profit';
+let currentSortDir = localStorage.getItem('sortDir') || 'default'; // use 'default' as initial state
+
+function updateSummaries(sortKey = currentSortKey, sortDir = currentSortDir) {
     const armorSummary = document.getElementById("armorSummary");
     if (!armorSummary) return;
+
+    const loadingEl = document.getElementById("summaryLoading");
+
+    // --- Show spinner if data not loaded ---
+    if (!latestData.data || !armorSetsData.length) {
+        if (loadingEl) loadingEl.style.display = "block";
+        return;
+    } else {
+        if (loadingEl) loadingEl.style.display = "none";
+    }
 
     armorSummary.style.display = summaryVisible ? "block" : "none";
 
@@ -171,61 +184,87 @@ function updateSummaries(sortKey = 'profit') {
         return { ...calc, name: s.name, index: i };
     });
 
+    // --- Sort list ---
+    const numericCols = ["profit", "roi", "totalCost"];
     list.sort((a, b) => {
-        if (sortKey === 'name') return a.name.localeCompare(b.name);
-        return b[sortKey] - a[sortKey];
+        if (currentSortDir === 'default') return b.profit - a.profit; // default = profit desc
+
+        if (currentSortKey === 'name') {
+            return currentSortDir === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+        } else {
+            return currentSortDir === 'asc' ? a[currentSortKey] - b[currentSortKey] : b[currentSortKey] - a[currentSortKey];
+        }
     });
 
+    // --- Render Table ---
     armorSummary.innerHTML = `
-    <div class="summary-controls">
-        <label for="sortDropdown">Sort by:</label>
-        <select id="sortDropdown">
-            <option value="profit">Profit per set</option>
-            <option value="roi">ROI %</option>
-            <option value="name">Name</option>
-            <option value="totalCost">Total pieces cost</option>
-        </select>
-
-        <label class="f2p-filter" style="margin-left:12px;">
-            <input type="checkbox" id="f2pFilter"> Show F2P sets only
+        <label style="display:block; margin-bottom:8px;">
+            <input type="checkbox" id="f2pFilter"> Show only F2P sets
         </label>
-    </div>
-
-    <table class="summary-table" id="armorSummaryTable">
-        <thead>
-            <tr>
-                <th>Armor Set</th>
-                <th>Profit per set</th>
-                <th>ROI %</th>
-                <th>Total Pieces Cost</th>
-            </tr>
-        </thead>
-        <tbody>
-            ${list.map(l => `
-                <tr class="${l.profit >= 0 ? 'profit-positive' : 'profit-negative'}"
-                    data-index="${l.index}"
-                    data-f2p="${armorSetsData[l.index].isF2P ? "true" : "false"}">
-                    <td style="text-align:left">${l.name}</td>
-                    <td style="text-align:left">${formatNum(l.profit)} gp</td>
-                    <td style="text-align:left">${l.roi}%</td>
-                    <td style="text-align:left">${formatNum(l.totalCost)} gp</td>
+        <table class="summary-table" id="armorSummaryTable">
+            <thead>
+                <tr>
+                    <th data-key="name">Armor Set <span class="sort-indicator">&nbsp;</span></th>
+                    <th data-key="profit">Profit per set <span class="sort-indicator">&nbsp;</span></th>
+                    <th data-key="roi">ROI % <span class="sort-indicator">&nbsp;</span></th>
+                    <th data-key="totalCost">Total Pieces Cost <span class="sort-indicator">&nbsp;</span></th>
                 </tr>
-            `).join("")}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                ${list.map(l => `
+                    <tr class="${l.profit >= 0 ? 'profit-positive' : 'profit-negative'}"
+                        data-index="${l.index}"
+                        data-f2p="${armorSetsData[l.index].isF2P ? "true" : "false"}">
+                        <td>${l.name}</td>
+                        <td>${formatNum(l.profit)} gp</td>
+                        <td>${l.roi}%</td>
+                        <td>${formatNum(l.totalCost)} gp</td>
+                    </tr>
+                `).join("")}
+            </tbody>
+        </table>
     `;
 
-    const savedSort = localStorage.getItem("sortKey") || sortKey;
-    const sortDropdown = document.getElementById("sortDropdown");
-    if (sortDropdown) {
-        sortDropdown.value = savedSort;
-        sortDropdown.addEventListener("change", (e) => {
-            const newSort = e.target.value;
-            localStorage.setItem("sortKey", newSort);
-            updateSummaries(newSort);
-        });
-    }
+    // --- Header Sorting ---
+    const headers = document.querySelectorAll("#armorSummaryTable thead th");
+    headers.forEach(th => {
+        const key = th.getAttribute('data-key');
+        const indicator = th.querySelector(".sort-indicator");
 
+        // reset all
+        indicator.innerHTML = '&nbsp;';
+        if (key === currentSortKey) {
+            if (currentSortDir === 'asc') indicator.innerText = '▲';
+            else if (currentSortDir === 'desc') indicator.innerText = '▼';
+        }
+
+        th.onclick = () => {
+            const isNumeric = numericCols.includes(key);
+
+            // --- Determine new direction ---
+            if (currentSortKey !== key) {
+                // first click on new column
+                currentSortDir = isNumeric ? 'desc' : 'asc';
+            } else {
+                // cycling for same column
+                if (currentSortDir === 'default') {
+                    currentSortDir = isNumeric ? 'desc' : 'asc';
+                } else if ((isNumeric && currentSortDir === 'desc') || (!isNumeric && currentSortDir === 'asc')) {
+                    currentSortDir = isNumeric ? 'asc' : 'desc';
+                } else {
+                    currentSortDir = 'default';
+                }
+            }
+
+            currentSortKey = key;
+            localStorage.setItem('sortKey', currentSortKey);
+            localStorage.setItem('sortDir', currentSortDir);
+
+            updateSummaries(currentSortKey, currentSortDir);
+        };
+    });
+
+    // --- F2P Filter ---
     const savedFilter = localStorage.getItem("f2pFilter") === "true";
     const f2pCheckbox = document.getElementById("f2pFilter");
     if (f2pCheckbox) {
@@ -238,6 +277,7 @@ function updateSummaries(sortKey = 'profit') {
         });
     }
 
+    // --- Row Click Scroll ---
     document.querySelectorAll("#armorSummaryTable tbody tr").forEach(row => {
         row.addEventListener("click", () => {
             const idx = row.getAttribute("data-index");
@@ -246,13 +286,17 @@ function updateSummaries(sortKey = 'profit') {
             window.location.hash = hash;
             const targetEl = document.getElementById(`armor-set-${idx}`);
             if (!targetEl) return;
-            if (targetEl.style.display === "none") {
-                targetEl.style.display = "";
-            }
+            if (targetEl.style.display === "none") targetEl.style.display = "";
             targetEl.scrollIntoView({ behavior: "smooth" });
         });
     });
 }
+
+// --- Initialize ---
+updateSummaries();
+
+
+
 
 // --- Toggle Summary Button ---
 document.getElementById("toggleSummary")?.addEventListener("click", () => {
