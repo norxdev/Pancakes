@@ -48,22 +48,34 @@
     })(window,document,'script','dataLayer','GTM-K6L68P6W');
   </script>
 
-  <!-- Ad Styles -->
-  <style>
-    .ad { display: none; text-align: center; margin: 16px 0; }
-    .ad-sidebar { position: sticky; top: 20px; }
+<!-- Ad Styles -->
+<style>
+  .ad {
+    visibility: hidden;       /* Hide visually but keep layout space for AdSense */
+    text-align: center;
+    margin: 16px 0;
+  }
 
-    @media (min-width: 769px) {
-      main { display: flex; gap: 20px; align-items: flex-start; }
-      .content { flex: 3; }
-      .ad-sidebar { flex: 1; }
-      .ad-top { width: 728px; margin: 0 auto; }
-    }
+  .ad-sidebar {
+    position: sticky;
+    top: 20px;
+  }
 
-    @media (max-width: 768px) {
-      .ad-top { width: 100%; margin: 0 auto; }
+  @media (min-width: 769px) {
+    main {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
     }
-  </style>
+    .content { flex: 3; }
+    .ad-sidebar { flex: 1; }
+    .ad-top { width: 728px; margin: 0 auto; }
+  }
+
+  @media (max-width: 768px) {
+    .ad-top { width: 100%; margin: 0 auto; }
+  }
+</style>
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
