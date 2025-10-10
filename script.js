@@ -305,4 +305,21 @@ window.addEventListener("load", async () => {
             if (targetEl) targetEl.scrollIntoView({ behavior: "smooth" });
         }
     }
+
+    // --- AdSense check ---
+    try { (adsbygoogle = window.adsbygoogle || []).push({}); } 
+    catch (e) { console.warn('AdSense not loaded', e); }
+
+    setTimeout(() => {
+        document.querySelectorAll('.ad').forEach(container => {
+            const ad = container.querySelector('ins.adsbygoogle');
+            if (ad && ad.offsetHeight > 0) {
+                container.style.display = 'block';
+                container.style.visibility = 'visible';
+            } else {
+                container.style.display = 'none';
+            }
+        });
+    }, 500);
+
 });
