@@ -14,8 +14,8 @@ const armorSetsData = [
   {
     name: "Blood Moon Armour Set",
     items: [
-      { name: "Blood Moon Chestplate", id: "29022", imgName: "Blood_moon_chestplate_detail" },
       { name: "Blood Moon Helm", id: "29028", imgName: "Blood_moon_helm_detail" },
+      { name: "Blood Moon Chestplate", id: "29022", imgName: "Blood_moon_chestplate_detail" },
       { name: "Blood Moon Tassets", id: "29025", imgName: "Blood_moon_tassets_detail" },
       { name: "Dual Macuahuitl", id: "28997", imgName: "Dual_macuahuitl_detail" }
     ],
@@ -25,10 +25,10 @@ const armorSetsData = [
   {
     name: "Blue Moon Armour Set",
     items: [
-      { name: "Blue Moon Chestplate", id: "29013", imgName: "Blue_moon_chestplate_detail" },
       { name: "Blue Moon Helm", id: "29019", imgName: "Blue_moon_helm_detail" },
-      { name: "Blue Moon Spear", id: "28988", imgName: "Blue_moon_spear_detail" },
-      { name: "Blue Moon Tassets", id: "29016", imgName: "Blue_moon_tassets_detail" }
+      { name: "Blue Moon Chestplate", id: "29013", imgName: "Blue_moon_chestplate_detail" },
+      { name: "Blue Moon Tassets", id: "29016", imgName: "Blue_moon_tassets_detail" },
+	  { name: "Blue Moon Spear", id: "28988", imgName: "Blue_moon_spear_detail" }
     ],
     setId: "31139",
     setImgName: "Blue_moon_armour_set_detail"
@@ -36,8 +36,8 @@ const armorSetsData = [
   {
     name: "Eclipse Moon Armour Set",
     items: [
-      { name: "Eclipse Moon Chestplate", id: "29004", imgName: "Eclipse_moon_chestplate_detail" },
       { name: "Eclipse Moon Helm", id: "29010", imgName: "Eclipse_moon_helm_detail" },
+      { name: "Eclipse Moon Chestplate", id: "29004", imgName: "Eclipse_moon_chestplate_detail" },
       { name: "Eclipse Moon Tassets", id: "29007", imgName: "Eclipse_moon_tassets_detail" },
       { name: "Eclipse Atlatl", id: "29000", imgName: "Eclipse_atlatl_detail" }
     ],
@@ -137,8 +137,9 @@ const armorSetsData = [
     items: [
       { name: "Dragonstone full helm", id: "24034", imgName: "Dragonstone_full_helm" },
       { name: "Dragonstone platebody", id: "24037", imgName: "Dragonstone_platebody" },
-      { name: "Dragonstone platelegs", id: "24040", imgName: "Dragonstone_platelegs" },
-      { name: "Dragonstone gauntlets", id: "24046", imgName: "Dragonstone_gauntlets" }
+      { name: "Dragonstone gauntlets", id: "24046", imgName: "Dragonstone_gauntlets" },
+	  { name: "Dragonstone platelegs", id: "24040", imgName: "Dragonstone_platelegs" }
+
     ],
     setId: "23667",
     setImgName: "Dragonstone_armour_set"
