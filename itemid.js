@@ -313,6 +313,57 @@ const armorSetsData = [
   setId: "13024",
   isF2P: true,
   setImgName: "Rune_armour_set_(lg)_detail"
+},
+	{
+  name: "Dragon Armour Set (lg)",
+  items: [
+    { name: "Dragon full helm", id: 11335, imgName: "Dragon_full_helm" },
+    { name: "Dragon platebody", id: 21892, imgName: "Dragon_platebody" },
+    { name: "Dragon platelegs", id: 4087, imgName: "Dragon_platelegs" },
+    { name: "Dragon kiteshield", id: 21895, imgName: "Dragon_kiteshield" }
+  ],
+  setId: 21882,
+  setImgName: "Dragon_armour_set_(lg)_detail",
+  isF2P: false
+},
+
+{
+  name: "Torva Armour Set",
+  items: [
+    { name: "Torva full helm", id: 26382, imgName: "Torva_full_helm" },
+    { name: "Torva platebody", id: 26384, imgName: "Torva_platebody" },
+    { name: "Torva platelegs", id: 26386, imgName: "Torva_platelegs" }
+  ],
+  setId: 31145,
+  setImgName: "Torva_armour_set_detail",
+  isF2P: false
+},
+
+{
+  name: "Dwarf Cannon Set",
+  items: [
+    { name: "Cannon barrels", id: 10, imgName: "Cannon_barrels" },
+    { name: "Cannon base", id: 6, imgName: "Cannon_base" },
+    { name: "Cannon furnace", id: 12, imgName: "Cannon_furnace" },
+    { name: "Cannon stand", id: 8, imgName: "Cannon_stand" }
+  ],
+  setId: 12863,
+  setImgName: "Dwarf_cannon_set_detail",
+  isF2P: false
+},
+{
+  name: "Partyhat Set&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+  items: [
+    { name: "Red partyhat", id: 1038, imgName: "Red_partyhat" },
+    { name: "Yellow partyhat", id: 1040, imgName: "Yellow_partyhat" },
+    { name: "Green partyhat", id: 1044, imgName: "Green_partyhat" },
+    { name: "Blue partyhat", id: 1042, imgName: "Blue_partyhat" },
+    { name: "Purple partyhat", id: 1046, imgName: "Purple_partyhat" },
+    { name: "White partyhat", id: 1048, imgName: "White_partyhat" }
+  ],
+  setId: 13173,
+  setImgName: "Partyhat_set_detail",
+  isF2P: true
 }
 
 ];
