@@ -413,3 +413,46 @@ button:focus-visible, a:focus-visible {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* === Universal Ad Styling === */
+.adsbygoogle {
+  display: block !important;
+  margin: 0 auto;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* === Top Banner Ad (first ad under header) === */
+header + .adsbygoogle {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin: 15px auto 20px auto;
+}
+
+/* === In-Article Ad (right after summary) === */
+.website-summary .adsbygoogle {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin: 25px 0;
+}
+
+/* === Sidebar Ad (desktop only, fixed right) === */
+@media (min-width: 1024px) {
+  /* last .adsbygoogle on the page assumed to be sidebar */
+  body > .adsbygoogle:last-of-type {
+    position: fixed;
+    top: 150px; /* adjust based on header height */
+    right: 20px;
+    width: 300px;
+    z-index: 10;
+  }
+}
+
+/* Hide Sidebar Ad on tablet/mobile */
+@media (max-width: 1023px) {
+  body > .adsbygoogle:last-of-type {
+    display: none !important;
+  }
+}
