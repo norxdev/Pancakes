@@ -314,35 +314,6 @@ button:focus-visible, a:focus-visible {
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .spinner { border: 6px solid #f3f3f3; border-top: 6px solid var(--accent); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto; }
 
-/* === Universal Ad Styling === */
-.adsbygoogle {
-  display: block !important;
-  margin: 0 auto 20px auto;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-/* === Top Banner Ad (first ad under header) === */
-header + .adsbygoogle { width: 100%; text-align: center; margin: 15px auto 20px auto; }
-
-/* === In-Article Ad (right after summary) === */
-.website-summary .adsbygoogle { width: 100%; text-align: center; margin: 25px 0; }
-
-/* === Sidebar Ad (desktop only, fixed right) === */
-@media (min-width: 1024px) {
-  body > .adsbygoogle:last-of-type {
-    position: fixed;
-    top: 150px;
-    right: 20px;
-    width: 300px;
-    z-index: 10;
-  }
-}
-
-/* Hide Sidebar Ad on tablet/mobile */
-@media (max-width: 1023px) {
-  body > .adsbygoogle:last-of-type { display: none !important; }
-}
 
 /* --- Responsive Adjustments --- */
 @media (max-width: 800px) {
@@ -418,3 +389,38 @@ header + .adsbygoogle { width: 100%; text-align: center; margin: 15px auto 20px 
 }
 
 .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* === Universal Ad Styling === */
+.adsbygoogle {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100%;
+  margin: 20px auto;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* === Top Banner Ad === */
+header + .adsbygoogle {
+  width: 100% !important;
+  text-align: center;
+  margin: 15px auto 20px auto;
+  box-sizing: border-box;
+}
+
+/* === In-Article Ad === */
+.website-summary .adsbygoogle {
+  width: 100% !important;
+  max-width: 100%;
+  text-align: center;
+  margin: 25px 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Extra mobile safety: small horizontal padding */
+@media (max-width: 500px) {
+  .website-summary .adsbygoogle {
+    padding: 0 10px;
+  }
+}
