@@ -390,37 +390,3 @@ button:focus-visible, a:focus-visible {
 
 .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-/* === Universal Ad Styling === */
-.adsbygoogle {
-  display: block !important;
-  width: 100% !important;
-  max-width: 100%;
-  margin: 20px auto;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-/* === Top Banner Ad === */
-header + .adsbygoogle {
-  width: 100% !important;
-  text-align: center;
-  margin: 15px auto 20px auto;
-  box-sizing: border-box;
-}
-
-/* === In-Article Ad === */
-.website-summary .adsbygoogle {
-  width: 100% !important;
-  max-width: 100%;
-  text-align: center;
-  margin: 25px 0;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-/* Extra mobile safety: small horizontal padding */
-@media (max-width: 500px) {
-  .website-summary .adsbygoogle {
-    padding: 0 10px;
-  }
-}
