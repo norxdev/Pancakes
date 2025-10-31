@@ -138,8 +138,7 @@ const armorSetsData = [
       { name: "Dragonstone full helm", id: "24034", imgName: "Dragonstone_full_helm" },
       { name: "Dragonstone platebody", id: "24037", imgName: "Dragonstone_platebody" },
       { name: "Dragonstone gauntlets", id: "24046", imgName: "Dragonstone_gauntlets" },
-	  { name: "Dragonstone platelegs", id: "24040", imgName: "Dragonstone_platelegs" },
-    { name: "Dragonstone boots", id: "24043", imgName: "Dragonstone_boots" }
+	  { name: "Dragonstone platelegs", id: "24040", imgName: "Dragonstone_platelegs" }
 
     ],
     setId: "23667",
@@ -315,7 +314,8 @@ const armorSetsData = [
   isF2P: true,
   setImgName: "Rune_armour_set_(lg)_detail"
 },
-	{
+
+{
   name: "Dragon Armour Set (lg)",
   items: [
     { name: "Dragon full helm", id: 11335, imgName: "Dragon_full_helm" },
@@ -365,7 +365,107 @@ const armorSetsData = [
   setId: 13173,
   setImgName: "Partyhat_set_detail",
   isF2P: true
-}
+},
+
+  {
+    name: "Rune Gold Trimmed Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+    items: [
+      { name: "Rune full helm (g)", id: "2619", imgName: "Rune_full_helm_(g)" },
+      { name: "Rune platebody (g)", id: "2615", imgName: "Rune_platebody_(g)" },
+      { name: "Rune platelegs (g)", id: "2617", imgName: "Rune_platelegs_(g)" },
+      { name: "Rune kiteshield (g)", id: "2621", imgName: "Rune_kiteshield_(g)" }
+    ],
+    setId: "13024",
+    setImgName: "Rune_gold-trimmed_set_(lg)_detail",
+    isF2P: true
+  },
+  {
+    name: "Adamant Gold Trimmed Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+    items: [
+      { name: "Adamant full helm (g)", id: "2613", imgName: "Adamant_full_helm_(g)" },
+      { name: "Adamant platebody (g)", id: "2607", imgName: "Adamant_platebody_(g)" },
+      { name: "Adamant platelegs (g)", id: "2609", imgName: "Adamant_platelegs_(g)" },
+      { name: "Adamant kiteshield (g)", id: "2611", imgName: "Adamant_kiteshield_(g)" }
+    ],
+    setId: "13016",
+    setImgName: "Adamant_gold-trimmed_set_(lg)_detail",
+    isF2P: true
+  },
+  {
+    name: "Mithril Gold Trimmed Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+    items: [
+      { name: "Mithril full helm (g)", id: "12283", imgName: "Mithril_full_helm_(g)" },
+      { name: "Mithril platebody (g)", id: "12277", imgName: "Mithril_platebody_(g)" },
+      { name: "Mithril platelegs (g)", id: "12279", imgName: "Mithril_platelegs_(g)" },
+      { name: "Mithril kiteshield (g)", id: "12281", imgName: "Mithril_kiteshield_(g)" }
+    ],
+    setId: "13012",
+    setImgName: "Mithril_gold-trimmed_set_(lg)_detail",
+    isF2P: true
+  },
+  {
+    name: "Black Gold Trimmed Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+    items: [
+      { name: "Black full helm (g)", id: "2595", imgName: "Black_full_helm_(g)" },
+      { name: "Black platebody (g)", id: "2591", imgName: "Black_platebody_(g)" },
+      { name: "Black platelegs (g)", id: "2593", imgName: "Black_platelegs_(g)" },
+      { name: "Black kiteshield (g)", id: "2597", imgName: "Black_kiteshield_(g)" }
+    ],
+    setId: "12988",
+    setImgName: "Black_gold-trimmed_set_(lg)_detail",
+    isF2P: true
+  },
+  {
+    name: "Steel Gold Trimmed Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+    items: [
+      { name: "Steel full helm (g)", id: "20178", imgName: "Steel_full_helm_(g)" },
+      { name: "Steel platebody (g)", id: "20169", imgName: "Steel_platebody_(g)" },
+      { name: "Steel platelegs (g)", id: "20172", imgName: "Steel_platelegs_(g)" },
+      { name: "Steel kiteshield (g)", id: "20181", imgName: "Steel_kiteshield_(g)" }
+    ],
+    setId: "20187",
+    setImgName: "Steel_gold-trimmed_set_(lg)_detail",
+    isF2P: true
+  },
+  {
+    name: "Iron Gold Trimmed Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+    items: [
+      { name: "Iron full helm (g)", id: "12241", imgName: "Iron_full_helm_(g)" },
+      { name: "Iron platebody (g)", id: "12235", imgName: "Iron_platebody_(g)" },
+      { name: "Iron platelegs (g)", id: "12237", imgName: "Iron_platelegs_(g)" },
+      { name: "Iron kiteshield (g)", id: "12243", imgName: "Iron_kiteshield_(g)" }
+    ],
+    setId: "13008",
+    setImgName: "Iron_gold-trimmed_set_(lg)_detail",
+    isF2P: true
+  },
+  {
+    name: "Bronze Gold Trimmed Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+    items: [
+      { name: "Bronze full helm (g)", id: "12211", imgName: "Bronze_full_helm_(g)" },
+      { name: "Bronze platebody (g)", id: "12205", imgName: "Bronze_platebody_(g)" },
+      { name: "Bronze platelegs (g)", id: "12207", imgName: "Bronze_platelegs_(g)" },
+      { name: "Bronze kiteshield (g)", id: "12213", imgName: "Bronze_kiteshield_(g)" }
+    ],
+    setId: "12992",
+    setImgName: "Bronze_gold-trimmed_set_(lg)_detail",
+    isF2P: true
+  },
+
+{
+  name: "Halloween Mask Set&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+  items: [
+    { name: "Red halloween mask", id: "1057", imgName: "Red_halloween_mask" },
+    { name: "Green halloween mask", id: "1053", imgName: "Green_halloween_mask" },
+    { name: "Blue halloween mask", id: "1055", imgName: "Blue_halloween_mask" }
+  ],
+  setId: "13175",
+  setImgName: "Halloween_mask_set_detail",
+  isF2P: true
+},
+
+
+
 
 ];
 
