@@ -375,7 +375,7 @@ const armorSetsData = [
       { name: "Rune platelegs (g)", id: "2617", imgName: "Rune_platelegs_(g)" },
       { name: "Rune kiteshield (g)", id: "2621", imgName: "Rune_kiteshield_(g)" }
     ],
-    setId: "13024",
+    setId: "13032",
     setImgName: "Rune_gold-trimmed_set_(lg)_detail",
     isF2P: true
   },
@@ -387,7 +387,7 @@ const armorSetsData = [
       { name: "Adamant platelegs (g)", id: "2609", imgName: "Adamant_platelegs_(g)" },
       { name: "Adamant kiteshield (g)", id: "2611", imgName: "Adamant_kiteshield_(g)" }
     ],
-    setId: "13016",
+    setId: "13020",
     setImgName: "Adamant_gold-trimmed_set_(lg)_detail",
     isF2P: true
   },
@@ -399,7 +399,7 @@ const armorSetsData = [
       { name: "Mithril platelegs (g)", id: "12279", imgName: "Mithril_platelegs_(g)" },
       { name: "Mithril kiteshield (g)", id: "12281", imgName: "Mithril_kiteshield_(g)" }
     ],
-    setId: "13012",
+    setId: "13008",
     setImgName: "Mithril_gold-trimmed_set_(lg)_detail",
     isF2P: true
   },
@@ -411,7 +411,7 @@ const armorSetsData = [
       { name: "Black platelegs (g)", id: "2593", imgName: "Black_platelegs_(g)" },
       { name: "Black kiteshield (g)", id: "2597", imgName: "Black_kiteshield_(g)" }
     ],
-    setId: "12988",
+    setId: "12996",
     setImgName: "Black_gold-trimmed_set_(lg)_detail",
     isF2P: true
   },
@@ -423,7 +423,7 @@ const armorSetsData = [
       { name: "Steel platelegs (g)", id: "20172", imgName: "Steel_platelegs_(g)" },
       { name: "Steel kiteshield (g)", id: "20181", imgName: "Steel_kiteshield_(g)" }
     ],
-    setId: "20187",
+    setId: "20382",
     setImgName: "Steel_gold-trimmed_set_(lg)_detail",
     isF2P: true
   },
@@ -435,7 +435,7 @@ const armorSetsData = [
       { name: "Iron platelegs (g)", id: "12237", imgName: "Iron_platelegs_(g)" },
       { name: "Iron kiteshield (g)", id: "12243", imgName: "Iron_kiteshield_(g)" }
     ],
-    setId: "13008",
+    setId: "12980",
     setImgName: "Iron_gold-trimmed_set_(lg)_detail",
     isF2P: true
   },
@@ -447,7 +447,7 @@ const armorSetsData = [
       { name: "Bronze platelegs (g)", id: "12207", imgName: "Bronze_platelegs_(g)" },
       { name: "Bronze kiteshield (g)", id: "12213", imgName: "Bronze_kiteshield_(g)" }
     ],
-    setId: "12992",
+    setId: "12968",
     setImgName: "Bronze_gold-trimmed_set_(lg)_detail",
     isF2P: true
   },
