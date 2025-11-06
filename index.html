@@ -5,14 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css?v=2">
-  
- <!-- AG Grid CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@28.2.1/styles/ag-grid.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@28.2.1/styles/ag-theme-alpine.css">
-
-  <!-- AG Grid JS -->
-  <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@28.2.1/dist/ag-grid-community.min.noStyle.js"></script>
-
 
   <!-- Favicon and App Icons -->
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -63,7 +55,7 @@
     })(window,document,'script','dataLayer','GTM-K6L68P6W');
   </script>
 
-  <!-- Google AdSense -->
+  <!-- Google AdSense (only once) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2729054958892731"
       crossorigin="anonymous"></script>
 </head>
@@ -100,7 +92,9 @@
        data-full-width-responsive="true"></ins>
   <script>
        (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>-->
+  </script>
+  -->
+
 
   <!-- Main Content -->
   <main class="main-content">
@@ -116,7 +110,7 @@
       <p>Select an armour set from the summary table below to view detailed information on its individual pieces and set prices.</p>
       <p>All profits displayed below take the <strong>2% Grand Exchange tax</strong> into account.</p>
 
-      <!-- In-Article Ad 
+      <!-- In-Article Ad
       <ins class="adsbygoogle"
            style="display:block; min-height:90px; text-align:center;"
            data-ad-layout="in-article"
@@ -125,25 +119,15 @@
            data-ad-slot="6722798047"></ins>
       <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>-->
+      </script>
+	  -->
 
       <!-- Feedback Section -->
       <div class="feedback-section">
         <p>Have a suggestion? <button id="feedbackBtn" class="feedback-btn">Let me know</button></p>
       </div>
-	  
     </section>
   </main>
-  
-<label class="switch">
-  <input type="checkbox" id="f2pFilter">
-  <span class="slider round"></span>
-  Show F2P only
-</label>
-
-
-        <!-- AG Grid Container -->
-      <div id="gridContainer" class="ag-theme-alpine" style="height: 600px; width: 100%; margin-top: 20px;"></div>
 
   <!-- Armor Summary with Loading Spinner -->
   <div id="armorSummary">
@@ -155,6 +139,8 @@
   <!-- Detailed Armor Section -->
   <div id="armorSection" class="container"></div>
   
+
+
   <!-- Floating Buttons -->
   <button id="backToTop" class="floating-btn" aria-label="Scroll to top">
     <svg viewBox="0 0 24 24" width="24" height="24" fill="white" class="floating-icon">
@@ -171,28 +157,6 @@
   <!-- JS Scripts -->
   <script src="itemid.js?v=2"></script>
   <script src="script.js?v=2"></script>
-
-  <!-- AG Grid Column Setup for Number Filtering -->
-  <script>
-    const columnDefs = [
-      { headerName: "Set Name", field: "setName", filter: true },
-      { headerName: "Total Pieces Cost", field: "totalPiecesCost", filter: "agNumberColumnFilter", valueFormatter: params => Number(params.value).toLocaleString() },
-      { headerName: "Profit per Set", field: "profitPerSet", filter: "agNumberColumnFilter", valueFormatter: params => Number(params.value).toLocaleString() }
-    ];
-
-    const gridOptions = {
-      columnDefs: columnDefs,
-      defaultColDef: {
-        sortable: true,
-        resizable: true,
-        filter: true
-      },
-      rowData: [] // dynamically set in script.js
-    };
-
-    const gridDiv = document.getElementById('gridContainer');
-    new agGrid.Grid(gridDiv, gridOptions);
-  </script>
 
   <footer id="pageFooter" style="text-align:center; padding:10px; font-size:0.9rem; color:#888; margin-top:20px;">
     &copy; <span id="currentYear"></span> Armour Flipper. Created by Norxdev.
