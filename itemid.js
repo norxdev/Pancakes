@@ -240,7 +240,7 @@ const armorSetsData = [
   
 //Gilded
 {
-  name: "Gilded Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+  name: "Gilded Armour Set (lg)",
   items: [
     { name: "Gilded Full Helm", id: "3486", imgName: "Gilded_full_helm_detail" },
     { name: "Gilded Platebody", id: "3481", imgName: "Gilded_platebody_detail" },
@@ -253,7 +253,7 @@ const armorSetsData = [
 },
 
 {
-  name: "Gilded Dragonhide Set&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+  name: "Gilded Dragonhide Set",
   items: [
     { name: "Gilded D'hide Body", id: "23264", imgName: "Gilded_d'hide_body_detail" },
     { name: "Gilded D'hide Chaps", id: "23267", imgName: "Gilded_d'hide_chaps_detail" },
@@ -266,7 +266,7 @@ const armorSetsData = [
 
 //F2P God Armour
   {
-  name: "Guthix Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+  name: "Guthix Armour Set (lg)",
   items: [
     { name: "Guthix full helm", id: "2673", imgName: "Guthix_full_helm_detail" },
     { name: "Guthix platebody", id: "2669", imgName: "Guthix_platebody_detail" },
@@ -278,7 +278,7 @@ const armorSetsData = [
   setImgName: "Guthix_armour_set_(lg)_detail"
 },
 {
-  name: "Saradomin Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+  name: "Saradomin Armour Set (lg)",
   items: [
     { name: "Saradomin full helm", id: "2665", imgName: "Saradomin_full_helm_detail" },
     { name: "Saradomin platebody", id: "2661", imgName: "Saradomin_platebody_detail" },
@@ -290,7 +290,7 @@ const armorSetsData = [
   setImgName: "Saradomin_armour_set_(lg)_detail"
 },
 {
-  name: "Zamorak Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+  name: "Zamorak Armour Set (lg)",
   items: [
     { name: "Zamorak full helm", id: "2657", imgName: "Zamorak_full_helm_detail" },
     { name: "Zamorak platebody", id: "2653", imgName: "Zamorak_platebody_detail" },
@@ -303,7 +303,7 @@ const armorSetsData = [
 },
 
 {
-  name: "Rune Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+  name: "Rune Armour Set (lg)",
   items: [
     { name: "Rune full helm", id: "1163", imgName: "Rune_full_helm_detail" },
     { name: "Rune platebody", id: "1127", imgName: "Rune_platebody_detail" },
@@ -353,7 +353,7 @@ const armorSetsData = [
   isF2P: false
 },
 {
-  name: "Partyhat Set&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+  name: "Partyhat Set",
   items: [
     { name: "Red partyhat", id: 1038, imgName: "Red_partyhat" },
     { name: "Yellow partyhat", id: 1040, imgName: "Yellow_partyhat" },
@@ -368,7 +368,7 @@ const armorSetsData = [
 },
 
   {
-    name: "Rune Gold Trimmed Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+    name: "Rune Gold Trimmed Armour Set (lg)",
     items: [
       { name: "Rune full helm (g)", id: "2619", imgName: "Rune_full_helm_(g)" },
       { name: "Rune platebody (g)", id: "2615", imgName: "Rune_platebody_(g)" },
@@ -380,7 +380,7 @@ const armorSetsData = [
     isF2P: true
   },
   {
-    name: "Adamant Gold Trimmed Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+    name: "Adamant Gold Trimmed Armour Set (lg)",
     items: [
       { name: "Adamant full helm (g)", id: "2613", imgName: "Adamant_full_helm_(g)" },
       { name: "Adamant platebody (g)", id: "2607", imgName: "Adamant_platebody_(g)" },
@@ -392,7 +392,7 @@ const armorSetsData = [
     isF2P: true
   },
   {
-    name: "Mithril Gold Trimmed Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+    name: "Mithril Gold Trimmed Armour Set (lg)",
     items: [
       { name: "Mithril full helm (g)", id: "12283", imgName: "Mithril_full_helm_(g)" },
       { name: "Mithril platebody (g)", id: "12277", imgName: "Mithril_platebody_(g)" },
@@ -404,7 +404,7 @@ const armorSetsData = [
     isF2P: true
   },
   {
-    name: "Black Gold Trimmed Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+    name: "Black Gold Trimmed Armour Set (lg)",
     items: [
       { name: "Black full helm (g)", id: "2595", imgName: "Black_full_helm_(g)" },
       { name: "Black platebody (g)", id: "2591", imgName: "Black_platebody_(g)" },
@@ -416,7 +416,7 @@ const armorSetsData = [
     isF2P: true
   },
   {
-    name: "Steel Gold Trimmed Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+    name: "Steel Gold Trimmed Armour Set (lg)",
     items: [
       { name: "Steel full helm (g)", id: "20178", imgName: "Steel_full_helm_(g)" },
       { name: "Steel platebody (g)", id: "20169", imgName: "Steel_platebody_(g)" },
@@ -428,7 +428,7 @@ const armorSetsData = [
     isF2P: true
   },
   {
-    name: "Iron Gold Trimmed Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+    name: "Iron Gold Trimmed Armour Set (lg)",
     items: [
       { name: "Iron full helm (g)", id: "12241", imgName: "Iron_full_helm_(g)" },
       { name: "Iron platebody (g)", id: "12235", imgName: "Iron_platebody_(g)" },
@@ -440,7 +440,7 @@ const armorSetsData = [
     isF2P: true
   },
   {
-    name: "Bronze Gold Trimmed Armour Set (lg)&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+    name: "Bronze Gold Trimmed Armour Set (lg)",
     items: [
       { name: "Bronze full helm (g)", id: "12211", imgName: "Bronze_full_helm_(g)" },
       { name: "Bronze platebody (g)", id: "12205", imgName: "Bronze_platebody_(g)" },
@@ -453,7 +453,7 @@ const armorSetsData = [
   },
 
 {
-  name: "Halloween Mask Set&nbsp;<img src='https://oldschool.runescape.wiki/images/Free-to-play_icon.png' alt='F2P' style='width:16px;height:16px;vertical-align:middle;'>&nbsp;",
+  name: "Halloween Mask Set",
   items: [
     { name: "Red halloween mask", id: "1057", imgName: "Red_halloween_mask" },
     { name: "Green halloween mask", id: "1053", imgName: "Green_halloween_mask" },
