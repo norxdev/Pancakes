@@ -298,11 +298,20 @@ window.addEventListener("load", async () => {
     await fetchItemMappingOnce();
     armorSetsData.sort((a, b) => a.name.localeCompare(b.name));
 
-    initF2PFilter();         // initialize F2P checkbox listener
-    createArmorSections();    // first render
+    initF2PFilter();
+    createArmorSections();
     await fetchLatestPrices();
     initFloatingButtons();
+
+    // --- Feedback Button ---
+    const feedbackBtn = document.getElementById("feedbackBtn");
+    if (feedbackBtn) {
+        feedbackBtn.addEventListener("click", () => {
+            window.location.href = "https://www.armourflipper.com/feedback";
+        });
+    }
 });
+
 // --- Auto-fit grid columns on window resize ---
 window.addEventListener("resize", () => {
     if (gridOptions?.api) {
