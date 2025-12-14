@@ -1,6 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+
+  <!-- ================= OWNER ADS DISABLE LOGIC ================= -->
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+
+      if (params.get('ads') === 'off') {
+        document.cookie =
+          "adsense_disabled=true; path=/; max-age=31536000; SameSite=Lax";
+      }
+
+      if (params.get('ads') === 'on') {
+        document.cookie =
+          "adsense_disabled=; path=/; max-age=0; SameSite=Lax";
+      }
+    })();
+  </script>
+
+  <script>
+    (function () {
+      function getCookie(name) {
+        return document.cookie
+          .split('; ')
+          .find(row => row.startsWith(name + '='))
+          ?.split('=')[1];
+      }
+
+      if (getCookie('adsense_disabled') !== 'true') {
+        const s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2729054958892731';
+        s.crossOrigin = 'anonymous';
+        document.head.appendChild(s);
+      }
+    })();
+  </script>
+  <!-- ============================================================ -->
+
   <!-- Basic Meta -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -79,18 +118,6 @@
     </div>
   </header>
 
-  <!-- Top Banner Ad 
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-2729054958892731"
-       data-ad-slot="7232389341"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-  <script>
-       (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-  -->
-
 
   <!-- Main Content -->
   <main class="main-content">
@@ -107,17 +134,6 @@
       <p>Select an armour set from the summary table below to view detailed information on its individual pieces and set prices.</p>
       <p>Displayed profits are after the <strong>2% Grand Exchange tax</strong>.</p>
 
-      <!-- In-Article Ad
-      <ins class="adsbygoogle"
-           style="display:block; min-height:90px; text-align:center;"
-           data-ad-layout="in-article"
-           data-ad-format="fluid"
-           data-ad-client="ca-pub-2729054958892731"
-           data-ad-slot="6722798047"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-	  -->
 
       <!-- Feedback Section -->
       <div class="feedback-section">
