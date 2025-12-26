@@ -142,18 +142,37 @@
     </section>
     </div>
   </main>
+<!-- Button Row -->
 <div class="button-row">
-    <div class="back-container">
-        <button id="backBtn" class="back-btn">← Back</button>
-    </div>
-    <div class="refresh-container">
-        <button class="refresh-btn" onclick="refreshData()">
-            <div class="refresh-dot"></div>
-            Refresh Data
-            <span class="refresh-time" id="refreshTime"></span>
-        </button>
-    </div>
+  <!-- Left slot: F2P toggle OR Back button -->
+  <div class="left-slot">
+    <!-- Back Button (hidden by default) -->
+    <button id="backBtn" class="back-btn">Back</button>
+
+    <!-- F2P Toggle (shown by default on table) -->
+    <label id="f2pToggle" class="f2p-toggle">
+      <input type="checkbox" id="f2pFilter">
+      Show only F2P sets
+    </label>
+  </div>
+
+  <!-- Mode Toggle -->
+ <div class="mode-tabs">
+  <button class="mode-tab active" data-mode="piecesToSet">Buy Pieces → Sell Set</button>
+  <button class="mode-tab" data-mode="setToPieces">Buy Set → Sell Pieces</button>
 </div>
+
+
+  <!-- Refresh Button -->
+  <div class="refresh-container">
+    <button class="refresh-btn" onclick="refreshData()">
+      <div class="refresh-dot"></div>
+      Refresh Data
+      <span class="refresh-time" id="refreshTime"></span>
+    </button>
+  </div>
+</div>
+
 
 
   <!-- Armor Summary with Loading Spinner -->
@@ -174,6 +193,60 @@
   <footer id="pageFooter" style="text-align:center; padding:10px; font-size:0.9rem; color:#888; margin-top:20px;">
     &copy; <span id="currentYear"></span> Armour Flipper. Created by Norxdev.
   </footer>
+  
+    <!-- Table Summary Template -->
+  <template id="summaryRowTemplate">
+  <tr>
+    <td class="summary-name"></td>
+    <td class="summary-profit"></td>
+    <td class="summary-roi"></td>
+    <td class="summary-cost"></td>
+  </tr>
+</template>
+
+  
+  <!-- Armor Piece Template -->
+<template id="pieceTemplate">
+  <div class="piece-card">
+    <div class="piece-left">
+      <div class="piece-icon-box">
+        <img class="piece-icon" loading="lazy">
+      </div>
+      <div class="piece-info">
+        <div class="piece-name"></div>
+        <div class="piece-volume"></div>
+      </div>
+    </div>
+    <div class="piece-price-buy"></div>
+  </div>
+</template>
+
+<!-- Armor Set Template -->
+<template id="setTemplate">
+  <div class="set-wrapper">
+    <div class="pieces-list"></div>
+    <div class="set-total-buy"></div>
+    <div class="set-main-card">
+      <div class="piece-card set-main-info">
+        <div class="piece-left">
+          <div class="piece-icon-box">
+            <img loading="lazy">
+          </div>
+          <div class="piece-info">
+            <div class="piece-name"></div>
+            <div class="piece-volume"></div>
+          </div>
+        </div>
+        <div class="piece-price-buy"></div>
+      </div>
+      <div class="set-bottom-summary">
+        <div class="set-profit"></div>
+        <div class="set-roi"></div>
+      </div>
+    </div>
+  </div>
+</template>
+
 
   <script>
     document.getElementById('currentYear').textContent = new Date().getFullYear();
