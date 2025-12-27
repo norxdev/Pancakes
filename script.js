@@ -131,10 +131,15 @@ function createArmorSections() {
         const piecesList = wrapper.querySelector(".pieces-list");
         set.items.forEach(item => {
             const pieceEl = pieceTemplate.content.cloneNode(true);
-            const img = pieceEl.querySelector("img.piece-icon");
-            img.src = `https://oldschool.runescape.wiki/images/${item.imgName}.png`;
-            img.alt = item.name;
-            img.onclick = () => window.open(`https://prices.runescape.wiki/osrs/item/${item.id}`, "_blank");
+            const pieceCard = pieceEl.querySelector(".piece-card");
+const img = pieceEl.querySelector("img.piece-icon");
+
+img.src = `https://oldschool.runescape.wiki/images/${item.imgName}.png`;
+img.alt = item.name;
+
+pieceCard.onclick = () =>
+  window.open(`https://prices.runescape.wiki/osrs/item/${item.id}`, "_blank");
+
 
             pieceEl.querySelector(".piece-name").textContent = item.name;
             pieceEl.querySelector(".piece-volume").textContent = "Loading volume...";
@@ -147,6 +152,7 @@ function createArmorSections() {
         const mainImg = mainCard.querySelector("img");
         mainImg.src = `https://oldschool.runescape.wiki/images/${set.setImgName}.png`;
         mainImg.alt = set.name;
+		mainCard.onclick = () => window.open(`https://prices.runescape.wiki/osrs/item/${set.setId}`, "_blank");
         mainCard.querySelector(".piece-name").textContent = set.name;
         mainCard.querySelector(".piece-volume").id = `armor-setVolume-${idx}`;
         mainCard.querySelector(".piece-price-buy").id = `armor-setSell-${idx}`;
