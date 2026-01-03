@@ -149,7 +149,8 @@ const armorSetsData = [
       { name: "Dragonstone full helm", id: "24034", imgName: "Dragonstone_full_helm" },
       { name: "Dragonstone platebody", id: "24037", imgName: "Dragonstone_platebody" },
       { name: "Dragonstone gauntlets", id: "24046", imgName: "Dragonstone_gauntlets" },
-	  { name: "Dragonstone platelegs", id: "24040", imgName: "Dragonstone_platelegs" }
+	  { name: "Dragonstone platelegs", id: "24040", imgName: "Dragonstone_platelegs" },
+	  { name: "Dragonstone boots", id: "24043", imgName: "Dragonstone_boots" },
 
     ],
     setId: "23667",
