@@ -584,3 +584,47 @@ window.addEventListener("load", async () => {
     if (window.location.hash) handleHashChange();
     await fetchLatestPrices();
 });
+
+
+function initWhatsNew() {
+    const btn = document.getElementById("whatsNewBtn");
+    const popup = document.getElementById("whatsNewPopup");
+    const closeBtn = document.getElementById("whatsNewClose");
+    const list = document.getElementById("whatsNewList");
+
+    if (!btn || !popup || !closeBtn || !list) return;
+
+    // Populate the list safely, retrying if whatsNewItems isn't ready yet
+    function populateList() {
+        list.innerHTML = "";
+        const items = window.whatsNewItems || [];
+        if (items.length) {
+            items.forEach(item => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                list.appendChild(li);
+            });
+        } else {
+            const li = document.createElement("li");
+            li.textContent = "No new updates at this time.";
+            list.appendChild(li);
+        }
+    }
+
+    // Retry a few times in case whatsNewItems isn't loaded yet
+    let retryCount = 0;
+    const maxRetries = 10;
+    const retryInterval = setInterval(() => {
+        if (window.whatsNewItems || retryCount >= maxRetries) {
+            populateList();
+            clearInterval(retryInterval);
+        }
+        retryCount++;
+    }, 100); // check every 100ms
+
+    btn.addEventListener("click", () => popup.classList.add("visible"));
+    closeBtn.addEventListener("click", () => popup.classList.remove("visible"));
+    popup.addEventListener("click", (e) => { if (e.target === popup) popup.classList.remove("visible"); });
+}
+
+window.addEventListener("load", initWhatsNew);
