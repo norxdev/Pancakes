@@ -24,7 +24,6 @@ body {
 img {
   max-width: 100%;
   height: auto;
-  object-fit: contain;
 }
 
 button, a {
@@ -135,27 +134,28 @@ button:focus-visible, a:focus-visible {
   gap: 10px;
 }
 
-/* --- Image Boxes: Pieces & Sets Unified --- */
-.piece-icon-box,
-.set-icon-box {
+/* --- Icon container (used by pieces AND sets) --- */
+.piece-icon-box {
   width: clamp(48px, 8vw, 64px);
   height: clamp(48px, 8vw, 64px);
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
   background-color: var(--bg-card);
+  overflow: hidden;
   flex-shrink: 0;
 }
 
-/* Make set and piece icons fully show pointer */
-.set-icon-box,
-.piece-icon-box,
-.set-icon-box img,
-.piece-icon {
-    cursor: pointer;
+/* --- The actual image inside the box --- */
+.piece-icon-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  cursor: pointer;
 }
+
+
 
 /* --- Piece / Set Info --- */
 .piece-info,
@@ -297,7 +297,7 @@ button:focus-visible, a:focus-visible {
   border: 1px solid var(--border-dark);
   border-radius: var(--radius);
   padding: 24px;
-  max-width: 900px;
+  max-width: 800px;
   margin: 0 auto 30px auto;
   box-shadow: 0 4px 12px var(--shadow-dark);
 }
