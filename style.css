@@ -370,6 +370,29 @@ button:focus-visible, a:focus-visible {
   color: var(--text-dark);
 }
 
+.mode-tab-container {
+    display: flex;
+    gap: 8px; /* spacing between buttons */
+}
+
+/* Small screen: stack vertically */
+@media (max-width: 600px) {
+    .mode-tab-container {
+        flex-direction: column;
+        align-items: stretch; /* buttons fill width */
+        gap: 4px; /* slightly smaller gap */
+    }
+
+    .mode-tab {
+        width: 100%;
+        text-align: center;
+        font-size: 0.9em;
+        padding: 6px 0;
+    }
+}
+
+
+
 /* --- Refresh Button --- */
 .refresh-container {
     display: flex;
@@ -651,5 +674,53 @@ button:focus-visible, a:focus-visible {
 
 .flip-method ol {
   margin-left: 18px;
+}
+
+@media (max-width: 600px) {
+    /* Stack rows: first row = back/F2P + refresh, second row = mode tabs */
+    .button-row {
+        display: flex;
+        flex-direction: column; /* stack rows */
+        gap: 7px;
+        width: 100%;
+    }
+
+    /* Top row: Back + F2P + Refresh on same row */
+    .left-slot,
+    .refresh-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between; /* push to sides */
+        width: 100%;
+    }
+
+    /* Reduce button and text size */
+    #backBtn,
+    .f2p-toggle,
+    .refresh-btn,
+    .refresh-time {
+        font-size: 0.75rem !important;
+        padding: 2px 4px !important;
+    }
+
+    .f2p-toggle input {
+        transform: scale(1.0);
+    }
+
+    /* Second row: Mode tabs stacked */
+    .mode-tabs {
+        display: flex;
+        flex-wrap: wrap;       /* allow two buttons per row */
+        justify-content: center;
+        gap: 4px;
+        width: 100%;
+    }
+
+    .mode-tab {
+        flex: 1 1 48%;          /* two buttons per row */
+        text-align: center;
+        font-size: 0.75rem !important;
+        padding: 4px 0 !important;
+    }
 }
 
