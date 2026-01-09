@@ -480,7 +480,8 @@ function initModeTabs() {
     const tabs = document.querySelectorAll(".mode-tab");
 
 function setActiveTab(mode) {
-    // 🔹 Remember currently visible set
+    const armorSection = document.getElementById("armorSection");
+    const isDetailView = armorSection.style.display !== "none"; // <-- check if we are viewing a set
     const visibleIdx = getVisibleSetIndex();
 
     flippingMode = mode;
@@ -495,14 +496,15 @@ function setActiveTab(mode) {
     updateModeUI();
     updateArmorPrices();
 
-    // 🔹 Restore daily volumes immediately
-    updateVolumes(); // <--- ADD THIS LINE
+    // Restore daily volumes immediately
+    updateVolumes();
 
-    // 🔹 Restore detail view if a set was visible
-    if (visibleIdx >= 0) {
+    // Only restore detail view if we were already viewing a set
+    if (isDetailView && visibleIdx >= 0) {
         showSingleSet(visibleIdx);
     }
 }
+
 
 
 
