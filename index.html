@@ -102,6 +102,7 @@
     height="0" width="0" style="display:none;visibility:hidden"></iframe>
   </noscript>
 
+
   <!-- Sticky Header -->
   <header class="sticky-header">
     <div class="header-left">
@@ -113,7 +114,20 @@
     <div class="header-right">
       <!--<a class="donate-btn-header" href="https://www.paypal.com/donate/?hosted_button_id=YVZNTWZP8JUCC" target="_blank">Donate</a>-->
     </div>
+	<div class="header-right">
+  <button id="whatsNewBtn" class="whats-new-btn">What's New</button>
+</div>
+
   </header>
+  
+<!-- Whats New Popup -->
+<div id="whatsNewPopup">
+  <div id="whatsNewBox">
+    <button id="whatsNewClose">&times;</button>
+    <h3>What's New</h3>
+    <ul id="whatsNewList"></ul>
+  </div>
+</div>
 
 
   <!-- Main Content -->
@@ -232,7 +246,10 @@
 
   <!-- JS Scripts -->
   <script src="itemid.js?v=2"></script>
+  <script src="whatsnew.js"></script>
   <script src="script.js?v=2"></script>
+
+
 
   <footer id="pageFooter" style="text-align:center; padding:10px; font-size:0.9rem; color:#888; margin-top:20px;">
     &copy; <span id="currentYear"></span> Armour Flipper. Created by Norxdev.
