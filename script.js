@@ -220,51 +220,65 @@ function updateArmorPrices() {
 
         const pieceCards = container.querySelectorAll(".pieces-list .piece-card");
 
+        // --- Update individual pieces ---
         pieceCards.forEach((pieceCard, i) => {
             const item = set.items[i];
             const buy = getBuyPrice(item.id);
-const sell = getSellPrice(item.id);
+            const sell = getSellPrice(item.id);
+            const tax = sell ? Math.floor(Math.min(sell * 0.02, 5_000_000)) : 0;
             const vol = Number(volumesData.data?.[item.id] || 0);
 
+            // Price text
             pieceCard.querySelector(".piece-price-buy").textContent =
-    flippingMode === "piecesToSet"
-        ? buy ? `Buy Price: ${formatNum(buy)} gp` : "Buy Price: —"
-        : sell ? `Sell Price: ${formatNum(sell)} gp` : "Sell Price: —";
+                flippingMode === "piecesToSet"
+                    ? buy ? `Buy Price: ${formatNum(buy)} gp` : "Buy Price: —"
+                    : sell ? `Sell Price: ${formatNum(sell)} gp` : "Sell Price: —";
 
+            // Tax (pieces only when selling pieces individually)
+            const taxEl = pieceCard.querySelector(".piece-tax");
+            if (taxEl) {
+                taxEl.textContent =
+                    flippingMode === "piecesToSet" || !sell
+                        ? ""
+                        : `Tax: ${formatNum(tax)} gp`;
+            }
 
+            // Volume
             const volEl = pieceCard.querySelector(".piece-volume");
             if (volEl) volEl.textContent = vol ? `Daily vol: ${formatNum(vol)}` : "Daily vol: —";
 
-            if (flippingMode === "piecesToSet") {
-    totalBuy += buy;
-}
-
+            // Accumulate total buy cost for pieces-to-set mode
+            if (flippingMode === "piecesToSet") totalBuy += buy;
         });
 
+        // --- Update set-level info ---
         const totalBuyEl = container.querySelector(".set-total-buy");
         const sellEl = container.querySelector(`#armor-setSell-${idx}`);
+        const setTaxEl = container.querySelector(".set-main-card .piece-tax");
 
         if (flippingMode === "piecesToSet") {
-            const setSell = getSellPrice(set.setId);
+    // Buy pieces → sell full set
+    const setSell = getSellPrice(set.setId);
+    const tax = Math.floor(Math.min(setSell * 0.02, 5_000_000));
+    gain = Math.floor(setSell - tax - totalBuy);
 
-            const tax = Math.floor(Math.min(setSell * 0.02, 5_000_000));
-            gain = Math.floor(setSell - tax - totalBuy);
+    if (totalBuyEl) totalBuyEl.textContent = `Total buy cost: ${formatNum(totalBuy)} gp`;
+    if (sellEl) sellEl.textContent = `Sell price: ${formatNum(setSell)} gp`;
+    if (setTaxEl) setTaxEl.textContent = `Tax: ${formatNum(tax)} gp`;
+} else {
+    // Buy set → sell pieces individually
+    const setCost = getBuyPrice(set.setId);
+    const { gross, tax } = calculatePieceSales(set); // includes per-piece tax
+    gain = Math.floor(gross - tax - setCost);
 
-            if (totalBuyEl) totalBuyEl.textContent = `Total buy cost: ${formatNum(totalBuy)} gp`;
-            if (sellEl) sellEl.textContent = `Sell price: ${formatNum(setSell)} gp`;
+    if (totalBuyEl) totalBuyEl.textContent = `Total sell price: ${formatNum(gross)} gp`; // optional summary
+    if (sellEl) sellEl.textContent = `Buy price: ${formatNum(setCost)} gp`; // ✅ keep set cost visible
+    if (setTaxEl) setTaxEl.textContent = ""; // hide tax on main card
+}
 
-        } else {
-            const setCost = getBuyPrice(set.setId);
 
-const { gross, tax } = calculatePieceSales(set);
 
-gain = Math.floor(gross - tax - setCost);
-
-if (totalBuyEl) totalBuyEl.textContent = `Total sell price: ${formatNum(gross)} gp`;
-if (sellEl) sellEl.textContent = `Buy price: ${formatNum(setCost)} gp`;
-
-        }
-
+        // --- Profit ---
         const profitEl = container.querySelector(`#armor-setProfitRange-${idx}`);
         if (profitEl) {
             profitEl.innerHTML = `Profit (after tax): <span class="${
@@ -272,19 +286,17 @@ if (sellEl) sellEl.textContent = `Buy price: ${formatNum(setCost)} gp`;
             }">${formatNum(gain)} gp</span>`;
         }
 
+        // --- ROI ---
         const roiEl = container.querySelector(`#armor-setROI-${idx}`);
-const roiBase =
-    flippingMode === "piecesToSet"
-        ? totalBuy
-        : getBuyPrice(set.setId);
-
-if (roiEl) {
-    const roi = roiBase ? ((gain / roiBase) * 100).toFixed(2) : '0.00';
-    roiEl.textContent = `ROI (after tax): ${roi}%`;
-}
-
+        const roiBase = flippingMode === "piecesToSet" ? totalBuy : getBuyPrice(set.setId);
+        if (roiEl) {
+            const roi = roiBase ? ((gain / roiBase) * 100).toFixed(2) : '0.00';
+            roiEl.textContent = `ROI (after tax): ${roi}%`;
+        }
     });
 }
+
+
 
 
 // --- Update Volumes ---
