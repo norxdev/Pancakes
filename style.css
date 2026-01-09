@@ -725,6 +725,11 @@ button:focus-visible, a:focus-visible {
     }
 }
 
+.arrow.left {
+  transform: rotate(180deg);
+}
+
+
 /* =========================
    What's New Button
    ========================= */
