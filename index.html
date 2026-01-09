@@ -205,9 +205,10 @@
   <!-- Top-left slot: Back button + F2P toggle -->
   <div class="left-slot">
     <!-- Back Button (hidden by default, shows when needed) -->
-    <button id="backBtn" class="refresh-btn">
+<button id="backBtn" class="refresh-btn">
   <span class="arrow left">➜</span> Back
 </button>
+
 
 
     <!-- F2P Toggle (shown by default on table) -->
@@ -271,18 +272,26 @@
   
   <!-- Armor Piece Template -->
 <template id="pieceTemplate">
-  <div class="piece-card">
-    <div class="piece-left">
-      <div class="piece-icon-box">
-        <img class="piece-icon" loading="lazy">
-      </div>
-      <div class="piece-info">
-        <div class="piece-name"></div>
-        <div class="piece-volume"></div>
-      </div>
+<div class="piece-card">
+  <!-- Left column: icon + name + volume -->
+  <div class="piece-left">
+    <div class="piece-icon-box">
+      <img class="piece-icon" loading="lazy" src="" alt="">
     </div>
-    <div class="piece-price-buy"></div>
+    <div class="piece-info">
+      <div class="piece-name"></div>
+      <div class="piece-volume"></div>
+    </div>
   </div>
+
+  <!-- Right column: prices + tax -->
+  <div class="piece-right">
+    <div class="piece-price-buy"></div>
+    <div class="piece-price-sell"></div>
+    <div class="piece-tax"></div>
+  </div>
+</div>
+
 </template>
 
 <!-- Armor Set Template -->
@@ -292,6 +301,7 @@
     <div class="set-total-buy"></div>
     <div class="set-main-card">
       <div class="piece-card set-main-info">
+        <!-- Left: icon + name -->
         <div class="piece-left">
           <div class="piece-icon-box">
             <img loading="lazy">
@@ -301,7 +311,12 @@
             <div class="piece-volume"></div>
           </div>
         </div>
-        <div class="piece-price-buy"></div>
+        <!-- Right: prices + tax -->
+        <div class="piece-right">
+          <div class="piece-price-buy"></div>
+          <div class="piece-price-sell"></div> <!-- added sell price -->
+          <div class="piece-tax"></div>
+        </div>
       </div>
       <div class="set-bottom-summary">
         <div class="set-profit"></div>
@@ -310,6 +325,9 @@
     </div>
   </div>
 </template>
+
+
+
 
 
   <script>
