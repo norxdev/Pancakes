@@ -42,6 +42,14 @@ function getSellPrice(itemId) {
     return Math.max(low, high);
 }
 
+function getVisibleSetIndex() {
+    return armorSetsData.findIndex((_, i) => {
+        const el = document.getElementById(`armor-set-${i}`);
+        return el && el.style.display !== "none";
+    });
+}
+
+
 
 // --- Fetch Item Mapping ---
 async function fetchItemMappingOnce() {
@@ -121,6 +129,7 @@ function createArmorSections() {
     const setTemplate = document.getElementById("setTemplate");
 
     armorSetsData.forEach((set, idx) => {
+        // Clone set template
         const setEl = setTemplate.content.cloneNode(true);
         const wrapper = setEl.querySelector(".set-wrapper");
         wrapper.id = `armor-set-${idx}`;
@@ -132,14 +141,13 @@ function createArmorSections() {
         set.items.forEach(item => {
             const pieceEl = pieceTemplate.content.cloneNode(true);
             const pieceCard = pieceEl.querySelector(".piece-card");
-const img = pieceEl.querySelector("img.piece-icon");
+            const img = pieceEl.querySelector("img.piece-icon");
 
-img.src = `https://oldschool.runescape.wiki/images/${item.imgName}.png`;
-img.alt = item.name;
+            img.src = `https://oldschool.runescape.wiki/images/${item.imgName}.png`;
+            img.alt = item.name;
 
-pieceCard.onclick = () =>
-  window.open(`https://prices.runescape.wiki/osrs/item/${item.id}`, "_blank");
-
+            pieceCard.onclick = () =>
+                window.open(`https://prices.runescape.wiki/osrs/item/${item.id}`, "_blank");
 
             pieceEl.querySelector(".piece-name").textContent = item.name;
             pieceEl.querySelector(".piece-volume").textContent = "Loading volume...";
@@ -152,19 +160,53 @@ pieceCard.onclick = () =>
         const mainImg = mainCard.querySelector("img");
         mainImg.src = `https://oldschool.runescape.wiki/images/${set.setImgName}.png`;
         mainImg.alt = set.name;
-		mainCard.onclick = () => window.open(`https://prices.runescape.wiki/osrs/item/${set.setId}`, "_blank");
+        mainCard.onclick = () =>
+            window.open(`https://prices.runescape.wiki/osrs/item/${set.setId}`, "_blank");
         mainCard.querySelector(".piece-name").textContent = set.name;
         mainCard.querySelector(".piece-volume").id = `armor-setVolume-${idx}`;
         mainCard.querySelector(".piece-price-buy").id = `armor-setSell-${idx}`;
 
         // Bottom summary
+        const bottomSummary = wrapper.querySelector(".set-bottom-summary");
         wrapper.querySelector(".set-profit").id = `armor-setProfitRange-${idx}`;
         wrapper.querySelector(".set-roi").id = `armor-setROI-${idx}`;
-        wrapper.querySelector(".set-total-buy").textContent = "Loading total buy cost...";
+        wrapper.querySelector(".set-total-buy").textContent =
+            flippingMode === "piecesToSet"
+                ? "Loading total buy cost..."
+                : "Loading total sell price...";
 
+        // ---- Reorder layout based on flipping mode ----
+        const piecesListEl = piecesList;
+        const totalBuyEl = wrapper.querySelector(".set-total-buy");
+        const setCardEl = wrapper.querySelector(".set-main-card");
+
+        // ---- Reorder layout based on flipping mode ----
+const children = [piecesListEl, totalBuyEl, setCardEl, bottomSummary];
+
+// Remove existing children without wiping the whole wrapper
+children.forEach(el => {
+    if (el && el.parentNode === wrapper) wrapper.removeChild(el);
+});
+
+if (flippingMode === "piecesToSet") {
+    wrapper.appendChild(piecesListEl);
+    wrapper.appendChild(totalBuyEl);
+    wrapper.appendChild(setCardEl);
+} else {
+    wrapper.appendChild(setCardEl);
+    wrapper.appendChild(piecesListEl);
+    wrapper.appendChild(totalBuyEl);
+}
+
+// Always append bottom summary last
+wrapper.appendChild(bottomSummary);
+
+
+        // Finally add wrapper to container
         container.appendChild(wrapper);
     });
 }
+
 
 
 // --- Update Armor Prices ---
@@ -231,20 +273,16 @@ if (sellEl) sellEl.textContent = `Buy price: ${formatNum(setCost)} gp`;
         }
 
         const roiEl = container.querySelector(`#armor-setROI-${idx}`);
-        const roiBase =
+const roiBase =
     flippingMode === "piecesToSet"
         ? totalBuy
         : getBuyPrice(set.setId);
 
-
-        if (roiEl) {
-            const roiEl = container.querySelector(`#armor-setROI-${idx}`);
 if (roiEl) {
     const roi = roiBase ? ((gain / roiBase) * 100).toFixed(2) : '0.00';
     roiEl.textContent = `ROI (after tax): ${roi}%`;
 }
 
-        }
     });
 }
 
@@ -441,12 +479,33 @@ function updateModeUI() {
 function initModeTabs() {
     const tabs = document.querySelectorAll(".mode-tab");
 
-    function setActiveTab(mode) {
-        flippingMode = mode;
-        localStorage.setItem("flippingMode", flippingMode);
-        tabs.forEach(tab => tab.classList.toggle("active", tab.dataset.mode === mode));
-        updateModeUI();
+function setActiveTab(mode) {
+    // 🔹 Remember currently visible set
+    const visibleIdx = getVisibleSetIndex();
+
+    flippingMode = mode;
+    localStorage.setItem("flippingMode", flippingMode);
+
+    tabs.forEach(tab =>
+        tab.classList.toggle("active", tab.dataset.mode === mode)
+    );
+
+    // Rebuild layout + update prices
+    createArmorSections();
+    updateModeUI();
+    updateArmorPrices();
+
+    // 🔹 Restore daily volumes immediately
+    updateVolumes(); // <--- ADD THIS LINE
+
+    // 🔹 Restore detail view if a set was visible
+    if (visibleIdx >= 0) {
+        showSingleSet(visibleIdx);
     }
+}
+
+
+
 
     tabs.forEach(tab => {
         tab.addEventListener("click", () => setActiveTab(tab.dataset.mode));
@@ -456,7 +515,7 @@ function initModeTabs() {
     setActiveTab(flippingMode);
 }
 
-initModeTabs(); // call after DOM load
+
 
 
 
@@ -511,9 +570,11 @@ window.addEventListener("load", async () => {
     startRefreshTicker();
     updateRefreshIndicator();
     await fetchItemMappingOnce();
+	
     createArmorSections();
     initSummaryTable();
     initF2PToggle();
+	initModeTabs();
 
     document.getElementById("armorSection").style.display = "none";
     updateLeftControls(false);
