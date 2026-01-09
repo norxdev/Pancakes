@@ -731,24 +731,34 @@ button:focus-visible, a:focus-visible {
 
 
 /* =========================
-   What's New Button
+   "This is New" Button Style
    ========================= */
 .whats-new-btn {
-  background-color: #00E676; /* match your green buttons */
-  color: #000000;
+  background-color: #ffeb3b; /* bright yellow for "new" */
+  color: #121212;             /* dark text for contrast */
   border: none;
-  padding: 6px 14px;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 0.9rem;
+  padding: 4px 12px;
+  border-radius: 12px;        /* more pill-like */
+  font-weight: 700;
+  font-size: 0.85rem;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease;
 }
 
 .whats-new-btn:hover {
-  background-color: #218838;
-  transform: translateY(-1px);
+  background-color: #fdd835; /* slightly darker yellow on hover */
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
+
+.whats-new-btn:active {
+  transform: translateY(0) scale(1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
 
 /* =========================
    Popup Overlay
