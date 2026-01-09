@@ -24,7 +24,6 @@ body {
 img {
   max-width: 100%;
   height: auto;
-  object-fit: contain;
 }
 
 button, a {
@@ -135,27 +134,28 @@ button:focus-visible, a:focus-visible {
   gap: 10px;
 }
 
-/* --- Image Boxes: Pieces & Sets Unified --- */
-.piece-icon-box,
-.set-icon-box {
+/* --- Icon container (used by pieces AND sets) --- */
+.piece-icon-box {
   width: clamp(48px, 8vw, 64px);
   height: clamp(48px, 8vw, 64px);
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
   background-color: var(--bg-card);
+  overflow: hidden;
   flex-shrink: 0;
 }
 
-/* Make set and piece icons fully show pointer */
-.set-icon-box,
-.piece-icon-box,
-.set-icon-box img,
-.piece-icon {
-    cursor: pointer;
+/* --- The actual image inside the box --- */
+.piece-icon-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  cursor: pointer;
 }
+
+
 
 /* --- Piece / Set Info --- */
 .piece-info,
@@ -297,7 +297,7 @@ button:focus-visible, a:focus-visible {
   border: 1px solid var(--border-dark);
   border-radius: var(--radius);
   padding: 24px;
-  max-width: 900px;
+  max-width: 800px;
   margin: 0 auto 30px auto;
   box-shadow: 0 4px 12px var(--shadow-dark);
 }
@@ -322,68 +322,149 @@ button:focus-visible, a:focus-visible {
   margin-top: 16px;
 }
 
-/* --- Refresh Button Container --- */
+/* --- Button Row (F2P toggle, flip, refresh) --- */
 .button-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 8px 16px 0 16px;
+    max-width: 800px;
+    margin: 0 auto 20px auto;
+    padding: 8px 16px;
     box-sizing: border-box;
 }
 
-.back-container {}
-
-.back-btn {
-    display: none;
-    padding: 6px 12px;
-    font-weight: normal;
-    background-color: #555;
-    color: var(--text-light);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+#f2pToggleContainer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-.back-btn.show {
-    display: inline-flex;
+/* --- Mode Tabs --- */
+.mode-tabs {
+  display: flex;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border-dark);
+  width: fit-content;
+  background: var(--bg-darker);
 }
 
-.refresh-container {}
+.mode-tab {
+  flex: 1;
+  padding: 8px 16px;
+  border: none;
+  background: var(--bg-darker);
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-light);
+  transition: background 0.2s, color 0.2s;
+}
 
-.refresh-btn {
-    padding: 8px 16px;
-    font-weight: normal;
-    background-color: #444;
-    color: var(--text-light);
-    border: none;
-    border-radius: 8px;
+.mode-tab:hover {
+  background: #333;
+}
+
+.mode-tab.active {
+  background: var(--accent);
+  color: var(--text-dark);
+}
+
+.mode-tab-container {
+    display: flex;
+    gap: 8px; /* spacing between buttons */
+}
+
+/* Small screen: stack vertically */
+@media (max-width: 600px) {
+    .mode-tab-container {
+        flex-direction: column;
+        align-items: stretch; /* buttons fill width */
+        gap: 4px; /* slightly smaller gap */
+    }
+
+    .mode-tab {
+        width: 100%;
+        text-align: center;
+        font-size: 0.9em;
+        padding: 6px 0;
+    }
+}
+
+
+
+/* --- Refresh Button --- */
+.refresh-container {
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+.refresh-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #555;
+    color: var(--text-light);
     cursor: pointer;
+    transition: background 0.2s;
 }
 
 .refresh-btn:hover {
-    transform: scale(1.03);
-}
-
-.refresh-btn:active {
-    transform: none;
+  background-color: #666;
 }
 
 .refresh-dot {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background-color: #888;  
-    flex-shrink: 0;
+    background-color: #888;
     border: 1px solid #00000055;
 }
 
 .refresh-time {
     font-size: 0.8rem;
     color: #aaaaaa;
+}
+
+/* --- Back Button --- */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: #555; /* match refresh grey */
+  color: var(--text-light);
+  border: 1px solid var(--border-dark);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.back-btn:hover {
+  background: #666;
+}
+
+.back-btn:active {
+  transform: translateX(-2px);
+}
+
+.back-btn::before {
+  content: "←";
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* F2P toggle visible by default */
+.f2p-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 /* --- Responsive Adjustments --- */
@@ -482,9 +563,329 @@ button:focus-visible, a:focus-visible {
 
 /* Active sort arrows */
 #armorSummaryTable th.sort-asc::after {
-    border-bottom-color: #00e676; /* up arrow */
+    border-bottom-color: var(--accent); /* up arrow */
 }
 
 #armorSummaryTable th.sort-desc::after {
-    border-top-color: #00e676; /* down arrow */
+    border-top-color: var(--accent); /* down arrow */
+}
+
+/* Container spacing */
+#armorSummary {
+  padding: 0 12px;
+  margin-bottom: 24px;
+}
+
+/* Rounded table */
+#armorSummaryTable {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg-darker);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* Header background */
+#armorSummaryTable thead {
+  background: #262626;
+}
+
+/* Row separation */
+#armorSummaryTable tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Left slot (Back or F2P) */
+.left-slot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* --- Master Flip Dropdown --- */
+.flip-master {
+  background: var(--bg-darker);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius);
+  margin: 16px 0 24px;
+  box-shadow: 0 4px 10px var(--shadow-dark);
+}
+
+.flip-master summary {
+  cursor: pointer;
+  padding: 8px 20px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  list-style: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flip-master summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Arrow indicator */
+.flip-master summary::after {
+  content: "▸";
+  font-size: 1.4rem;
+  transition: transform 0.2s ease;
+}
+
+.flip-master[open] summary::after {
+  transform: rotate(90deg);
+}
+
+/* Hover / focus affordance */
+.flip-master summary:hover {
+  background: #2a2a2a;
+}
+
+.flip-master summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* --- Inner content --- */
+.flip-inner {
+  padding: 20px;
+  border-top: 1px solid var(--border-dark);
+}
+
+.flip-method + .flip-method {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.15);
+}
+
+.flip-method h3 {
+  margin-bottom: 8px;
+  font-size: 1.05rem;
+  color: var(--accent);
+}
+
+.flip-method p {
+  margin-bottom: 8px;
+}
+
+.flip-method ol {
+  margin-left: 18px;
+}
+
+@media (max-width: 600px) {
+    /* Stack rows: first row = back/F2P + refresh, second row = mode tabs */
+    .button-row {
+        display: flex;
+        flex-direction: column; /* stack rows */
+        gap: 7px;
+        width: 100%;
+    }
+
+    /* Top row: Back + F2P + Refresh on same row */
+    .left-slot,
+    .refresh-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between; /* push to sides */
+        width: 100%;
+    }
+
+    /* Reduce button and text size */
+    #backBtn,
+    .f2p-toggle,
+    .refresh-btn,
+    .refresh-time {
+        font-size: 0.75rem !important;
+        padding: 2px 4px !important;
+    }
+
+    .f2p-toggle input {
+        transform: scale(1.0);
+    }
+
+    /* Second row: Mode tabs stacked */
+    .mode-tabs {
+        display: flex;
+        flex-wrap: wrap;       /* allow two buttons per row */
+        justify-content: center;
+        gap: 4px;
+        width: 100%;
+    }
+
+    .mode-tab {
+        flex: 1 1 48%;          /* two buttons per row */
+        text-align: center;
+        font-size: 0.75rem !important;
+        padding: 4px 0 !important;
+    }
+}
+
+.arrow.left {
+  transform: rotate(180deg);
+}
+
+
+/* =========================
+   "This is New" Button Style
+   ========================= */
+.whats-new-btn {
+  background-color: #ffeb3b; /* bright yellow for "new" */
+  color: #121212;             /* dark text for contrast */
+  border: none;
+  padding: 4px 12px;
+  border-radius: 12px;        /* more pill-like */
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.2s ease;
+}
+
+.whats-new-btn:hover {
+  background-color: #fdd835; /* slightly darker yellow on hover */
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.whats-new-btn:active {
+  transform: translateY(0) scale(1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+
+/* =========================
+   Popup Overlay
+   ========================= */
+#whatsNewPopup {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8); /* dark overlay */
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+#whatsNewPopup.visible {
+  display: flex;
+}
+
+/* =========================
+   Popup Box
+   ========================= */
+#whatsNewBox {
+  position: relative;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px 20px 15px 20px;
+  max-width: 450px;
+  width: 85%;
+  max-height: 100vh; /* full viewport height */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: #333;
+  overflow-y: auto; /* scroll if content exceeds viewport */
+}
+
+/* =========================
+   Close Button (×)
+   ========================= */
+#whatsNewClose {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.2s ease;
+}
+
+#whatsNewClose:hover {
+  color: #28a745; /* green hover matches button */
+}
+
+/* =========================
+   List of Updates
+   ========================= */
+#whatsNewList {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-top: 15px;
+}
+
+#whatsNewList li {
+  margin-bottom: 12px;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* =========================
+   Responsive for Mobile
+   ========================= */
+@media (max-width: 500px) {
+  #whatsNewBox {
+    padding: 15px 15px 10px 15px;
+    max-width: 95%;
+  }
+
+  #whatsNewClose {
+    top: 8px;
+    right: 8px;
+    font-size: 22px;
+  }
+}
+
+/* Piece card layout: left + right columns */
+.piece-card {
+    display: flex;
+    justify-content: space-between; /* left vs right columns */
+    align-items: center;
+    padding: 6px 10px;
+    gap: 12px;
+    border-bottom: 1px solid #eee; /* optional separator */
+}
+
+/* Left column: icon + name stacked */
+.piece-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Right column: prices + tax stacked vertically */
+.piece-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* <-- forces left alignment in the column */
+    gap: 2px;
+    min-width: 120px; /* keeps columns aligned across pieces/sets */
+}
+
+/* Text styles */
+.piece-price-buy,
+.piece-price-sell {
+    font-weight: bold;
+    font-size: 0.95rem;
+    text-align: left; /* ensures text is left-aligned */
+}
+
+.piece-tax {
+    font-weight: normal;
+    font-size: 0.8rem;
+    color: #777;
+    text-align: left;
 }
