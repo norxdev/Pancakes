@@ -486,7 +486,32 @@ const armorSetsData = [
   setImgName: "Halloween_mask_set_detail",
   isF2P: true
 },
-
+  {
+    name: "Swampbark Armour Set",
+    items: [
+      { name: "Swampbark Helm", id: "25398", imgName: "Swampbark_helm_detail" },
+      { name: "Swampbark Body", id: "25389", imgName: "Swampbark_body_detail" },
+      { name: "Swampbark Legs", id: "25401", imgName: "Swampbark_legs_detail" },
+	  { name: "Swampbark Gauntlets", id: "25392", imgName: "Swampbark_gauntlets_detail" },
+      { name: "Swampbark Boots", id: "25395", imgName: "Swampbark_boots_detail" },
+    ],
+    setId: "31160",
+    setImgName: "Swampbark_armour_set_detail",
+	  isF2P: false
+  },
+	{
+    name: "Bloodbark Armour Set",
+    items: [
+      { name: "Bloodbark Helm", id: "25413", imgName: "Bloodbark_helm_detail" },
+      { name: "Bloodbark Body", id: "25404", imgName: "Bloodbark_body_detail" },
+      { name: "Bloodbark Legs", id: "25416", imgName: "Bloodbark_legs_detail" },
+	  { name: "Bloodbark Gauntlets", id: "25407", imgName: "Bloodbark_gauntlets_detail" },
+      { name: "Bloodbark Boots", id: "25410", imgName: "Bloodbark_boots_detail" },
+    ],
+    setId: "31163",
+    setImgName: "Bloodbark_armour_set_detail",
+	  isF2P: false
+  },
 
 
 
