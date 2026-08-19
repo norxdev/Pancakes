@@ -512,8 +512,45 @@ const armorSetsData = [
     setImgName: "Bloodbark_armour_set_detail",
 	  isF2P: false
   },
-
-
+{
+    name: "Skeletal Armour Set",
+    items: [
+      { name: "Skeletal Helm", id: "6137", imgName: "Skeletal_helm_detail" },
+      { name: "Skeletal Top", id: "6139", imgName: "Skeletal_top_detail" },
+      { name: "Skeletal Bottoms", id: "6141", imgName: "Skeletal_bottoms_detail" },
+	  { name: "Skeletal Gloves", id: "6153", imgName: "Skeletal_gloves_detail" },
+      { name: "Skeletal Boots", id: "6147", imgName: "Skeletal_boots_detail" },
+    ],
+    setId: "31154",
+    setImgName: "Skeletal_armour_set_detail",
+	  isF2P: false
+  },
+{
+    name: "Spined Armour Set",
+    items: [
+      { name: "Spined Helm", id: "6131", imgName: "Spined_helm_detail" },
+      { name: "Spined Body", id: "6133", imgName: "Spined_body_detail" },
+      { name: "Spined Chaps", id: "6135", imgName: "Spined_chaps_detail" },
+	  { name: "Spined Gloves", id: "6149", imgName: "Spined_gloves_detail" },
+      { name: "Spined Boots", id: "6143", imgName: "Spined_boots_detail" },
+    ],
+    setId: "31157",
+    setImgName: "Spined_armour_set_detail",
+	  isF2P: false
+  },
+{
+    name: "Rock-shell Armour Set",
+    items: [
+      { name: "Rock-shell Helm", id: "6128", imgName: "Rock-shell_helm_detail" },
+      { name: "Rock-shell Plate", id: "6129", imgName: "Rock-shell_plate_detail" },
+      { name: "Rock-shell Legs", id: "6130", imgName: "Rock-shell_legs_detail" },
+	  { name: "Rock-shell Gloves", id: "6128", imgName: "Rock-shell_gloves_detail" },
+      { name: "Rock-shell Boots", id: "6145", imgName: "Rock-shell_boots_detail" },
+    ],
+    setId: "31151",
+    setImgName: "Rock-shell_armour_set_detail",
+	  isF2P: false
+  },
 
 ];
 
