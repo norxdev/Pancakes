@@ -512,6 +512,7 @@ const armorSetsData = [
     setImgName: "Bloodbark_armour_set_detail",
 	  isF2P: false
   },
+  //Dagannoth Sets
 {
     name: "Skeletal Armour Set",
     items: [
@@ -551,6 +552,59 @@ const armorSetsData = [
     setImgName: "Rock-shell_armour_set_detail",
 	  isF2P: false
   },
-
+//Mystics
+{
+    name: "Mystic Set (Blue)",
+    items: [
+      { name: "Mystic Hat (Blue)", id: "4089", imgName: "Mystic_hat_detail" },
+      { name: "Mystic Robe Top (Blue)", id: "4091", imgName: "Mystic_robe_top_detail" },
+      { name: "Mystic Robe Bottom (Blue)", id: "4093", imgName: "Mystic_robe_bottom_detail" },
+	  { name: "Mystic Gloves (Blue)", id: "4095", imgName: "Mystic_gloves_detail" },
+      { name: "Mystic Boots (Blue)", id: "4097", imgName: "Mystic_boots_detail" },
+    ],
+    setId: "23113",
+    setImgName: "Mystic_set_(blue)_detail",
+	  isF2P: false
+  },
+  {
+    name: "Mystic Set (Light)",
+    items: [
+      { name: "Mystic Hat (Light)", id: "4109", imgName: "Mystic_hat_(light)_detail" },
+      { name: "Mystic Robe Top (Light)", id: "4111", imgName: "Mystic_robe_top_(light)_detail" },
+      { name: "Mystic Robe Bottom (Light)", id: "4113", imgName: "Mystic_robe_bottom_(light)_detail" },
+	  { name: "Mystic Gloves (Light)", id: "4115", imgName: "Mystic_gloves_(light)_detail" },
+      { name: "Mystic Boots (Light)", id: "4117", imgName: "Mystic_boots_(light)_detail" },
+    ],
+    setId: "23110",
+    setImgName: "Mystic_set_(light)_detail",
+	  isF2P: false
+  },
+  {
+    name: "Mystic Set (Dark)",
+    items: [
+      { name: "Mystic Hat (Dark)", id: "4099", imgName: "Mystic_hat_(dark)_detail" },
+      { name: "Mystic Robe Top (Dark)", id: "4101", imgName: "Mystic_robe_top_(dark)_detail" },
+      { name: "Mystic Robe Bottom (Dark)", id: "4103", imgName: "Mystic_robe_bottom_(dark)_detail" },
+	  { name: "Mystic Gloves (Dark)", id: "4105", imgName: "Mystic_gloves_(dark)_detail" },
+      { name: "Mystic Boots (Dark)", id: "4107", imgName: "Mystic_boots_(dark)_detail" },
+    ],
+    setId: "23116",
+    setImgName: "Mystic_set_(dark)_detail",
+	  isF2P: false
+  },
+  {
+    name: "Mystic Set (Dusk)",
+    items: [
+      { name: "Mystic Hat (Dusk)", id: "23047", imgName: "Mystic_hat_(dusk)_detail" },
+      { name: "Mystic Robe Top (Dusk)", id: "23050", imgName: "Mystic_robe_top_(dusk)_detail" },
+      { name: "Mystic Robe Bottom (Dusk)", id: "23053", imgName: "Mystic_robe_bottom_(dusk)_detail" },
+	  { name: "Mystic Gloves (Dusk)", id: "23056", imgName: "Mystic_gloves_(dusk)_detail" },
+      { name: "Mystic Boots (Dusk)", id: "23059", imgName: "Mystic_boots_(dusk)_detail" },
+    ],
+    setId: "23119",
+    setImgName: "Mystic_set_(dusk)_detail",
+	  isF2P: false
+  },
+  
 ];
 
